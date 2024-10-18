@@ -29,6 +29,7 @@ function linkGLFW()
 end
 
 project "HoneyBadgerCore"
+	location "HoneyBadgerCore"
 	kind "StaticLib"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
@@ -55,6 +56,7 @@ project "HoneyBadgerCore"
     end
 
 project "HoneyBadgerEditor"
+	location "HoneyBadgerEditor"
     kind "ConsoleApp"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
