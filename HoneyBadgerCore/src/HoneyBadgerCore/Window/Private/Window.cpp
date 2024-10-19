@@ -1,3 +1,4 @@
+#include "hbpch.h"
 #include "HoneyBadgerCore/Window/Public/Window.h"
 
 bool HoneyBadger::Window::Init()

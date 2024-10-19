@@ -32,6 +32,9 @@ project "HoneyBadgerCore"
 	location "HoneyBadgerCore"
 	kind "StaticLib"
 
+	pchheader "hbpch.h"
+    pchsource "HoneyBadgerCore/src/hbpch.cpp"
+
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("obj/" .. outputdir .. "/%{prj.name}")
 
