@@ -2,11 +2,11 @@
 #include "HoneyBadgerCore/Window/Public/Window.h"
 #include "HoneyBadgerCore/Core/Public/Logger.h"
 
-bool HoneyBadger::Window::Init()
+bool HoneyBadger::Window::Init(uint32_t width, uint32_t height, HBString name)
 {
 	if (!glfwInit())
 	{
-		//HB_LOG_ERROR("Failed to initialize window")
+		HB_LOG_ERROR("Failed to initialize window")
 		return false;
 	}
 
@@ -15,9 +15,9 @@ bool HoneyBadger::Window::Init()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	_width = 1920;// HoneyBadger::Engine::EngineSettings->GetWindowSettings().Width;
-	_height = 1080;// HoneyBadger::Engine::EngineSettings->GetWindowSettings().Height;
-	_name = "x";// HoneyBadger::Engine::EngineSettings->GetWindowSettings().Name;
+	_width = width;
+	_height = height;
+	_name = name;
 
 	_glfwWindow = glfwCreateWindow(
 		_width,

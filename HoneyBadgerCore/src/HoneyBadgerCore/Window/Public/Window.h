@@ -8,7 +8,7 @@ namespace HoneyBadger
 	class Window
 	{
 	public:
-		bool Init();
+		bool Init(uint32_t width, uint32_t height, HBString name);
 		void Update();
 		void Shutdown();
 
