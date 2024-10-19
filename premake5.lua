@@ -51,6 +51,8 @@ project "HoneyBadgerCore"
 
 	includeGLFW()
 
+	filter {}
+
     function useHoneyBadgerCore()
         includedirs "HoneyBadgerCore/src"
         links "HoneyBadgerCore"
@@ -71,10 +73,67 @@ project "HoneyBadgerEditor"
         "%{prj.name}/src/**.cpp"
     }
 
+	includedirs
+	{
+		"HoneyBadgerEditor/src"
+	}
+
     useHoneyBadgerCore()
 
-filter { "system:windows" }
-    links { "OpenGL32" }
+	filter { "system:windows" }
+    	links { "OpenGL32" }
+	filter {}
 
-filter { "system:not windows" }
-    links { "GL" }
+project "HoneyBadgerGame"
+	location "HoneyBadgerGame"
+    kind "StaticLib"
+
+	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("obj/" .. outputdir .. "/%{prj.name}")
+
+	files
+    {
+        "%{prj.name}/src/**.h",
+        "%{prj.name}/src/**.cpp"
+    }
+
+	includedirs
+	{
+		"HoneyBadgerGame/src"
+	}
+
+    useHoneyBadgerCore()
+
+	function useHoneyBadgerGame()
+		useHoneyBadgerCore()
+        includedirs "HoneyBadgerGame/src"
+        links "HoneyBadgerGame"
+    end
+
+	filter { "system:windows" }
+   		links { "OpenGL32" }
+	filter {}
+
+project "Sandbox"
+	location "Sandbox"
+	kind "ConsoleApp"
+
+	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("obj/" .. outputdir .. "/%{prj.name}")
+
+	files
+	{
+		"%{prj.name}/src/**.h",
+		"%{prj.name}/src/**.cpp"
+	}
+
+	includedirs
+	{
+		"Sandbox/src"
+	}
+
+	useHoneyBadgerGame()
+
+	filter { "system:windows" }
+		links { "OpenGL32" }
+	filter {}

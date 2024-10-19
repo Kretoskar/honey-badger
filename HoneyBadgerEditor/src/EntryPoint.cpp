@@ -3,14 +3,14 @@
 
 int main(int argc, char* argv[]) 
 { 
-	HoneyBadger::Engine engine;
-	HoneyBadger::Window window;
+	HoneyBadger::Engine _engine;
+	HoneyBadger::Window _window;
 
-	window.Init(1920, 1080, "Honey Badger Editor");
-	while (!window.GetShouldClose())
+	_window.Init(1920, 1080, "Honey Badger Editor");
+	while (!_window.GetShouldClose())
 	{
-		window.Update();
+		_window.Update();
 	}
 
-	window.Shutdown();
+	_window.Shutdown();
 }

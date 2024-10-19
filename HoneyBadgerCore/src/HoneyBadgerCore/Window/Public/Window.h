@@ -17,7 +17,6 @@ namespace HoneyBadger
 
 	private:
 		GLFWwindow* _glfwWindow = nullptr;
-		bool _isValid = false;
 
 		uint32_t _width, _height;
 		HBString _name;
