@@ -1,5 +1,6 @@
 #include "hbpch.h"
 #include "HoneyBadgerCore/Window/Public/Window.h"
+#include "HoneyBadgerCore/Core/Public/Logger.h"
 
 bool HoneyBadger::Window::Init()
 {
@@ -27,7 +28,7 @@ bool HoneyBadger::Window::Init()
 
 	if (!_glfwWindow)
 	{
-		//TURTLE_LOG_ERROR("Failed to initialize window")
+		HB_LOG_ERROR("Failed to initialize window")
 		glfwTerminate();
 		return false;
 	}
