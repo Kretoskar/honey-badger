@@ -1,6 +1,7 @@
 # Directories
 .vs/
 /bin/
+/bin-int/
 obj/
 .idea/
 

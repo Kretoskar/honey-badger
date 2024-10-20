@@ -1,5 +1,6 @@
 #pragma once
 
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include "HoneyBadgerCore/Core/Public/HBString.h"
 

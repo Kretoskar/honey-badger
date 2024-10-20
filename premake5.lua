@@ -28,6 +28,31 @@ function linkGLFW()
 	filter {}
 end
 
+project "Glad"
+    kind "StaticLib"
+	location "Libraries/GLAD"
+    language "C"
+    
+    targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+    objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+
+    files
+    {
+        "Libraries/GLAD/include/glad/glad.h",
+        "Libraries/GLAD/include/KHR/khrplatform.h",
+        "Libraries/GLAD/src/glad.c"
+    }
+
+    includedirs
+    {
+        "Libraries/GLAD/include"
+    }
+    
+    filter "system:windows"
+        systemversion "latest"
+
+		filter {}
+
 project "HoneyBadgerCore"
 	location "HoneyBadgerCore"
 	kind "StaticLib"
@@ -46,7 +71,13 @@ project "HoneyBadgerCore"
 
 	includedirs
 	{
-		"HoneyBadgerCore/src"
+		"HoneyBadgerCore/src",
+		"Libraries/GLAD/include"
+	}
+
+	links
+	{
+		"Glad"
 	}
 
 	includeGLFW()
@@ -75,7 +106,8 @@ project "HoneyBadgerEditor"
 
 	includedirs
 	{
-		"HoneyBadgerEditor/src"
+		"HoneyBadgerEditor/src",
+		"Libraries/GLAD/include"
 	}
 
     useHoneyBadgerCore()
@@ -99,7 +131,8 @@ project "HoneyBadgerGame"
 
 	includedirs
 	{
-		"HoneyBadgerGame/src"
+		"HoneyBadgerGame/src",
+		"Libraries/GLAD/include"
 	}
 
     useHoneyBadgerCore()
@@ -129,7 +162,8 @@ project "Sandbox"
 
 	includedirs
 	{
-		"Sandbox/src"
+		"Sandbox/src",
+		"Libraries/GLAD/include"
 	}
 
 	useHoneyBadgerGame()

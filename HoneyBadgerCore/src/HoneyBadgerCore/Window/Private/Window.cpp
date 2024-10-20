@@ -35,11 +35,11 @@ bool HoneyBadger::Window::Init(uint32_t width, uint32_t height, HBString name)
 
 	glfwMakeContextCurrent(_glfwWindow);
 
-	//if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-	//{
-	//	TURTLE_LOG_ERROR("Failed to initialize GLAD")
-	//		return false;
-	//}
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+	{
+			HB_LOG_ERROR("Failed to initialize GLAD")
+			return false;
+	}
 
 	glViewport(0, 0, _width, _height);
 	glClearColor(0.15f, 0.5f, 1.0f, 1.0f);
