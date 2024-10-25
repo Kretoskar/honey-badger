@@ -2,7 +2,7 @@
 
 bool HoneyBadgerGame::Game::Init(uint32_t width, uint32_t height, HoneyBadger::HBString name)
 {
-	return _window.Init(width, height, name) && Init_Internal();
+	return _engine.Init() && _window.Init(width, height, name) && Init_Internal();
 }
 
 void HoneyBadgerGame::Game::Start()
