@@ -4,6 +4,7 @@ namespace HoneyBadger
 {
 	class Engine
 	{
+	public:
 		bool Init();
 	};
 }

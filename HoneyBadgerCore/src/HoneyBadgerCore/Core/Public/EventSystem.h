@@ -1,6 +1,10 @@
 #pragma once
 
 #include "hbpch.h"
+#include <functional>
+#include <map>
+#include <string>
+#include <vector>
 #include "HoneyBadgerCore/Core/Public/HBString.h"
 
 #define HB_BIND_EVENT(type, event) \

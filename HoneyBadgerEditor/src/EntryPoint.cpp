@@ -4,6 +4,11 @@
 int main(int argc, char* argv[]) 
 { 
 	HoneyBadger::Engine _engine;
+	if (!_engine.Init())
+	{
+
+	}
+
 	HoneyBadger::Window _window;
 
 	_window.Init(1920, 1080, "Honey Badger Editor");

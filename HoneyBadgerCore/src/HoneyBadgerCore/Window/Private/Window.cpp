@@ -10,6 +10,8 @@ bool HoneyBadger::Window::Init(uint32_t width, uint32_t height, HBString name)
 		return false;
 	}
 
+	HB_LOG_MESSAGE("Window has been minimized, %f", 1.0f)
+
 	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -47,7 +49,7 @@ bool HoneyBadger::Window::Init(uint32_t width, uint32_t height, HBString name)
 	// force VSYNC
 	glfwSwapInterval(1);
 
-	//BindWindowEvents();
+	BindWindowEvents();
 
 	return true;
 }
