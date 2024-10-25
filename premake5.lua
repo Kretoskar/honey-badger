@@ -47,11 +47,38 @@ project "Glad"
     {
         "Libraries/GLAD/include"
     }
+
+	includeGLFW()
+	linkGLFW()
     
     filter "system:windows"
         systemversion "latest"
 
 		filter {}
+
+project "Imgui"
+	kind "StaticLib"
+	location "Libraries/Imgui"
+	language "C++"
+	
+	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+
+	files
+	{
+		"Libraries/Imgui/include/**.h",
+		"Libraries/Imgui/src/**.cpp",
+	}
+
+	includedirs
+	{
+		"Libraries/Imgui/include"
+	}
+	
+	filter "system:windows"
+		systemversion "latest"
+		
+	filter {}
 
 project "HoneyBadgerCore"
 	location "HoneyBadgerCore"
@@ -72,7 +99,8 @@ project "HoneyBadgerCore"
 	includedirs
 	{
 		"HoneyBadgerCore/src",
-		"Libraries/GLAD/include"
+		"Libraries/GLAD/include",
+		"Libraries/Imgui/include"
 	}
 
 	links
@@ -107,7 +135,8 @@ project "HoneyBadgerEditor"
 	includedirs
 	{
 		"HoneyBadgerEditor/src",
-		"Libraries/GLAD/include"
+		"Libraries/GLAD/include",
+		"Libraries/Imgui/include"
 	}
 
     useHoneyBadgerCore()
@@ -132,7 +161,8 @@ project "HoneyBadgerGame"
 	includedirs
 	{
 		"HoneyBadgerGame/src",
-		"Libraries/GLAD/include"
+		"Libraries/GLAD/include",
+		"Libraries/Imgui/include"
 	}
 
     useHoneyBadgerCore()
@@ -163,7 +193,8 @@ project "Sandbox"
 	includedirs
 	{
 		"Sandbox/src",
-		"Libraries/GLAD/include"
+		"Libraries/GLAD/include",
+		"Libraries/Imgui/include"
 	}
 
 	useHoneyBadgerGame()
