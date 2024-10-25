@@ -12,10 +12,10 @@ namespace HoneyBadger
     uint16_t Logger::loggedLineBufferCurrCount = 0;
     
 #ifdef HB_DEBUG
-    uint16_t Logger::logLevel = 3;
+    uint16_t Logger::logLevel = 0;
     bool Logger::logToFile = true;
 #else
-    uint16_t Logger::logLevel = 0;
+    uint16_t Logger::logLevel = 3;
     bool Logger::logToFile = false;
 #endif
 }
