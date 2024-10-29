@@ -2,7 +2,7 @@
 
 int main(int argc, char* argv[]) 
 { 
-	HoneyBadgerEditor::HoneyBadgerEditor editor;
+	HoneyBadgerEditor::Editor editor;
 	if (editor.Init(1920, 1080, "Honey Badger Editor"))
 	{
 		editor.Start();

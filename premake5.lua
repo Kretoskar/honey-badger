@@ -74,6 +74,9 @@ project "Imgui"
 	{
 		"Libraries/Imgui/include"
 	}
+
+	includeGLFW();
+	linkGLFW();
 	
 	filter "system:windows"
 		systemversion "latest"
@@ -105,7 +108,8 @@ project "HoneyBadgerCore"
 
 	links
 	{
-		"Glad"
+		"Glad",
+		"Imgui"
 	}
 
 	includeGLFW()
@@ -137,6 +141,11 @@ project "HoneyBadgerEditor"
 		"HoneyBadgerEditor/src",
 		"Libraries/GLAD/include",
 		"Libraries/Imgui/include"
+	}
+
+	links
+	{
+		"Imgui"
 	}
 
     useHoneyBadgerCore()
