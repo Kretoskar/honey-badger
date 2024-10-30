@@ -20,6 +20,8 @@ namespace HoneyBadger
 				float g;
 				float b;
 			};
+
+			float v[3];
 		};
 
 		Vec3() : x(0.0f), y(0.0f), z(0.0f) {}
