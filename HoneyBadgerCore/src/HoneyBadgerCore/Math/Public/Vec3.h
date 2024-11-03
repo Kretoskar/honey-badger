@@ -35,6 +35,9 @@ namespace HoneyBadger
 		Vec3 Normalized() const;
 	};
 
+	Vec3& operator+=(Vec3& lhs, Vec3 rhs);
+	Vec3& operator-=(Vec3& lhs, Vec3 rhs);
+
 	Vec3 operator+(const Vec3& lhs, const Vec3& rhs);
 	Vec3 operator-(const Vec3& lhs, const Vec3& rhs);
 	Vec3 operator*(const Vec3& vec, float num);

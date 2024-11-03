@@ -51,6 +51,22 @@ namespace HoneyBadger
 		);
 	}
 
+	Vec3& operator+=(Vec3& lhs, Vec3 rhs)
+	{
+		lhs.x = lhs.x + rhs.x;
+		lhs.y = lhs.y + rhs.y;
+		lhs.z = lhs.z + rhs.z;
+		return lhs;
+	}
+
+	Vec3& operator-=(Vec3& lhs, Vec3 rhs)
+	{
+		lhs.x = lhs.x - rhs.x;
+		lhs.y = lhs.y - rhs.y;
+		lhs.z = lhs.z - rhs.z;
+		return lhs;
+	}
+
 	Vec3 operator+(const Vec3& lhs, const Vec3& rhs)
 	{
 		return { lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z };
