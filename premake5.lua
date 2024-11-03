@@ -83,6 +83,29 @@ project "Imgui"
 		
 	filter {}
 
+project "stb_image"
+	kind "StaticLib"
+	location "Libraries/stb_image"
+	language "C++"
+	
+	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+
+	files
+	{
+		"Libraries/stb_image/**.h"
+	}
+
+	includedirs
+	{
+		"Libraries/stb_image"
+	}
+	
+	filter "system:windows"
+		systemversion "latest"
+		
+	filter {}
+
 project "HoneyBadgerCore"
 	location "HoneyBadgerCore"
 	kind "StaticLib"
@@ -103,7 +126,8 @@ project "HoneyBadgerCore"
 	{
 		"HoneyBadgerCore/src",
 		"Libraries/GLAD/include",
-		"Libraries/Imgui/include"
+		"Libraries/Imgui/include",
+		"Libraries/stb_image"
 	}
 
 	links
@@ -140,7 +164,8 @@ project "HoneyBadgerEditor"
 	{
 		"HoneyBadgerEditor/src",
 		"Libraries/GLAD/include",
-		"Libraries/Imgui/include"
+		"Libraries/Imgui/include",
+		"Libraries/stb_image"
 	}
 
 	links
@@ -171,7 +196,8 @@ project "HoneyBadgerGame"
 	{
 		"HoneyBadgerGame/src",
 		"Libraries/GLAD/include",
-		"Libraries/Imgui/include"
+		"Libraries/Imgui/include",
+		"Libraries/stb_image"
 	}
 
     useHoneyBadgerCore()
@@ -203,7 +229,8 @@ project "Sandbox"
 	{
 		"Sandbox/src",
 		"Libraries/GLAD/include",
-		"Libraries/Imgui/include"
+		"Libraries/Imgui/include",
+		"Libraries/stb_image"
 	}
 
 	useHoneyBadgerGame()
