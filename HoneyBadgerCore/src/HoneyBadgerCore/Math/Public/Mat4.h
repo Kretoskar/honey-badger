@@ -4,6 +4,8 @@
 
 namespace HoneyBadger
 {
+	struct Vec3;
+
 	/* 
 	 * Column major matrix
 	 * |0-4--8-12|
@@ -57,6 +59,63 @@ namespace HoneyBadger
 				float c3r2; // 14
 				float c3r3; // 15
 			};
+
+			struct
+			{
+				/*
+				* |0-4--8-12|
+				* |1-5--9-13|
+				* |2-6-10-14|
+				* |3-7-11-15|
+				*/
+				float xx; // 0
+				float xy; // 1
+				float xz; // 2
+				float xw; // 3
+				float yx; // 4
+				float yy; // 5
+				float yz; // 6
+				float yw; // 7
+				float zx; // 8
+				float zy; // 9
+				float zz; // 10
+				float zw; // 11
+				float tx; // 12
+				float ty; // 13
+				float tz; // 14
+				float tw; // 15
+			};
 		};
+
+		// Default constructor creates identity matrix
+		Mat4() :
+			c0r0(1), c0r1(0), c0r2(0), c0r3(0),
+			c1r0(0), c1r1(1), c1r2(0), c1r3(0),
+			c2r0(0), c2r1(0), c2r2(1), c2r3(0),
+			c3r0(0), c3r1(0), c3r2(0), c3r3(1)
+		{}
+
+		Mat4(float c0r0, float c0r1, float c0r2, float c0r3,
+			float c1r0, float c1r1, float c1r2, float c1r3,
+			float c2r0, float c2r1, float c2r2, float c2r3,
+			float c3r0, float c3r1, float c3r2, float c3r3) :
+			c0r0(c0r0), c0r1(c0r1), c0r2(c0r2), c0r3(c0r3),
+			c1r0(c1r0), c1r1(c1r1), c1r2(c1r2), c1r3(c1r3),
+			c2r0(c2r0), c2r1(c2r1), c2r2(c2r2), c2r3(c2r3),
+			c3r0(c3r0), c3r1(c3r1), c3r2(c3r2), c3r3(c3r3)
+		{}
+
+		static Mat4 Identity;
+
+		static Mat4 Perspective(float fov, float aspect, float znear, float zfar);
+		static Mat4 LookAt(const Vec3& position, const Vec3& target, const Vec3& up);
+		static Mat4 Frustum(float left, float right, float bottom, float top, float near, float far);
 	};
+
+	bool operator==(const Mat4& a, const Mat4& b);
+	bool operator!=(const Mat4& a, const Mat4& b);
+	Mat4 operator*(const Mat4& m, float f);
+	Mat4 operator+(const Mat4& a, const Mat4& b);
+	Mat4 operator*(const Mat4& a, const Mat4& b);
+	Vec4 operator*(const Mat4& m, const Vec4& v);
 }

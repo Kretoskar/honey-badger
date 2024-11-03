@@ -1,6 +1,8 @@
 #include "hbpch.h"
 #include "HoneyBadgerCore/Math/Public/Vec3.h"
 
+#define VEC3_EPSILON 0.000001f
+
 namespace HoneyBadger
 {
 	float Vec3::Dot(const Vec3& lhs, const Vec3& rhs)
@@ -16,6 +18,37 @@ namespace HoneyBadger
 			lhs.z * rhs.x - lhs.x * rhs.z,
 			lhs.x * rhs.y - lhs.y * rhs.x
 		};
+	}
+
+	void Vec3::Normalize()
+	{
+		float lenSq = x * x + y * y + z * z;
+		if (lenSq < VEC3_EPSILON)
+		{
+			return;
+		}
+		float invLen = 1.0f / sqrtf(lenSq);
+
+		x *= invLen;
+		y *= invLen;
+		z *= invLen;
+	}
+
+	Vec3 Vec3::Normalized() const
+	{
+		float lenSq = x * x + y * y + z * z;
+
+		if (lenSq < VEC3_EPSILON)
+		{
+			return Vec3(x, y, z);
+		}
+		float invLen = 1.0f / sqrtf(lenSq);
+
+		return Vec3(
+			x * invLen,
+			y * invLen,
+			z * invLen
+		);
 	}
 
 	Vec3 operator+(const Vec3& lhs, const Vec3& rhs)
@@ -43,3 +76,5 @@ namespace HoneyBadger
 		return !(lhs == rhs);
 	}
 }
+
+#undef VEC3_EPSILON

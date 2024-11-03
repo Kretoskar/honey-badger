@@ -28,7 +28,11 @@ namespace HoneyBadger
 		Vec3(float x, float y, float z) : x(x), y(y), z(z) {}
 
 		static float Dot(const Vec3& lhs, const Vec3& rhs);
+		// Right handed cross product
 		static Vec3 Cross(const Vec3& lhs, const Vec3& rhs);
+
+		void Normalize();
+		Vec3 Normalized() const;
 	};
 
 	Vec3 operator+(const Vec3& lhs, const Vec3& rhs);
