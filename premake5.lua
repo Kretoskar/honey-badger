@@ -93,7 +93,8 @@ project "stb_image"
 
 	files
 	{
-		"Libraries/stb_image/**.h"
+		"Libraries/stb_image/**.h",
+		"Libraries/stb_image/**.cpp"
 	}
 
 	includedirs
@@ -170,7 +171,9 @@ project "HoneyBadgerEditor"
 
 	links
 	{
-		"Imgui"
+		"Glad",
+		"Imgui",
+		"stb_image"
 	}
 
     useHoneyBadgerCore()
@@ -198,6 +201,13 @@ project "HoneyBadgerGame"
 		"Libraries/GLAD/include",
 		"Libraries/Imgui/include",
 		"Libraries/stb_image"
+	}
+
+	links
+	{
+		"Glad",
+		"Imgui",
+		"stb_image"
 	}
 
     useHoneyBadgerCore()
@@ -231,6 +241,13 @@ project "Sandbox"
 		"Libraries/GLAD/include",
 		"Libraries/Imgui/include",
 		"Libraries/stb_image"
+	}
+
+	links
+	{
+		"Glad",
+		"Imgui",
+		"stb_image"
 	}
 
 	useHoneyBadgerGame()

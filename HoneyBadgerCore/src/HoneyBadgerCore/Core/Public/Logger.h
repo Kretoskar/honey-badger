@@ -42,7 +42,7 @@ namespace HoneyBadger
 
             if (inLogLevel <= logLevel)
             {
-                char buffer[100];
+                char buffer[1000];
                 sprintf_s(buffer, args ...);
                 std::cout << buffer << std::endl;
 

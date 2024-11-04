@@ -1,5 +1,5 @@
 #include "HoneyBadgerEditor/Core/Public/HoneyBadgerEditor.h"
-
+#include "HoneyBadgerCore/Math/Public/Vec3.h"
 
 bool HoneyBadgerEditor::Editor::Init(uint32_t width, uint32_t height, HoneyBadger::HBString name)
 {
@@ -18,14 +18,22 @@ bool HoneyBadgerEditor::Editor::Init(uint32_t width, uint32_t height, HoneyBadge
 		return false;
 	}
 
+	_camera = std::make_shared<HoneyBadger::Camera>(&_window, HoneyBadger::Vec3());
+	_camera->Init();
+	_debugRenderer = std::make_shared<HoneyBadger::DebugRenderer>(_camera);
+	_debugRenderer->Init();
+
 	return true;
 }
 void HoneyBadgerEditor::Editor::Start()
 {
 	while (!_shouldClose && !_window.GetShouldClose())
 	{
+		_camera->Update();
+
 		_ui.CreateFrame();
 		_ui.Render();
+		_debugRenderer->Render();
 		_window.Update();
 	}
 

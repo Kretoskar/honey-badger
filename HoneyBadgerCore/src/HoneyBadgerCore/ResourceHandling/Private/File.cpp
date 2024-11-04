@@ -6,9 +6,12 @@
 
 namespace HoneyBadger
 {
-	File::File(const char* path)
+	File::File(const char* path, bool lookInResFolder)
 	{
-		std::ifstream file(path);
+		std::string pathStr = GetPathInRes(path);
+
+
+		std::ifstream file(pathStr);
 
 		if (file.good())
 		{

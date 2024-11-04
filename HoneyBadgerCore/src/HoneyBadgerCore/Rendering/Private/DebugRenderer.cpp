@@ -3,13 +3,14 @@
 
 #include "HoneyBadgerCore/Rendering/Public/DebugRenderer.h"
 #include "HoneyBadgerCore/Core/Public/Logger.h"
+#include "HoneyBadgerCore/ResourceHandling/Public/File.h"
 
 namespace HoneyBadger
 {
 	bool DebugRenderer::Init()
 	{
 		// TODO: Assets registry
-		_shader = std::make_unique<Shader>("path", "qwe");
+		_shader = std::make_unique<Shader>("shaders/debug.frag", "shaders/debug.vert");
 		_shader->Bind();
 
 		_lineVao = std::make_unique<VertexArrayObject>();

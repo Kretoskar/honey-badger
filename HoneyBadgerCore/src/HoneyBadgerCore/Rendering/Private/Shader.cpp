@@ -113,17 +113,20 @@ namespace HoneyBadger
 	int Shader::GetUniformLocation(HBString name)
 	{
 		Bind();
-		if (_uniformLocationCache.find(name) != _uniformLocationCache.end())
+
+		const char* nameChar = name.Get();
+
+		if (_uniformLocationCache.find(nameChar) != _uniformLocationCache.end())
 		{
-			return _uniformLocationCache[name];
+			return _uniformLocationCache[nameChar];
 		}
 
-		const int location = glGetUniformLocation(_id, name.Get());
-		_uniformLocationCache[name] = location;
+		const int location = glGetUniformLocation(_id, nameChar);
+		_uniformLocationCache[nameChar] = location;
 
 		if (location < 0)
 		{
-			HB_LOG_WARNING("Trying to retrieve invalid uniform location of name %s", name)
+			HB_LOG_WARNING("Trying to retrieve invalid uniform location of name %s", nameChar)
 		}
 
 		return 1;
