@@ -1,8 +1,9 @@
 #include "hbpch.h"
 #include "HoneyBadgerCore/Window/Public/Window.h"
 #include "HoneyBadgerCore/Core/Public/Logger.h"
+#include "HoneyBadgerCore/Math/Public/MathCore.h"
 
-bool HoneyBadger::Window::Init(HBString name, bool fullscreen)
+bool HoneyBadger::Window::Init(WindowInitSettings InitSettings)
 {
 	if (!glfwInit())
 	{
@@ -16,16 +17,28 @@ bool HoneyBadger::Window::Init(HBString name, bool fullscreen)
 
 	const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
-	_width = mode->width;
-	_height = mode->height;
-	_name = name;
+	_width = InitSettings.Width;
+	_height = InitSettings.Height;
+	_name = InitSettings.Name;
+	_state = InitSettings.StartingState;
+	_viewportMarginRatioLeft = InitSettings.ViewportMarginRatioLeft;
+	_viewportMarginRatioRight = InitSettings.ViewportMarginRatioRight;
+	_viewportMarginRatioTop = InitSettings.ViewportMarginRatioTop;
+	_viewportMarginRatioBottom = InitSettings.ViewportMarginRatioBottom;
 
 	_glfwWindow = glfwCreateWindow(
 		_width,
 		_height,
 		_name.Get(),
-		fullscreen ? glfwGetPrimaryMonitor() : nullptr,
+		_state == WindowState::Fullscreen ? glfwGetPrimaryMonitor() : nullptr,
 		nullptr);
+
+	if (_state == WindowState::Maximized)
+	{
+		glfwMaximizeWindow(GetGlfwWindow());
+		_width = mode->width;
+		_height = mode->height;
+	}
 
 	if (!_glfwWindow)
 	{
@@ -42,15 +55,13 @@ bool HoneyBadger::Window::Init(HBString name, bool fullscreen)
 			return false;
 	}
 
-	glViewport(0, 0, _width, _height);
+	UpdateViewportSize();
 	glClearColor(0.09f, 0.09f, 0.15f, 1.00f);
 
 	// force VSYNC
 	glfwSwapInterval(1);
 
 	BindWindowEvents();
-
-	glfwMaximizeWindow(GetGlfwWindow());
 
 	return true;
 }
@@ -67,4 +78,15 @@ void HoneyBadger::Window::Shutdown()
 {
 	glfwDestroyWindow(_glfwWindow);
 	glfwTerminate();
+}
+
+void HoneyBadger::Window::UpdateViewportSize()
+{
+	glViewport
+	(
+		_width * _viewportMarginRatioLeft,
+		_height * _viewportMarginRatioBottom,
+		_width - (_width * _viewportMarginRatioLeft) - (_width * _viewportMarginRatioRight),
+		_height - (_height * _viewportMarginRatioTop) - (_height * _viewportMarginRatioBottom)
+	);
 }

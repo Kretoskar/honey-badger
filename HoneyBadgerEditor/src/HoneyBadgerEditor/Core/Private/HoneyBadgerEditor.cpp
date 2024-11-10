@@ -8,7 +8,19 @@ bool HoneyBadgerEditor::Editor::Init()
 		return false;
 	}
 
-	if (!_window.Init("Honey Badger Editor", false))
+	HoneyBadger::WindowInitSettings WindowInitSettings
+	{
+		"Honey Badger Editor",
+		HoneyBadger::WindowState::Maximized,
+		1920, 
+		1080,
+		1.0f / 6.0f,
+		1.0f / 6.0f,
+		1.0f / 10.0f,
+		1.0f / 4.0f
+	};
+
+	if (!_window.Init(WindowInitSettings))
 	{
 		return false;
 	}

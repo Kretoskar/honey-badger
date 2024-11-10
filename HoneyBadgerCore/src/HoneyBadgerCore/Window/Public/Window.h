@@ -6,10 +6,29 @@
 
 namespace HoneyBadger
 {
+	enum class WindowState
+	{
+		Windowed,
+		Maximized,
+		Minimized,
+		Fullscreen
+	};
+
+	struct WindowInitSettings
+	{
+		HBString Name{};
+		WindowState StartingState{};
+		uint32_t Width{}, Height{};
+		float ViewportMarginRatioLeft{};
+		float ViewportMarginRatioRight{};
+		float ViewportMarginRatioTop{};
+		float ViewportMarginRatioBottom{};
+	};
+
 	class Window
 	{
 	public:
-		bool Init(HBString name, bool fullscreen);
+		bool Init(WindowInitSettings InitSettings);
 		void Update();
 		void Shutdown();
 
@@ -30,9 +49,16 @@ namespace HoneyBadger
 		void HandleMousePositionEvents(double xpos, double ypos);
 		void HandleMouseEnterLeaveEvents(int enter);
 
+		void UpdateViewportSize();
+
 		GLFWwindow* _glfwWindow = nullptr;
 
 		uint32_t _width, _height;
 		HBString _name;
+		WindowState _state;
+		float _viewportMarginRatioLeft{};
+		float _viewportMarginRatioRight{};
+		float _viewportMarginRatioTop{};
+		float _viewportMarginRatioBottom{};
 	};
 }

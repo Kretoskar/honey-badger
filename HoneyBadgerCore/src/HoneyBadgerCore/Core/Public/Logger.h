@@ -84,7 +84,7 @@ namespace HoneyBadger
         static uint16_t logMessage;
         static bool logToFile;
 
-        static constexpr uint16_t loggedLineBufferMaxCount = 16;
+        static constexpr uint16_t loggedLineBufferMaxCount = 256;
         static std::string logLines[loggedLineBufferMaxCount];
         static LogVerbosity logLinesVerbosity[loggedLineBufferMaxCount];
         static uint16_t loggedLineBufferCurrCount;

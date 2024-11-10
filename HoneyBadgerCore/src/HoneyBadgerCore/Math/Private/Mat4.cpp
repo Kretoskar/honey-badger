@@ -131,7 +131,7 @@ namespace HoneyBadger
 
 	Mat4 Mat4::Perspective(float fov, float aspect, float znear, float zfar)
 	{
-		float ymax = znear * tanf(fov * MathCore::PI() / 360.0f);
+		float ymax = znear * tanf(fov * MathCore::PI / 360.0f);
 		float xmax = ymax * aspect;
 
 		return Frustum(-xmax, xmax, -ymax, ymax, znear, zfar);

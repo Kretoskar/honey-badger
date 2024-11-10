@@ -104,7 +104,9 @@ void HoneyBadger::Window::HandleWindowCloseEvents()
 
 void HoneyBadger::Window::HandleWindowResizeEvents(GLFWwindow* window, int width, int height)
 {
-	glViewport(0, 0, _width, _height);
+	_width = width;
+	_height = height;
+	UpdateViewportSize();
 }
 
 void HoneyBadger::Window::HandleKeyEvents(int key, int scancode, int action, int mods)
@@ -191,3 +193,4 @@ void HoneyBadger::Window::HandleMouseEnterLeaveEvents(int enter)
 		HB_LOG_MESSAGE("Mouse left window")
 	}
 }
+
