@@ -50,6 +50,8 @@ bool HoneyBadger::Window::Init(HBString name, bool fullscreen)
 
 	BindWindowEvents();
 
+	glfwMaximizeWindow(GetGlfwWindow());
+
 	return true;
 }
 
