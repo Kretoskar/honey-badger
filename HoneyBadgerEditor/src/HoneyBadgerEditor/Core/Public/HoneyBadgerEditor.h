@@ -14,7 +14,7 @@ namespace HoneyBadgerEditor
 	class Editor
 	{
 	public:
-		bool Init(uint32_t width, uint32_t height, HoneyBadger::HBString name);
+		bool Init();
 		void Start();
 		void ShutDown();
 

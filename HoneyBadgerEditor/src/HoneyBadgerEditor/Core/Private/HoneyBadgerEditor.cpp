@@ -1,14 +1,14 @@
 #include "HoneyBadgerEditor/Core/Public/HoneyBadgerEditor.h"
 #include "HoneyBadgerCore/Math/Public/Vec3.h"
 
-bool HoneyBadgerEditor::Editor::Init(uint32_t width, uint32_t height, HoneyBadger::HBString name)
+bool HoneyBadgerEditor::Editor::Init()
 {
 	if (!_engine.Init())
 	{
 		return false;
 	}
 
-	if (!_window.Init(width, height, name))
+	if (!_window.Init("Honey Badger Editor", false))
 	{
 		return false;
 	}

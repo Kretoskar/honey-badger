@@ -2,7 +2,7 @@
 #include "HoneyBadgerCore/Window/Public/Window.h"
 #include "HoneyBadgerCore/Core/Public/Logger.h"
 
-bool HoneyBadger::Window::Init(uint32_t width, uint32_t height, HBString name)
+bool HoneyBadger::Window::Init(HBString name, bool fullscreen)
 {
 	if (!glfwInit())
 	{
@@ -10,20 +10,21 @@ bool HoneyBadger::Window::Init(uint32_t width, uint32_t height, HBString name)
 		return false;
 	}
 
-	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	_width = width;
-	_height = height;
+	const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+
+	_width = mode->width;
+	_height = mode->height;
 	_name = name;
 
 	_glfwWindow = glfwCreateWindow(
 		_width,
 		_height,
 		_name.Get(),
-		nullptr,
+		fullscreen ? glfwGetPrimaryMonitor() : nullptr,
 		nullptr);
 
 	if (!_glfwWindow)
@@ -42,7 +43,7 @@ bool HoneyBadger::Window::Init(uint32_t width, uint32_t height, HBString name)
 	}
 
 	glViewport(0, 0, _width, _height);
-	glClearColor(0.15f, 0.5f, 1.0f, 1.0f);
+	glClearColor(0.09f, 0.09f, 0.15f, 1.00f);
 
 	// force VSYNC
 	glfwSwapInterval(1);

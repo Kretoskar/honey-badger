@@ -56,8 +56,14 @@ void HoneyBadger::Window::BindWindowEvents()
 
 		glfwSetCursorEnterCallback(GetGlfwWindow(), [](GLFWwindow* win, int enter)
 		{
-				Window* thisWindow = static_cast<Window*>(glfwGetWindowUserPointer(win));
+			Window* thisWindow = static_cast<Window*>(glfwGetWindowUserPointer(win));
 			thisWindow->HandleMouseEnterLeaveEvents(enter);
+		});
+
+		glfwSetFramebufferSizeCallback(_glfwWindow, [](GLFWwindow* win, int width, int height)
+		{
+			Window* thisWindow = static_cast<Window*>(glfwGetWindowUserPointer(win));
+			thisWindow->HandleWindowResizeEvents(win, width, height);
 		});
 	}
 }
@@ -94,6 +100,11 @@ void HoneyBadger::Window::HandleWindowMaximizedEvents(int maximized)
 void HoneyBadger::Window::HandleWindowCloseEvents()
 {
 	HB_LOG_MESSAGE("Window has been closed")
+}
+
+void HoneyBadger::Window::HandleWindowResizeEvents(GLFWwindow* window, int width, int height)
+{
+	glViewport(0, 0, _width, _height);
 }
 
 void HoneyBadger::Window::HandleKeyEvents(int key, int scancode, int action, int mods)

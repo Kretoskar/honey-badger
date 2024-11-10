@@ -9,7 +9,7 @@ namespace HoneyBadger
 	class Window
 	{
 	public:
-		bool Init(uint32_t width, uint32_t height, HBString name);
+		bool Init(HBString name, bool fullscreen);
 		void Update();
 		void Shutdown();
 
@@ -23,6 +23,7 @@ namespace HoneyBadger
 		void HandleWindowMinimizedEvents(int minimized);
 		void HandleWindowMaximizedEvents(int maximized);
 		void HandleWindowCloseEvents();
+		void HandleWindowResizeEvents(GLFWwindow* window, int width, int height);
 
 		void HandleKeyEvents(int key, int scancode, int action, int mods);
 		void HandleMouseButtonEvents(int button, int action, int mods);

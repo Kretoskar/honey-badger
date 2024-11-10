@@ -11,7 +11,7 @@ int main(int argc, char* argv[])
 	std::cout << *file.GetFileContents();
 
 	HoneyBadgerEditor::Editor editor;
-	if (editor.Init(1920, 1080, "Honey Badger Editor"))
+	if (editor.Init())
 	{
 		editor.Start();
 	}
