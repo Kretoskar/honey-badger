@@ -5,6 +5,7 @@
 #include "HoneyBadgerCore/Window/Public/Window.h"
 #include "HoneyBadgerCore/Rendering/Public/Shader.h"
 #include "HoneyBadgerCore/Math/Public/MathCore.h"
+#include <HoneyBadgerCore/Math/Public/Quat.h>
 
 namespace HoneyBadger
 {
@@ -65,7 +66,7 @@ namespace HoneyBadger
 		_position += GetVelocity();
 
 		_view = Mat4::LookAt(_position, _position + _orientation, _up);
-		_projection = Mat4::Perspective(MathCore::DegToRad(_FOVdeg), static_cast<float>(_width) / static_cast<float>(_height), _nearPlane, _farPlane);
+		_projection = Mat4::Perspective(_FOVdeg, static_cast<float>(_width) / static_cast<float>(_height), _nearPlane, _farPlane);
     }
 
     Vec3 Camera::GetRightVector() const
@@ -138,18 +139,17 @@ namespace HoneyBadger
 		const float rotX = _sensitivity * static_cast<float>(posY - (_height / 2)) / _height;
 		const float rotY = _sensitivity * static_cast<float>(posX - (_width / 2)) / _width;
 
-		//const Vec3 newOrientation = glm::rotate(_orientation, glm::radians(-rotX), glm::normalize(glm::cross(_orientation, _up)));
-		//
-		//// Decides whether or not the next vertical Orientation is legal or not
-		//if (abs(glm::angle(newOrientation, _up) - glm::radians(90.0f)) <= glm::radians(85.0f)
-		//	&& abs(glm::angle(newOrientation, -_up) - glm::radians(90.0f)) <= glm::radians(85.0f))
-		//{
-		//	_orientation = newOrientation;
-		//}
-		//
-		//// Rotates the Orientation left and right
-		//_orientation = glm::rotate(_orientation, glm::radians(-rotY), _up);
-		//
-		//glfwSetCursorPos(_window->GetGlfwWindow(), (_width / 2), (_height / 2));
+        const Vec3 newOrientation =
+            Quat(MathCore::DegToRad(-rotX), Vec3::Cross(_orientation, _up).Normalized()) * _orientation;
+		
+        // TODO: maybe dot will be enough
+		if (abs(Vec3::Angle(newOrientation, _up)) > MathCore::DegToRad(5.0f) && 
+            abs(Vec3::Angle(newOrientation, _up * -1)) > MathCore::DegToRad(5.0f))
+		{
+			_orientation = newOrientation;
+			_orientation = Quat(MathCore::DegToRad(-rotY), _up) * _orientation;
+		}
+
+        glfwSetCursorPos(_window->GetGlfwWindow(), (_width / 2), (_height / 2));
     }
 }

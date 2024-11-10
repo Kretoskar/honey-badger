@@ -22,8 +22,9 @@ namespace HoneyBadger
 		// color
 		_lineVao->LinkAttrib(*_lineVbo, 1, 3, GL_FLOAT, 6 * sizeof(float), (void*)(3 * sizeof(float)));
 
-		DrawNet(100, 1.0f, 100.0f, Vec3(0.6f, 0.6f, 0.6f));
 		DrawNet(1000, 0.1f, 100.0f, Vec3(0.3f, 0.3f, 0.3f));
+		DrawNet(100, 1.0f, 100.0f, Vec3(0.6f, 0.6f, 0.6f));
+	
 
 		return true;
 	}

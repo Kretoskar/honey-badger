@@ -2,6 +2,7 @@
 #include "HoneyBadgerCore/Math/Public/Mat4.h"
 #include "HoneyBadgerCore/Math/Public/Vec3.h"
 #include "HoneyBadgerCore/Core/Public/Logger.h"
+#include "HoneyBadgerCore/Math/Public/MathCore.h"
 
 #define MAT4_EPSILON 0.000001f
 
@@ -130,7 +131,7 @@ namespace HoneyBadger
 
 	Mat4 Mat4::Perspective(float fov, float aspect, float znear, float zfar)
 	{
-		float ymax = znear * tanf(fov * 3.14159265359f / 360.0f);
+		float ymax = znear * tanf(fov * MathCore::PI() / 360.0f);
 		float xmax = ymax * aspect;
 
 		return Frustum(-xmax, xmax, -ymax, ymax, znear, zfar);

@@ -20,6 +20,21 @@ namespace HoneyBadger
 		};
 	}
 
+	float Vec3::Angle(const Vec3& lhs, const Vec3& rhs)
+	{
+		float sqMagL = lhs.LenSq();
+		float sqMagR = rhs.LenSq();
+
+		if (sqMagL < VEC3_EPSILON || sqMagR < VEC3_EPSILON)
+		{
+			return 0.0f;
+		}
+
+		float dot = Dot(lhs, rhs);
+		float len = sqrtf(sqMagL) * sqrtf(sqMagR);
+		return acosf(dot / len);
+	}
+
 	void Vec3::Normalize()
 	{
 		float lenSq = x * x + y * y + z * z;
@@ -49,6 +64,11 @@ namespace HoneyBadger
 			y * invLen,
 			z * invLen
 		);
+	}
+
+	float Vec3::LenSq() const
+	{
+		return x * x + y * y + z * z;
 	}
 
 	Vec3& operator+=(Vec3& lhs, Vec3 rhs)

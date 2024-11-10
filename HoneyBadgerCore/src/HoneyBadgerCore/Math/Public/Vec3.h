@@ -30,7 +30,9 @@ namespace HoneyBadger
 		static float Dot(const Vec3& lhs, const Vec3& rhs);
 		// Right handed cross product
 		static Vec3 Cross(const Vec3& lhs, const Vec3& rhs);
-
+		static float Angle(const Vec3& lhs, const Vec3& rhs);
+	
+		float LenSq() const;
 		void Normalize();
 		Vec3 Normalized() const;
 	};

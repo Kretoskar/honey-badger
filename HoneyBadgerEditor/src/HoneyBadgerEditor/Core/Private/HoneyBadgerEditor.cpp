@@ -18,7 +18,7 @@ bool HoneyBadgerEditor::Editor::Init(uint32_t width, uint32_t height, HoneyBadge
 		return false;
 	}
 
-	_camera = std::make_shared<HoneyBadger::Camera>(&_window, HoneyBadger::Vec3());
+	_camera = std::make_shared<HoneyBadger::Camera>(&_window, HoneyBadger::Vec3(0.0f, 1.0f, 0.0f));
 	_camera->Init();
 	_debugRenderer = std::make_shared<HoneyBadger::DebugRenderer>(_camera);
 	_debugRenderer->Init();
