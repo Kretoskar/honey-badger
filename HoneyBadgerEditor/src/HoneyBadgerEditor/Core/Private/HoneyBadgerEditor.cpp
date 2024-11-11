@@ -16,7 +16,7 @@ bool HoneyBadgerEditor::Editor::Init()
 		1080,
 		1.0f / 6.0f,
 		1.0f / 6.0f,
-		1.0f / 10.0f,
+		1.0f / 14.0f,
 		1.0f / 4.0f
 	};
 

@@ -11,5 +11,8 @@ namespace HoneyBadgerEditor
 
 	private:
 		void CreateLoggerWidget();
+		void CreateSceneWidget();
+		void CreateDetailsWidget();
+		void CreateToolbarWidget();
 	};
 }

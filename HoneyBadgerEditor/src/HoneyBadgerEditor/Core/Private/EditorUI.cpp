@@ -7,6 +7,9 @@
 void HoneyBadgerEditor::EditorUI::CreateWidgets()
 {
 	CreateLoggerWidget();
+	CreateSceneWidget();
+	CreateDetailsWidget();
+	CreateToolbarWidget();
 }
 
 void HoneyBadgerEditor::EditorUI::CreateLoggerWidget()
@@ -47,5 +50,62 @@ void HoneyBadgerEditor::EditorUI::CreateLoggerWidget()
 		ImGui::SetScrollHereY(0.0f);
 	}
 
+	ImGui::End();
+}
+
+void HoneyBadgerEditor::EditorUI::CreateSceneWidget()
+{
+	ImVec2 SceneWindowSize = ImGui::GetMainViewport()->Size;
+	SceneWindowSize.x /= 6;
+	SceneWindowSize.y = (SceneWindowSize.y / 4) * 3;
+
+	ImGuiWindowFlags flags = 0;
+
+	ImGui::SetNextWindowBgAlpha(0.8f);
+	ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f), ImGuiCond_Always, ImVec2(0.0f, 0.0f));
+	ImGui::SetNextWindowSize(SceneWindowSize, ImGuiCond_Always);
+	ImGui::Begin("SCENE", nullptr, flags);
+
+	//for (auto& entity : _entityMap)
+	//{
+	//	ImGui::Button(entity.second.Get());
+	//}
+
+
+	ImGui::End();
+}
+
+void HoneyBadgerEditor::EditorUI::CreateDetailsWidget()
+{
+	ImVec2 DetailsWindowSize = ImGui::GetMainViewport()->Size;
+	DetailsWindowSize.x /= 6;
+	DetailsWindowSize.y = (DetailsWindowSize.y / 4) * 3;
+
+	ImGuiWindowFlags flags = 0;
+
+	ImGui::SetNextWindowBgAlpha(0.8f);
+	ImGui::SetNextWindowPos(ImVec2(ImGui::GetMainViewport()->Size.x, 0.0f), ImGuiCond_Always, ImVec2(1.0f, 0.0f));
+	ImGui::SetNextWindowSize(DetailsWindowSize, ImGuiCond_Always);
+	ImGui::Begin("DETAILS", nullptr, flags);
+
+	ImGui::End();
+}
+
+void HoneyBadgerEditor::EditorUI::CreateToolbarWidget()
+{
+	ImVec2 TopWindowSize = ImGui::GetMainViewport()->Size;
+	TopWindowSize.x /= 6;
+	TopWindowSize.x *= 4;
+	TopWindowSize.y /= 14;
+
+	ImGuiWindowFlags flags = 0;
+
+	ImGui::SetNextWindowBgAlpha(0.8f);
+	ImGui::SetNextWindowPos(ImVec2(ImGui::GetMainViewport()->Size.x / 2, 0.0f), ImGuiCond_Always, ImVec2(0.5f, 0.0f));
+	ImGui::SetNextWindowSize(TopWindowSize, ImGuiCond_Always);
+	ImGui::Begin("TOOLBAR", nullptr, flags);
+	ImGui::Button("SAVE", ImVec2(ImGui::GetMainViewport()->Size.x / 16, ImGui::GetMainViewport()->Size.y / 32));
+	ImGui::SameLine();
+	ImGui::Button("LOAD", ImVec2(ImGui::GetMainViewport()->Size.x / 16, ImGui::GetMainViewport()->Size.y / 32));
 	ImGui::End();
 }

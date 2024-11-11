@@ -1,8 +1,16 @@
 #include "HoneyBadgerGame/Core/Public/Game.h"
 
-bool HoneyBadgerGame::Game::Init(uint32_t width, uint32_t height, HoneyBadger::HBString name)
+bool HoneyBadgerGame::Game::Init(HoneyBadger::HBString name)
 {
-	return _engine.Init() && _window.Init(width, height, name) && Init_Internal();
+	HoneyBadger::WindowInitSettings WindowInitSettings
+	{
+		name,
+		HoneyBadger::WindowState::Fullscreen,
+		1920,
+		1080,
+		0,0,0,0	
+	};
+	return _engine.Init() && _window.Init(WindowInitSettings) && Init_Internal();
 }
 
 void HoneyBadgerGame::Game::Start()

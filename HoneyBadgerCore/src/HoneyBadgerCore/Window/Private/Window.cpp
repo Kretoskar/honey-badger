@@ -33,13 +33,6 @@ bool HoneyBadger::Window::Init(WindowInitSettings InitSettings)
 		_state == WindowState::Fullscreen ? glfwGetPrimaryMonitor() : nullptr,
 		nullptr);
 
-	if (_state == WindowState::Maximized)
-	{
-		glfwMaximizeWindow(GetGlfwWindow());
-		_width = mode->width;
-		_height = mode->height;
-	}
-
 	if (!_glfwWindow)
 	{
 		HB_LOG_ERROR("Failed to initialize window")
@@ -55,13 +48,18 @@ bool HoneyBadger::Window::Init(WindowInitSettings InitSettings)
 			return false;
 	}
 
-	UpdateViewportSize();
+
 	glClearColor(0.09f, 0.09f, 0.15f, 1.00f);
 
 	// force VSYNC
 	glfwSwapInterval(1);
 
 	BindWindowEvents();
+
+	if (_state == WindowState::Maximized)
+	{
+		glfwMaximizeWindow(GetGlfwWindow());
+	}
 
 	return true;
 }

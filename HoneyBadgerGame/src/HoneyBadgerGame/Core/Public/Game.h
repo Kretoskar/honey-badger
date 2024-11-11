@@ -10,7 +10,7 @@ namespace HoneyBadgerGame
 	{
 	public:
 	
-		bool Init(uint32_t width, uint32_t height, HoneyBadger::HBString name);
+		bool Init(HoneyBadger::HBString name);
 		void Start();
 		void ShutDown();
 

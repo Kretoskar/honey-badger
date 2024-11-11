@@ -64,8 +64,9 @@ bool HoneyBadger::UserInterface::Init(GLFWwindow* window)
 	style.Colors[ImGuiCol_TextSelectedBg] = ImVec4(0.00f, 0.00f, 1.00f, 0.35f);
 	//style.Colors[ImGuiCol_ModalWindowDarkening] = ImVec4(0.20f, 0.20f, 0.20f, 0.35f);
 
-	//ImGuiIO& io = ImGui::GetIO();
-	//io.Fonts->AddFontFromFileTTF(result, 32);
+	ImGuiIO& io = ImGui::GetIO();
+
+	io.Fonts->AddFontFromFileTTF("../res/fonts/Pixeled.ttf", 32);
 
 	return true;
 }
