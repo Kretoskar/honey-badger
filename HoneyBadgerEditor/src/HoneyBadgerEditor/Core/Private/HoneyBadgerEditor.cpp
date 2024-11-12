@@ -30,7 +30,7 @@ bool HoneyBadgerEditor::Editor::Init()
 		return false;
 	}
 
-	_camera = std::make_shared<HoneyBadger::Camera>(&_window, HoneyBadger::Vec3(0.0f, 1.0f, 0.0f));
+	_camera = std::make_shared<HoneyBadger::Camera>(&_window, HoneyBadger::Vec3(1.0f, 1.0f, 1.0f));
 	_camera->Init();
 	_debugRenderer = std::make_shared<HoneyBadger::DebugRenderer>(_camera);
 	_debugRenderer->Init();
