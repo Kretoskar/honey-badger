@@ -49,7 +49,7 @@ bool HoneyBadger::Window::Init(WindowInitSettings InitSettings)
 	}
 
 
-	glClearColor(0.09f, 0.09f, 0.15f, 1.00f);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.00f);
 
 	// force VSYNC
 	glfwSwapInterval(1);
