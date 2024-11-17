@@ -67,6 +67,9 @@ bool HoneyBadgerEditor::Editor::Init()
 	HoneyBadger::TransformComponent& tc = _ecs->AddComponent<HoneyBadger::TransformComponent>(e);
 	HoneyBadger::MeshComponent& mc = _ecs->AddComponent<HoneyBadger::MeshComponent>(e);
 	mc.Mesh = _assetsRegistry->Plane.get();
+	tc.Scale = tc.Scale * 0.1f;
+	tc.Rotation = HoneyBadger::Quat(3.14f / 2, { 1.0f, 0.0f, 0.0f });
+
 
 	return true;
 }
