@@ -25,6 +25,11 @@ bool HoneyBadgerEditor::Editor::Init()
 		return false;
 	}
 
+	if (!_engine.InitAfterWindow())
+	{
+		return false;
+	}
+
 	if (!_ui.Init(_window.GetGlfwWindow()))
 	{
 		return false;
