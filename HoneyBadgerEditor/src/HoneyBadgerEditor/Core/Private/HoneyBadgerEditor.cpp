@@ -1,6 +1,11 @@
 #include "HoneyBadgerEditor/Core/Public/HoneyBadgerEditor.h"
 #include "HoneyBadgerCore/Math/Public/Vec3.h"
 
+#include "HoneyBadgerCore/ECS/Public/Components/TransformComponent.h"
+#include "HoneyBadgerCore/ECS/Public/Components/MeshComponent.h"
+
+#include "HoneyBadgerCore/Rendering/Public/Mesh/SimpleMeshes/PlaneMesh.h"
+
 bool HoneyBadgerEditor::Editor::Init()
 {
 	if (!_engine.Init())
@@ -40,6 +45,29 @@ bool HoneyBadgerEditor::Editor::Init()
 	_debugRenderer = std::make_shared<HoneyBadger::DebugRenderer>(_camera);
 	_debugRenderer->Init();
 
+	_assetsRegistry = std::make_shared<HoneyBadger::AssetsRegistry>();
+	_assetsRegistry->Init();
+
+	_scene = std::make_shared<HoneyBadger::Scene>(_assetsRegistry.get());
+	_ecs = std::make_shared<HoneyBadger::ECS>();
+
+
+	_ecs->RegisterComponent<HoneyBadger::TransformComponent>();
+	_ecs->RegisterComponent<HoneyBadger::MeshComponent>();
+
+
+
+	_renderingSystem.Init(_camera.get());
+
+	_ecs->RegisterSystem(&_renderingSystem);
+	_ecs->RegisterComponentInSystem<HoneyBadger::TransformComponent>(_renderingSystem);
+	_ecs->RegisterComponentInSystem<HoneyBadger::MeshComponent>(_renderingSystem);
+
+	HoneyBadger::Entity e = _ecs->CreateEntity();
+	HoneyBadger::TransformComponent& tc = _ecs->AddComponent<HoneyBadger::TransformComponent>(e);
+	HoneyBadger::MeshComponent& mc = _ecs->AddComponent<HoneyBadger::MeshComponent>(e);
+	mc.Mesh = _assetsRegistry->Plane.get();
+
 	return true;
 }
 void HoneyBadgerEditor::Editor::Start()
@@ -50,6 +78,7 @@ void HoneyBadgerEditor::Editor::Start()
 
 		_ui.CreateFrame();
 		_ui.Render();
+		_renderingSystem.Render();
 		_debugRenderer->Render();
 		_window.Update();
 	}

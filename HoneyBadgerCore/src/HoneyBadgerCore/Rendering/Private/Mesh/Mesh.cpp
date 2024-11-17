@@ -18,7 +18,7 @@ HoneyBadger::Mesh::~Mesh()
 	_vao.Delete();
 }
 
-void HoneyBadger::Mesh::Init(const std::vector<Vertex>& vertices, const std::vector<unsigned>& indices, Material* material)
+void HoneyBadger::Mesh::Init(const std::vector<Vertex>& vertices, const std::vector<unsigned>& indices, HoneyBadger::Material* material)
 {
 	_vertices = vertices;
 	_indices = indices;

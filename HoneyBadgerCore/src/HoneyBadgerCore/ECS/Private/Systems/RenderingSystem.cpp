@@ -24,10 +24,13 @@ void HoneyBadger::RenderingSystem::Render()
 		MeshComponent& meshComp = _ecs->GetComponent<MeshComponent>(entity);
 
 		// TODO: get model matrix from transform component
-		Mat4 model = Mat4::Identity;
+		Mat4 model;
 
-		meshComp.Mesh->GetMaterial()->Shader->SetModelMatrix(model);
-		meshComp.Mesh->GetMaterial()->Shader->SetVPMatrix(_camera->GetVPMatrix());
-		meshComp.Mesh->Draw();
+		if (meshComp.Mesh)
+		{
+			meshComp.Mesh->GetMaterial()->Shader->SetModelMatrix(model);
+			meshComp.Mesh->GetMaterial()->Shader->SetVPMatrix(_camera->GetVPMatrix());
+			meshComp.Mesh->Draw();
+		}
 	}
 }

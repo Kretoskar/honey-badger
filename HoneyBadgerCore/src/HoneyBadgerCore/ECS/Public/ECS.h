@@ -20,6 +20,7 @@ namespace HoneyBadger
 	public:
 		ECS();
 
+
 		template <typename T>
 		void RegisterComponent()
 		{

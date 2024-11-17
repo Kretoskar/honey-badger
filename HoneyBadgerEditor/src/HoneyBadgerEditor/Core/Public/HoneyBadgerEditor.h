@@ -6,6 +6,10 @@
 #include "HoneyBadgerCore/Rendering/Public/Camera.h"
 #include "HoneyBadgerCore/Rendering/Public/DebugRenderer.h"
 #include "HoneyBadgerEditor/Core/Public/EditorUI.h"
+#include "HoneyBadgerCore/ECS/Public/ECS.h"
+#include "HoneyBadgerCore/Scene/Public/Scene.h"
+#include "HoneyBadgerCore/ECS/Public/Systems/RenderingSystem.h"
+#include "HoneyBadgerCore/ResourceHandling/Public/AssetsRegistry.h"
 
 #include <memory>
 
@@ -27,8 +31,16 @@ namespace HoneyBadgerEditor
 		HoneyBadger::Window _window;
 		HoneyBadgerEditor::EditorUI _ui;
 
+
 		// TODO: different way to handle non default ctors
 		std::shared_ptr<HoneyBadger::Camera> _camera;
 		std::shared_ptr<HoneyBadger::DebugRenderer> _debugRenderer;
+
+		std::shared_ptr<HoneyBadger::ECS> _ecs;
+		std::shared_ptr<HoneyBadger::Scene> _scene;
+
+		HoneyBadger::RenderingSystem _renderingSystem;
+
+		std::shared_ptr<HoneyBadger::AssetsRegistry> _assetsRegistry;
 	};
 }

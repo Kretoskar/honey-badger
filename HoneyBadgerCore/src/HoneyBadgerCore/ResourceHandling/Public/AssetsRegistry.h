@@ -7,6 +7,7 @@ namespace HoneyBadger
 {
 	struct Material;
 	class Shader;
+	class PlaneMesh;
 
 	class AssetsRegistry
 	{
@@ -18,5 +19,6 @@ namespace HoneyBadger
 
 		std::shared_ptr<Shader> UnlitColorShader;
 		std::shared_ptr<Material> UnlitColorMaterial;
+		std::shared_ptr<PlaneMesh> Plane;
 	};
 }

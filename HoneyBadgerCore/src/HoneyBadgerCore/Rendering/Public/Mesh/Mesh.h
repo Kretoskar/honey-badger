@@ -7,7 +7,7 @@
 
 namespace HoneyBadger
 {
-	class Material;
+	struct Material;
 
 	class Mesh
 	{
