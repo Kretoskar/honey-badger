@@ -7,13 +7,13 @@
 
 void HoneyBadger::AssetsRegistry::Init()
 {
-	UnlitColorShader = std::make_shared<Shader>("Shaders/unlit_color.frag", "Shaders/Debug.vert");
+	UnlitColorShader = std::make_shared<Shader>("Shaders/Debug.frag", "Shaders/pbr.vert");
 	UnlitColorShader->Bind();
 
 	UnlitColorMaterial = std::make_shared<Material>(nullptr, nullptr, *UnlitColorShader.get());
 	UnlitColorMaterial->Bind();
 
-	Plane = std::make_shared<PlaneMesh>(Vec3(.1f,0.0f, 0.0f));
+	Plane = std::make_shared<PlaneMesh>(Vec3(0.0f,1.0f, 1.0f));
 }
 
 void HoneyBadger::AssetsRegistry::Cleanup()
