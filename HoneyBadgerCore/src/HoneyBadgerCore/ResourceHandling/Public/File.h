@@ -23,8 +23,11 @@ namespace HoneyBadger
 			return std::string(result);
 		}
 
+		const std::vector<std::string>& GetLines();
+
 	private:
 		bool _isValid = false;
 		std::string* _fileContents;
+		std::vector<std::string> _lines;
 	};
 }
