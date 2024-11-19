@@ -3,6 +3,8 @@
 #include "HoneyBadgerCore/Math/Public/Vec3.h"
 #include "HoneyBadgerCore/Math/Public/Vec2.h"
 
+#include "HoneyBadgerCore/vendor/json.hpp"
+
 namespace HoneyBadger
 {
 	struct Vertex

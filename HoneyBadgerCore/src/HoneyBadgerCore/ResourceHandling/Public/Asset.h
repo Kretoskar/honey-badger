@@ -5,6 +5,8 @@
 #include "HoneyBadgerCore/ResourceHandling/Public/Guid.h"
 #include "HoneyBadgerCore/ResourceHandling/Public/File.h"
 
+#include "HoneyBadgerCore/vendor/json.hpp"
+
 namespace HoneyBadger
 {
 	class Asset
@@ -13,12 +15,15 @@ namespace HoneyBadger
 		Asset()
 			: _guid(std::move(GenerateGUID())) {}
 
-		virtual AssetType GetAssetType() { return AssetType::Invalid; };
+		AssetType GetAssetType() { return _assetType; };
 
-		std::string Serialize();
-		void Load(File* file);
+		nlohmann::json Serialize();
+		bool Deserialize(const std::string& content);
 
-	private:
+	protected:
+		virtual bool Deserialize_Internal(nlohmann::json assetJson);
+
 		std::string _guid;
+		AssetType _assetType = AssetType::Invalid;
 	};
 }

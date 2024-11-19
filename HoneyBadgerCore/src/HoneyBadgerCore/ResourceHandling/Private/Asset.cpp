@@ -1,37 +1,57 @@
 #include "hbpch.h"
 #include "HoneyBadgerCore/ResourceHandling/Public/Asset.h"
+#include <HoneyBadgerCore/Core/Public/HBString.h>
 
 namespace HoneyBadger
 {
-	std::string Asset::Serialize()
+	nlohmann::json Asset::Serialize()
 	{
-		std::string result;
-		result.append("[guid]: " + _guid + '\n');
+		nlohmann::json retJson;
+
+		retJson["Guid"] = _guid;
 
 		switch (GetAssetType())
 		{
 		case AssetType::Mesh:
-			result.append("[type]: Mesh\n");
+			retJson["AssetType"] = "Mesh";
 			break;
 		case AssetType::Material:
-			result.append("[type]: Material\n");
+			retJson["AssetType"] = "Material";
 			break;
 
 		default:
-			result.append("[type]: Invalid\n");
+			retJson["AssetType"] = "Invalid";
 			break;
 		}
 
-		return result;
+		return retJson;
 	}
 
-	void Asset::Load(File* file)
+	bool Asset::Deserialize(const std::string& content)
 	{
-		if (!file)
+		nlohmann::json assetJson = nlohmann::json::parse(content);
+
+		_guid = assetJson["Guid"];
+		std::string assetType = assetJson["AssetType"];
+
+		if (assetType == "Mesh")
 		{
-			return;
+			_assetType = AssetType::Mesh;
+		}
+		else if (assetType == "Material")
+		{
+			_assetType = AssetType::Material;
+		}
+		else
+		{
+			_assetType = AssetType::Invalid;
 		}
 
-		const std::vector<std::string>& lines = file->GetLines();
+		return Deserialize_Internal(assetJson);
+	}
+
+	bool Asset::Deserialize_Internal(nlohmann::json assetJson)
+	{
+		return false;
 	}
 }

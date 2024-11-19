@@ -15,7 +15,10 @@ void HoneyBadger::AssetsRegistry::Init()
 
 	Plane = std::make_shared<PlaneMesh>(Vec3(0.0f,1.0f, 1.0f));
 
-	std::string serPlane = Plane->Serialize();
+	std::string serPlane = Plane->Serialize().dump();
+
+	Mesh mesh;
+	mesh.Deserialize(serPlane);
 }
 
 void HoneyBadger::AssetsRegistry::Cleanup()
