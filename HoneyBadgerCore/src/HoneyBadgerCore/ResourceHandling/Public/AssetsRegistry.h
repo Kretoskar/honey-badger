@@ -5,6 +5,13 @@
 
 namespace HoneyBadger
 {
+	enum class AssetType
+	{
+		Invalid,
+		Mesh,
+		Material
+	};
+
 	struct Material;
 	class Shader;
 	class PlaneMesh;
