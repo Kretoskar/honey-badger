@@ -14,6 +14,8 @@ void HoneyBadger::AssetsRegistry::Init()
 	UnlitColorMaterial->Bind();
 
 	Plane = std::make_shared<PlaneMesh>(Vec3(0.0f,1.0f, 1.0f));
+
+	std::string serPlane = Plane->Serialize();
 }
 
 void HoneyBadger::AssetsRegistry::Cleanup()
