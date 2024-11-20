@@ -1,5 +1,6 @@
 #pragma once
 
+#include "HoneyBadgerCore/vendor/json.hpp"
 
 namespace HoneyBadger
 {
@@ -35,6 +36,8 @@ namespace HoneyBadger
 		float LenSq() const;
 		void Normalize();
 		Vec3 Normalized() const;
+
+		NLOHMANN_DEFINE_TYPE_INTRUSIVE(Vec3, x, y, z)
 	};
 
 	Vec3& operator+=(Vec3& lhs, Vec3 rhs);

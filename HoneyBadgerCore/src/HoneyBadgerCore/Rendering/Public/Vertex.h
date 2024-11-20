@@ -3,6 +3,8 @@
 #include "HoneyBadgerCore/Math/Public/Vec3.h"
 #include "HoneyBadgerCore/Math/Public/Vec2.h"
 
+#include "HoneyBadgerCore/vendor/json.hpp"
+
 namespace HoneyBadger
 {
 	struct Vertex
@@ -11,5 +13,7 @@ namespace HoneyBadger
 		Vec3 Normal;
 		Vec3 Color;
 		Vec2 TexUV;
+
+		NLOHMANN_DEFINE_TYPE_INTRUSIVE(Vertex, Position, Normal, Color, TexUV)
 	};
 }

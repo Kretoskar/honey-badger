@@ -5,6 +5,8 @@
 #include "HoneyBadgerCore/Rendering/Public/Vertex.h"
 #include "HoneyBadgerCore/Rendering/Public/VertexArrayObject.h"
 
+#include "HoneyBadgerCore/vendor/json.hpp"
+
 namespace HoneyBadger
 {
 	struct Material;
@@ -21,6 +23,8 @@ namespace HoneyBadger
 
 		void Draw();
 		Material* GetMaterial() const { return _material; }
+
+		NLOHMANN_DEFINE_TYPE_INTRUSIVE(Mesh, _vertices, _indices)
 
 	protected:
 		std::vector<Vertex> _vertices;
