@@ -5,16 +5,15 @@
 #include "HoneyBadgerCore/Rendering/Public/Vertex.h"
 #include "HoneyBadgerCore/Rendering/Public/VertexArrayObject.h"
 
-#include "HoneyBadgerCore/ResourceHandling/Public/Asset.h"
-
 namespace HoneyBadger
 {
 	struct Material;
 
-	class Mesh : public Asset
+	class Mesh
 	{
 	public:
-		Mesh() : Asset() {};
+		// 
+		Mesh() = default;
 		Mesh(const std::vector<Vertex>& vertices, const std::vector<unsigned>& indices, Material* material);
 		virtual ~Mesh();
 
@@ -22,8 +21,6 @@ namespace HoneyBadger
 
 		void Draw();
 		Material* GetMaterial() const { return _material; }
-
-		virtual AssetType GetAssetType() override { return AssetType::Mesh; };
 
 	protected:
 		std::vector<Vertex> _vertices;
