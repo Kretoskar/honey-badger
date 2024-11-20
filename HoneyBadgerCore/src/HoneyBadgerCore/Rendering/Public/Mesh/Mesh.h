@@ -14,7 +14,7 @@ namespace HoneyBadger
 	class Mesh : public Asset
 	{
 	public:
-		Mesh() : Asset() { _assetType = AssetType::Mesh; };
+		Mesh() : Asset() {};
 		Mesh(const std::vector<Vertex>& vertices, const std::vector<unsigned>& indices, Material* material);
 		virtual ~Mesh();
 
@@ -23,10 +23,12 @@ namespace HoneyBadger
 		void Draw();
 		Material* GetMaterial() const { return _material; }
 
+		virtual AssetType GetAssetType() override { return AssetType::Mesh; };
+
 	protected:
 		std::vector<Vertex> _vertices;
 		std::vector<unsigned> _indices;
-		Material* _material = nullptr;
+		Material* _material;
 		VertexArrayObject _vao;
 	};
 }
