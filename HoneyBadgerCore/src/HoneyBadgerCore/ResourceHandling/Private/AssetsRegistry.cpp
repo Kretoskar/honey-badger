@@ -23,6 +23,8 @@ void HoneyBadger::AssetsRegistry::Init()
 
 	std::string jS = j.dump(4);
 	std::cout << jS;
+
+	
 }
 
 void HoneyBadger::AssetsRegistry::Cleanup()

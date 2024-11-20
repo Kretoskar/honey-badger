@@ -14,10 +14,10 @@ HoneyBadger::SimpleMesh::SimpleMesh(const std::vector<Vertex>& vertices)
 	}
 
 
-	Init(vertices, indices, Engine::AssetsReg->UnlitColorMaterial.get());
+	Init(vertices, indices);
 }
 
 HoneyBadger::SimpleMesh::SimpleMesh(const std::vector<Vertex>& vertices, const std::vector<unsigned>& indices)
 {
-	Init(vertices, indices, Engine::AssetsReg->UnlitColorMaterial.get());
+	Init(vertices, indices);
 }

@@ -11,6 +11,8 @@
 
 #include "HoneyBadgerCore/Math/Public/Mat4.h"
 
+#include "HoneyBadgerCore/Core/Public/Engine.h"
+
 void HoneyBadger::RenderingSystem::Init(Camera* camera)
 {
 	_camera = camera;
@@ -23,12 +25,13 @@ void HoneyBadger::RenderingSystem::Render()
 		TransformComponent& transformComp = _ecs->GetComponent<TransformComponent>(entity);
 		MeshComponent& meshComp = _ecs->GetComponent<MeshComponent>(entity);
 
-
 		if (meshComp.Mesh)
 		{
-			meshComp.Mesh->GetMaterial()->Shader->SetModelMatrix(transformComp.ToMat4());
-			meshComp.Mesh->GetMaterial()->Shader->SetVPMatrix(_camera->GetVPMatrix());
-			meshComp.Mesh->Draw();
+			// TODO: take material from component
+			Material* mat = Engine::AssetsReg->UnlitColorMaterial.get();
+			mat->Shader->SetModelMatrix(transformComp.ToMat4());
+			mat->Shader->SetVPMatrix(_camera->GetVPMatrix());
+			meshComp.Mesh->Draw(mat);
 		}
 	}
 }

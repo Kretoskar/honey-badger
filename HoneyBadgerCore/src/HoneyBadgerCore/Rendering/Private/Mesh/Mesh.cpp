@@ -8,9 +8,9 @@
 #include "HoneyBadgerCore/Rendering/Public/ElementBufferObject.h"
 
 
-HoneyBadger::Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<unsigned>& indices, Material* material)
+HoneyBadger::Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<unsigned>& indices)
 {
-	Init(vertices, indices, material);
+	Init(vertices, indices);
 }
 
 HoneyBadger::Mesh::~Mesh()
@@ -18,11 +18,15 @@ HoneyBadger::Mesh::~Mesh()
 	_vao.Delete();
 }
 
-void HoneyBadger::Mesh::Init(const std::vector<Vertex>& vertices, const std::vector<unsigned>& indices, HoneyBadger::Material* material)
+void HoneyBadger::Mesh::Init()
+{
+	Init(_vertices, _indices);
+}
+
+void HoneyBadger::Mesh::Init(const std::vector<Vertex>& vertices, const std::vector<unsigned>& indices)
 {
 	_vertices = vertices;
 	_indices = indices;
-	_material = material;
 
 	_vao.Bind();
 
@@ -39,9 +43,9 @@ void HoneyBadger::Mesh::Init(const std::vector<Vertex>& vertices, const std::vec
 	_vao.LinkAttrib(vbo, 3, 2, GL_FLOAT, sizeof(Vertex), (void*)(9 * sizeof(float)));
 }
 
-void HoneyBadger::Mesh::Draw()
+void HoneyBadger::Mesh::Draw(Material* material)
 {
-	_material->Bind();
+	material->Bind();
 	_vao.Bind();
 
 	glDrawElements(GL_TRIANGLES, _indices.size(), GL_UNSIGNED_INT, 0);

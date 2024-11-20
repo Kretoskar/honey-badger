@@ -16,20 +16,19 @@ namespace HoneyBadger
 	public:
 		// 
 		Mesh() = default;
-		Mesh(const std::vector<Vertex>& vertices, const std::vector<unsigned>& indices, Material* material);
+		Mesh(const std::vector<Vertex>& vertices, const std::vector<unsigned>& indices);
 		virtual ~Mesh();
 
-		void Init(const std::vector<Vertex>& vertices, const std::vector<unsigned>& indices, Material* material);
+		void Init();
+		void Init(const std::vector<Vertex>& vertices, const std::vector<unsigned>& indices);
 
-		void Draw();
-		Material* GetMaterial() const { return _material; }
+		void Draw(Material* material);
 
 		NLOHMANN_DEFINE_TYPE_INTRUSIVE(Mesh, _vertices, _indices)
 
 	protected:
 		std::vector<Vertex> _vertices;
 		std::vector<unsigned> _indices;
-		Material* _material;
 		VertexArrayObject _vao;
 	};
 }
