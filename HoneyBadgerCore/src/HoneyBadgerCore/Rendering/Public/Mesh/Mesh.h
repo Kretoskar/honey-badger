@@ -4,18 +4,33 @@
 
 #include "HoneyBadgerCore/Rendering/Public/Vertex.h"
 #include "HoneyBadgerCore/Rendering/Public/VertexArrayObject.h"
-
 #include "HoneyBadgerCore/vendor/json.hpp"
+#include "HoneyBadgerCore/ResourceHandling/Public/Guid.h"
 
 namespace HoneyBadger
 {
 	struct Material;
 
+	struct MeshData
+	{
+		std::string _guid;
+		std::vector<Vertex> _vertices;
+		std::vector<unsigned> _indices;
+
+		NLOHMANN_DEFINE_TYPE_INTRUSIVE(MeshData, _guid, _vertices, _indices)
+	};
+
 	class Mesh
 	{
 	public:
-		// 
 		Mesh() = default;
+
+		Mesh(MeshData meshData)
+		{
+			_meshData = meshData;
+			Init();
+		}
+
 		Mesh(const std::vector<Vertex>& vertices, const std::vector<unsigned>& indices);
 		virtual ~Mesh();
 
@@ -24,11 +39,10 @@ namespace HoneyBadger
 
 		void Draw(Material* material);
 
-		NLOHMANN_DEFINE_TYPE_INTRUSIVE(Mesh, _vertices, _indices)
+		NLOHMANN_DEFINE_TYPE_INTRUSIVE(Mesh, _meshData)
 
 	protected:
-		std::vector<Vertex> _vertices;
-		std::vector<unsigned> _indices;
+		MeshData _meshData;
 		VertexArrayObject _vao;
 	};
 }

@@ -20,13 +20,13 @@ HoneyBadger::Mesh::~Mesh()
 
 void HoneyBadger::Mesh::Init()
 {
-	Init(_vertices, _indices);
+	Init(_meshData._vertices, _meshData._indices);
 }
 
 void HoneyBadger::Mesh::Init(const std::vector<Vertex>& vertices, const std::vector<unsigned>& indices)
 {
-	_vertices = vertices;
-	_indices = indices;
+	_meshData._vertices = vertices;
+	_meshData._indices = indices;
 
 	_vao.Bind();
 
@@ -48,5 +48,5 @@ void HoneyBadger::Mesh::Draw(Material* material)
 	material->Bind();
 	_vao.Bind();
 
-	glDrawElements(GL_TRIANGLES, _indices.size(), GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, _meshData._indices.size(), GL_UNSIGNED_INT, 0);
 }

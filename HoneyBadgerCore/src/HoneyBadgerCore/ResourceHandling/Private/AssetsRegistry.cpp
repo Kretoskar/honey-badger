@@ -4,7 +4,8 @@
 #include "HoneyBadgerCore/Rendering/Public/Material.h"
 #include "HoneyBadgerCore/Rendering/Public/Mesh/SimpleMeshes/PlaneMesh.h"
 #include "HoneyBadgerCore/Math/Public/Vec3.h"
-
+#include "HoneyBadgerCore/ResourceHandling/Public/File.h"
+#include "HoneyBadgerCore/Rendering/Public/Mesh/Mesh.h"
 #include "HoneyBadgerCore/vendor/json.hpp"
 
 void HoneyBadger::AssetsRegistry::Init()
@@ -15,16 +16,12 @@ void HoneyBadger::AssetsRegistry::Init()
 	UnlitColorMaterial = std::make_shared<Material>(nullptr, nullptr, *UnlitColorShader.get());
 	UnlitColorMaterial->Bind();
 
-	Plane = std::make_shared<PlaneMesh>(Vec3(0.0f,1.0f, 1.0f));
+	File file("meshes/Plane.hbmesh");
+	nlohmann::json j = nlohmann::json::parse(*file.GetFileContents());
 
-	Mesh* planeMesh = static_cast<Mesh*>(Plane.get());
+	MeshData meshData = j.template get<MeshData>();
 
-	nlohmann::json j = *planeMesh;
-
-	std::string jS = j.dump(4);
-	std::cout << jS;
-
-	
+	Plane = std::make_shared<Mesh>(meshData);
 }
 
 void HoneyBadger::AssetsRegistry::Cleanup()
