@@ -6,6 +6,12 @@
 
 namespace HoneyBadger
 {
+	struct TextureData
+	{
+		std::string guid;
+		std::string path;
+	};
+
 	class Texture
 	{
 		unsigned _id;

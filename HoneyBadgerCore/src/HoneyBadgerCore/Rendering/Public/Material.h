@@ -1,18 +1,28 @@
 #pragma once
 
+#include "HoneyBadgerCore/vendor/json.hpp"
+
 namespace HoneyBadger
 {
 	class Shader;
 	class Texture;
 
+	struct MaterialData
+	{
+		std::string Guid;
+		std::string ShaderGuid;
+		std::string DiffuseMapGuid;
+		std::string SpecularMapGuid;
+
+		NLOHMANN_DEFINE_TYPE_INTRUSIVE(MaterialData, Guid, ShaderGuid, DiffuseMapGuid, SpecularMapGuid)
+	};
+
 	struct Material
 	{
-		Material() = default;
-		Material(Texture* InDiffuseMap, Texture* InSpecularMap, Shader& InShader);
+		Material(const MaterialData& matData);
 		void Bind();
 
-		Texture* DiffuseMap;
-		Texture* SpecularMap;
-		Shader* Shader;
+		MaterialData materialData;
+		std::shared_ptr<Shader> shader;
 	};
 }

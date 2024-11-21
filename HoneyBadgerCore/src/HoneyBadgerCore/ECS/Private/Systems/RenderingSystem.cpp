@@ -28,10 +28,13 @@ void HoneyBadger::RenderingSystem::Render()
 		if (meshComp.Mesh)
 		{
 			// TODO: take material from component
-			Material* mat = Engine::Instance->GetAssetsRegistry()->UnlitColorMaterial.get();
-			mat->Shader->SetModelMatrix(transformComp.ToMat4());
-			mat->Shader->SetVPMatrix(_camera->GetVPMatrix());
-			meshComp.Mesh->Draw(mat);
+			Material* mat = Engine::Instance->GetAssetsRegistry()->GetMaterialByName("unlit_color").get();
+			if (mat->shader)
+			{
+				mat->shader->SetModelMatrix(transformComp.ToMat4());
+				mat->shader->SetVPMatrix(_camera->GetVPMatrix());
+				meshComp.Mesh->Draw(mat);
+			}
 		}
 	}
 }

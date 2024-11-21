@@ -21,6 +21,7 @@ namespace HoneyBadger
 	{
 		_fragmentFilePath = shaderData.FragmentShaderPath;
 		_vertexFilePath = shaderData.VertexShaderPath;
+		_guid = shaderData.Guid;
 		_id = CreateShader();
 	}
 

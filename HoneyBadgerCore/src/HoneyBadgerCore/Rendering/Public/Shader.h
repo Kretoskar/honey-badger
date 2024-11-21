@@ -38,6 +38,7 @@ namespace HoneyBadger
 	{
 		HBString _fragmentFilePath;
 		HBString _vertexFilePath;
+		HBString _guid;
 		std::unordered_map<HBString, int, HBString::HBStringHasher> _uniformLocationCache;
 
 		unsigned int _id;
@@ -46,6 +47,8 @@ namespace HoneyBadger
 		Shader(HBString fragmentFilePath, HBString vertexFilePath);
 		Shader(const ShaderData& shaderData);
 		~Shader();
+
+		HBString GetGuid() const { return _guid; }
 
 		static std::shared_ptr<Shader> LoadShader(HBString path);
 

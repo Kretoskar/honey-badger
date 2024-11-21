@@ -2,38 +2,41 @@
 #include "HoneyBadgerCore/Rendering/Public/Material.h"
 #include "HoneyBadgerCore/Rendering/Public/Shader.h"
 #include "HoneyBadgerCore/Rendering/Public/Texture.h"
+#include "HoneyBadgerCore/ResourceHandling/Public/AssetsRegistry.h"
 
 namespace HoneyBadger
 {
-	Material::Material(Texture* InDiffuseMap, Texture* InSpecularMap, HoneyBadger::Shader& InShader)
-		: DiffuseMap(InDiffuseMap), SpecularMap(InSpecularMap), Shader(&InShader)
+	Material::Material(const MaterialData& matData)
+		: materialData(matData)
 	{
-		if (DiffuseMap)
-		{
-			Shader->AssignDiffuseMap(*DiffuseMap);
-		}
+		//if (DiffuseMap)
+		//{
+		//	Shader->AssignDiffuseMap(*DiffuseMap);
+		//}
+		//
+		//if (SpecularMap)
+		//{
+		//	Shader->AssignSpecularMap(*SpecularMap);
+		//}
 
-		if (SpecularMap)
-		{
-			Shader->AssignSpecularMap(*SpecularMap);
-		}
+		shader = AssetsRegistry::Instance->GetShaderByGuid(matData.ShaderGuid);
 	}
 
 	void Material::Bind()
 	{
-		if (Shader)
+		if (shader)
 		{
-			Shader->Bind();
+			shader->Bind();
 		}
 
-		if (DiffuseMap)
-		{
-			DiffuseMap->Bind();
-		}
-
-		if (SpecularMap)
-		{
-			SpecularMap->Bind();
-		}
+		//if (DiffuseMap)
+		//{
+		//	DiffuseMap->Bind();
+		//}
+		//
+		//if (SpecularMap)
+		//{
+		//	SpecularMap->Bind();
+		//}
 	}
 }
