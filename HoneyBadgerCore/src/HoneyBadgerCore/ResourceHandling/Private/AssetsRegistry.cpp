@@ -12,11 +12,9 @@ namespace HoneyBadger
 {
 	void AssetsRegistry::Init()
 	{
-		UnlitColorShader = Shader::LoadShader("shaders/unlit_color.hbshader");
-		UnlitColorShader->Bind();
+		LoadShader("shaders/unlit_color.hbshader", "unlit_color");
 
-		UnlitColorMaterial = std::make_shared<Material>(nullptr, nullptr, *UnlitColorShader.get());
-		UnlitColorMaterial->Bind();
+		UnlitColorMaterial = std::make_shared<Material>(nullptr, nullptr, *GetShaderByName("unlit_color"));
 
 		LoadMesh("meshes/Plane.hbmesh", "Plane");
 	}
@@ -42,6 +40,24 @@ namespace HoneyBadger
 
 		return nullptr;
 	}
+	std::shared_ptr<Shader> AssetsRegistry::LoadShader(HBString path, HBString name)
+	{
+		File file(path.Get());
+		if (file.IsValid())
+		{
+			nlohmann::json j = nlohmann::json::parse(*file.GetFileContents());
+			ShaderData shaderData = j.template get<ShaderData>();
+
+			std::shared_ptr<Shader> shader = std::make_shared<Shader>(shaderData);
+			GuidShaderMap.emplace(shaderData.Guid, shader);
+			NameShaderMap.emplace(name, shader);
+
+			return shader;
+		}
+
+		return nullptr;
+	}
+
 	std::shared_ptr<Mesh> AssetsRegistry::GetMeshByName(HBString name)
 	{
 		if (NameMeshMap.find(name) != NameMeshMap.end())
@@ -50,5 +66,15 @@ namespace HoneyBadger
 		}
 
 		return std::shared_ptr<Mesh>();
+	}
+
+	std::shared_ptr<Shader> AssetsRegistry::GetShaderByName(HBString name)
+	{
+		if (NameShaderMap.find(name) != NameShaderMap.end())
+		{
+			return NameShaderMap[name];
+		}
+
+		return std::shared_ptr<Shader>();
 	}
 }

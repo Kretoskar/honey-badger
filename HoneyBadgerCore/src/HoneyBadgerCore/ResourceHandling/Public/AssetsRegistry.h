@@ -27,8 +27,10 @@ namespace HoneyBadger
 		void Cleanup();
 
 		std::shared_ptr<Mesh> LoadMesh(HBString path, HBString name);
+		std::shared_ptr<Shader> LoadShader(HBString path, HBString name);
 
 		std::shared_ptr<Mesh> GetMeshByName(HBString name);
+		std::shared_ptr<Shader> GetShaderByName(HBString name);
 
 		std::unordered_map<HBString, std::shared_ptr<Shader>, HBString::HBStringHasher> GuidShaderMap;
 		std::unordered_map<HBString, std::shared_ptr<Shader>, HBString::HBStringHasher> NameShaderMap;
@@ -39,7 +41,6 @@ namespace HoneyBadger
 		std::unordered_map<HBString, std::shared_ptr<Mesh>, HBString::HBStringHasher> GuidMeshMap;
 		std::unordered_map<HBString, std::shared_ptr<Mesh>, HBString::HBStringHasher> NameMeshMap;
 
-		std::shared_ptr<Shader> UnlitColorShader;
 		std::shared_ptr<Material> UnlitColorMaterial;
 	};
 }
