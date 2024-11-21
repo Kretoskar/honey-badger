@@ -15,5 +15,5 @@ HoneyBadger::Scene::Scene(AssetsRegistry* assetsRegistry)
 	HoneyBadger::Entity e = _sceneEcs.CreateEntity();
 	TransformComponent& tc = _sceneEcs.AddComponent<TransformComponent>(e);
 	MeshComponent& mc = _sceneEcs.AddComponent<MeshComponent>(e);
-	mc.Mesh = assetsRegistry->Plane.get();
+	mc.Mesh = assetsRegistry->GetMeshByName("Plane").get();
 }

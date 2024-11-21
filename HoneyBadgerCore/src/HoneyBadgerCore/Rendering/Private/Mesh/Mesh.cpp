@@ -51,17 +51,4 @@ namespace HoneyBadger
 
 		glDrawElements(GL_TRIANGLES, _meshData._indices.size(), GL_UNSIGNED_INT, 0);
 	}
-
-	std::shared_ptr<Mesh> Mesh::LoadMesh(HBString path)
-	{
-		File file(path.Get());
-		if (file.IsValid())
-		{
-			nlohmann::json j = nlohmann::json::parse(*file.GetFileContents());
-			MeshData meshData = j.template get<MeshData>();
-			return std::make_shared<Mesh>(meshData);
-		}
-
-		return nullptr;
-	}
 }
