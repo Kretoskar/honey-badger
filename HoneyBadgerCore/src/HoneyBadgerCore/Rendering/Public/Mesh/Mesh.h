@@ -39,6 +39,8 @@ namespace HoneyBadger
 
 		void Draw(Material* material);
 
+		static std::shared_ptr<Mesh> LoadMesh(HBString path);
+
 		NLOHMANN_DEFINE_TYPE_INTRUSIVE(Mesh, _meshData)
 
 	protected:

@@ -3,19 +3,24 @@
 #include "HoneyBadgerCore/Core/Public/Engine.h"
 #include "HoneyBadgerCore/Core/Public/EventSystem.h"
 
-HoneyBadger::AssetsRegistry* HoneyBadger::Engine::AssetsReg = nullptr;
-
-bool HoneyBadger::Engine::Init()
+namespace HoneyBadger
 {
-	HoneyBadger::Dispatcher::Init();
+	Engine* Engine::Instance = nullptr;
 
-	return true;
-}
+	bool HoneyBadger::Engine::Init()
+	{
+		Instance = this;
 
-bool HoneyBadger::Engine::InitAfterWindow()
-{
-	AssetsReg = new AssetsRegistry();
-	AssetsReg->Init();
+		HoneyBadger::Dispatcher::Init();
 
-	return true;
+		return true;
+	}
+
+	bool HoneyBadger::Engine::InitAfterWindow()
+	{
+		AssetsReg = std::make_unique<AssetsRegistry>();
+		AssetsReg->Init();
+
+		return true;
+	}
 }

@@ -10,18 +10,13 @@
 
 void HoneyBadger::AssetsRegistry::Init()
 {
-	UnlitColorShader = std::make_shared<Shader>("Shaders/Debug.frag", "Shaders/pbr.vert");
+	UnlitColorShader = Shader::LoadShader("shaders/unlit_color.hbshader");
 	UnlitColorShader->Bind();
 
 	UnlitColorMaterial = std::make_shared<Material>(nullptr, nullptr, *UnlitColorShader.get());
 	UnlitColorMaterial->Bind();
 
-	File file("meshes/Plane.hbmesh");
-	nlohmann::json j = nlohmann::json::parse(*file.GetFileContents());
-
-	MeshData meshData = j.template get<MeshData>();
-
-	Plane = std::make_shared<Mesh>(meshData);
+	Plane = Mesh::LoadMesh("meshes/Plane.hbmesh");
 }
 
 void HoneyBadger::AssetsRegistry::Cleanup()

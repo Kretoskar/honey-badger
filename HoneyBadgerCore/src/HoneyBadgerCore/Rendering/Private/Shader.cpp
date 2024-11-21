@@ -7,6 +7,8 @@
 #include "HoneyBadgerCore/Rendering/Public/Texture.h"
 #include "HoneyBadgerCore/ResourceHandling/Public/File.h"
 
+#include "HoneyBadgerCore/vendor/json.hpp"
+
 namespace HoneyBadger
 {
 	Shader::Shader(HBString fragmentFilePath, HBString vertexFilePath)
@@ -15,9 +17,29 @@ namespace HoneyBadger
 		_id = CreateShader();
 	}
 
+	Shader::Shader(const ShaderData& shaderData)
+	{
+		_fragmentFilePath = shaderData.FragmentShaderPath;
+		_vertexFilePath = shaderData.VertexShaderPath;
+		_id = CreateShader();
+	}
+
 	Shader::~Shader()
 	{
 		glDeleteProgram(_id);
+	}
+
+	std::shared_ptr<Shader> Shader::LoadShader(HBString path)
+	{
+		File file(path.Get());
+		if (file.IsValid())
+		{
+			nlohmann::json j = nlohmann::json::parse(*file.GetFileContents());
+			ShaderData shaderData = j.template get<ShaderData>();
+			return std::make_shared<Shader>(shaderData);
+		}
+
+		return nullptr;
 	}
 
 	void Shader::Bind() const

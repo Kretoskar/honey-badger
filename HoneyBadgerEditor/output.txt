@@ -1,0 +1,5 @@
+{
+    "FragmentShaderPath": "Shaders/Debug.frag",
+    "Guid": "dacd-f3-415-85c-f95c79",
+    "VertexShaderPath": "Shaders/pbr.vert"
+}

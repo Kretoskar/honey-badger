@@ -8,8 +8,30 @@
 #include "HoneyBadgerCore/Math/Public/Vec4.h"
 #include "HoneyBadgerCore/Math/Public/Mat4.h"
 
+#include "HoneyBadgerCore/Rendering/Public/Shader.h"
+#include "HoneyBadgerCore/vendor/json.hpp"
+#include "HoneyBadgerCore/ResourceHandling/Public/Guid.h"
+
 namespace HoneyBadger
 {
+	struct ShaderData
+	{
+		ShaderData() = default;
+
+		ShaderData(std::string f, std::string v)
+		{
+			FragmentShaderPath = f;
+			VertexShaderPath = v;
+			Guid = GenerateGUID();
+		}
+
+		std::string Guid;
+		std::string FragmentShaderPath;
+		std::string VertexShaderPath;
+
+		NLOHMANN_DEFINE_TYPE_INTRUSIVE(ShaderData, Guid, FragmentShaderPath, VertexShaderPath)
+	};
+
 	class Texture;
 
 	class Shader
@@ -22,7 +44,10 @@ namespace HoneyBadger
 
 	public:
 		Shader(HBString fragmentFilePath, HBString vertexFilePath);
+		Shader(const ShaderData& shaderData);
 		~Shader();
+
+		static std::shared_ptr<Shader> LoadShader(HBString path);
 
 		void Bind() const;
 

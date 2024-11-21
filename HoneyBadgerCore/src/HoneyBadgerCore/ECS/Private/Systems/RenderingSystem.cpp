@@ -28,7 +28,7 @@ void HoneyBadger::RenderingSystem::Render()
 		if (meshComp.Mesh)
 		{
 			// TODO: take material from component
-			Material* mat = Engine::AssetsReg->UnlitColorMaterial.get();
+			Material* mat = Engine::Instance->GetAssetsRegistry()->UnlitColorMaterial.get();
 			mat->Shader->SetModelMatrix(transformComp.ToMat4());
 			mat->Shader->SetVPMatrix(_camera->GetVPMatrix());
 			meshComp.Mesh->Draw(mat);

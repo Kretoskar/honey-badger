@@ -48,6 +48,7 @@ bool HoneyBadgerEditor::Editor::Init()
 	_assetsRegistry = std::make_shared<HoneyBadger::AssetsRegistry>();
 	_assetsRegistry->Init();
 
+	// TODO: fix
 	_scene = std::make_shared<HoneyBadger::Scene>(_assetsRegistry.get());
 	_ecs = std::make_shared<HoneyBadger::ECS>();
 

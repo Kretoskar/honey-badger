@@ -10,5 +10,5 @@
 
 namespace HoneyBadger
 {
-	HBString GenerateGUID();
+	std::string GenerateGUID();
 }
