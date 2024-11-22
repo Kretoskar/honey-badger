@@ -51,27 +51,13 @@ namespace HoneyBadger
 				std::string name = File::GetFileName(pathStr);
 				LoadShader(pathStr, name);
 			}
-		}
-
-		for (const auto& entry : fs::recursive_directory_iterator(path.Get()))
-		{
-			std::string pathStr = entry.path().string();
-			std::string extension = File::GetFileExtension(pathStr);
-
-			if (extension == "hbmaterial")
+			else if (extension == "hbmaterial")
 			{
 				std::string name = File::GetFileName(pathStr);
 
 				LoadMaterial(pathStr, name);
 			}
-		}
-
-		for (const auto& entry : fs::recursive_directory_iterator(path.Get()))
-		{
-			std::string pathStr = entry.path().string();
-			std::string extension = File::GetFileExtension(pathStr);
-
-			if (extension == "hbmesh")
+			else if (extension == "hbmesh")
 			{
 				std::string name = File::GetFileName(pathStr);
 

@@ -42,21 +42,15 @@ bool HoneyBadgerEditor::Editor::Init()
 
 	_camera = std::make_shared<HoneyBadger::Camera>(&_window, HoneyBadger::Vec3(1.0f, 1.0f, 1.0f));
 	_camera->Init();
+
 	_debugRenderer = std::make_shared<HoneyBadger::DebugRenderer>(_camera);
 	_debugRenderer->Init();
 
-	_assetsRegistry = std::make_shared<HoneyBadger::AssetsRegistry>();
-	_assetsRegistry->Init();
+	_scene = std::make_shared<HoneyBadger::Scene>(_engine.GetAssetsRegistry());
 
-	// TODO: fix
-	_scene = std::make_shared<HoneyBadger::Scene>(_assetsRegistry.get());
 	_ecs = std::make_shared<HoneyBadger::ECS>();
-
-
 	_ecs->RegisterComponent<HoneyBadger::TransformComponent>();
 	_ecs->RegisterComponent<HoneyBadger::MeshComponent>();
-
-
 
 	_renderingSystem.Init(_camera.get());
 
@@ -67,10 +61,9 @@ bool HoneyBadgerEditor::Editor::Init()
 	HoneyBadger::Entity e = _ecs->CreateEntity();
 	HoneyBadger::TransformComponent& tc = _ecs->AddComponent<HoneyBadger::TransformComponent>(e);
 	HoneyBadger::MeshComponent& mc = _ecs->AddComponent<HoneyBadger::MeshComponent>(e);
-	mc.Mesh = _assetsRegistry->GetMeshByName("Plane").get();
+	mc.Mesh = _engine.GetAssetsRegistry()->GetMeshByName("Plane").get();
 	tc.Scale = tc.Scale * 0.1f;
 	tc.Rotation = HoneyBadger::Quat(3.14f / 2, { 1.0f, 0.0f, 0.0f });
-
 
 	return true;
 }

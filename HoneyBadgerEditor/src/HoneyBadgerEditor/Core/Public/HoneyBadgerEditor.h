@@ -40,7 +40,5 @@ namespace HoneyBadgerEditor
 		std::shared_ptr<HoneyBadger::Scene> _scene;
 
 		HoneyBadger::RenderingSystem _renderingSystem;
-
-		std::shared_ptr<HoneyBadger::AssetsRegistry> _assetsRegistry;
 	};
 }

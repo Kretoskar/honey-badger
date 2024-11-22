@@ -19,10 +19,14 @@ namespace HoneyBadger
 
 	struct Material
 	{
-		Material(const MaterialData& matData);
+		Material(const MaterialData& matData)
+			: _materialData(matData) {}
 		void Bind();
 
-		MaterialData materialData;
-		std::shared_ptr<Shader> shader;
+		std::shared_ptr<Shader> GetShader();
+
+	private:
+		MaterialData _materialData;
+		std::shared_ptr<Shader> _shader;
 	};
 }
