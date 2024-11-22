@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include "HoneyBadgerCore/Core/Public/HBString.h"
 
 namespace HoneyBadger
 {
@@ -24,6 +25,10 @@ namespace HoneyBadger
 		}
 
 		const std::vector<std::string>& GetLines();
+
+		static std::string GetFileName(const std::string& path);
+		static std::string GetFileExtension(const std::string& path);
+		static std::string GetFileNameAndExtension(const std::string& path);
 
 	private:
 		bool _isValid = false;

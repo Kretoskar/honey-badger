@@ -25,6 +25,8 @@ namespace HoneyBadger
 
 		void Init();
 		void Cleanup();
+		void LoadEngineAssets();
+		void LoadAllAssetsInPath(HBString path);
 
 		std::shared_ptr<Mesh> LoadMesh(HBString path, HBString name);
 		std::shared_ptr<Shader> LoadShader(HBString path, HBString name);

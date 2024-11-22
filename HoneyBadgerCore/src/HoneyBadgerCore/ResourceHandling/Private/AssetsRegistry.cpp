@@ -8,6 +8,10 @@
 #include "HoneyBadgerCore/Rendering/Public/Mesh/Mesh.h"
 #include "HoneyBadgerCore/vendor/json.hpp"
 
+#include "HoneyBadgerCore/vendor/filesystem.hpp"
+
+namespace fs = ghc::filesystem;
+
 namespace HoneyBadger
 {
 	AssetsRegistry* AssetsRegistry::Instance = nullptr;
@@ -22,13 +26,58 @@ namespace HoneyBadger
 	{
 		Instance = this;
 
-		LoadShader("shaders/unlit_color.hbshader", "unlit_color");
-		LoadMaterial("materials/unlit_color.hbmaterial", "unlit_color");
-		LoadMesh("meshes/Plane.hbmesh", "Plane");
+		LoadEngineAssets();
 	}
 
 	void AssetsRegistry::Cleanup()
 	{
+	}
+
+	void AssetsRegistry::LoadEngineAssets()
+	{
+		LoadAllAssetsInPath(File::GetPathInRes(""));
+	}
+
+	void AssetsRegistry::LoadAllAssetsInPath(HBString path)
+	{
+		// TODO: rewrite this shitty hack
+		for (const auto& entry : fs::recursive_directory_iterator(path.Get()))
+		{
+			std::string pathStr = entry.path().string();
+			std::string extension = File::GetFileExtension(pathStr);
+
+			if (extension == "hbshader")
+			{
+				std::string name = File::GetFileName(pathStr);
+				LoadShader(pathStr, name);
+			}
+		}
+
+		for (const auto& entry : fs::recursive_directory_iterator(path.Get()))
+		{
+			std::string pathStr = entry.path().string();
+			std::string extension = File::GetFileExtension(pathStr);
+
+			if (extension == "hbmaterial")
+			{
+				std::string name = File::GetFileName(pathStr);
+
+				LoadMaterial(pathStr, name);
+			}
+		}
+
+		for (const auto& entry : fs::recursive_directory_iterator(path.Get()))
+		{
+			std::string pathStr = entry.path().string();
+			std::string extension = File::GetFileExtension(pathStr);
+
+			if (extension == "hbmesh")
+			{
+				std::string name = File::GetFileName(pathStr);
+
+				LoadMesh(pathStr, name);
+			}
+		}
 	}
 
 	std::shared_ptr<Mesh> AssetsRegistry::LoadMesh(HBString path, HBString name)

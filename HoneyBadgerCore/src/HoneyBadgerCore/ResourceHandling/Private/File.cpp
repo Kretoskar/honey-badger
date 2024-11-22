@@ -8,7 +8,7 @@ namespace HoneyBadger
 {
 	File::File(const char* path, bool lookInResFolder)
 	{
-		std::string pathStr = GetPathInRes(path);
+		std::string pathStr = lookInResFolder ? GetPathInRes(path) : path;
 
 
 		std::ifstream file(pathStr);
@@ -63,5 +63,22 @@ namespace HoneyBadger
 		}
 
 		return _lines;
+	}
+
+	std::string File::GetFileName(const std::string& path)
+	{
+		std::string base_filename = path.substr(path.find_last_of("/\\") + 1);
+		std::string::size_type const p(base_filename.find_last_of('.'));
+		return base_filename.substr(0, p);
+	}
+
+	std::string File::GetFileExtension(const std::string& path)
+	{
+		return path.substr(path.find_last_of(".") + 1);
+	}
+
+	std::string File::GetFileNameAndExtension(const std::string& path)
+	{
+		return path.substr(path.find_last_of("/\\") + 1);
 	}
 }
