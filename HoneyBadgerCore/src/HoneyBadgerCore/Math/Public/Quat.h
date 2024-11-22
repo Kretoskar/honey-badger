@@ -44,6 +44,8 @@ namespace HoneyBadger
 		Quat Normalized() const;
 		Quat Inverse() const;
 		Mat4 ToMat4();
+
+		NLOHMANN_DEFINE_TYPE_INTRUSIVE(Quat, x,y,z,w)
 	};
 
 	Quat operator+(const Quat& a, const Quat& b);

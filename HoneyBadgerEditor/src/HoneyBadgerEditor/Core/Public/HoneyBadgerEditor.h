@@ -31,8 +31,6 @@ namespace HoneyBadgerEditor
 		HoneyBadger::Window _window;
 		HoneyBadgerEditor::EditorUI _ui;
 
-
-		// TODO: different way to handle non default ctors
 		std::shared_ptr<HoneyBadger::Camera> _camera;
 		std::shared_ptr<HoneyBadger::DebugRenderer> _debugRenderer;
 

@@ -4,6 +4,8 @@
 #include "HoneyBadgerCore/Math/Public/Quat.h"
 #include "HoneyBadgerCore/Math/Public/Mat4.h"
 
+#include "HoneyBadgerCore/vendor/json.hpp"
+
 namespace HoneyBadger
 {
 	struct TransformComponent
@@ -11,6 +13,8 @@ namespace HoneyBadger
 		Vec3 Position;
 		Quat Rotation;
 		Vec3 Scale = {1,1,1};
+
+		NLOHMANN_DEFINE_TYPE_INTRUSIVE(TransformComponent, Position, Rotation, Scale)
 
 		Mat4 ToMat4()
 		{

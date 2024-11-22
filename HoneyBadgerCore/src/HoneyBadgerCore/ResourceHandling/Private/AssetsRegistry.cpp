@@ -7,7 +7,7 @@
 #include "HoneyBadgerCore/ResourceHandling/Public/File.h"
 #include "HoneyBadgerCore/Rendering/Public/Mesh/Mesh.h"
 #include "HoneyBadgerCore/vendor/json.hpp"
-
+#include "HoneyBadgerCore/Scene/Public/Scene.h"
 #include "HoneyBadgerCore/vendor/filesystem.hpp"
 
 namespace fs = ghc::filesystem;
