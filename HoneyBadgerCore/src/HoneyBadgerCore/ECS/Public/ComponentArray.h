@@ -61,6 +61,19 @@ namespace HoneyBadger
 			return componentArray[entityToIndexMap[entity]];
 		}
 
+		T* GetDataPtr(Entity entity)
+		{
+			if (entityToIndexMap.find(entity) != entityToIndexMap.end())
+			{
+				if (componentArray.find(entityToIndexMap[entity]) != entityToIndexMap.end())
+				{
+					return componentArray[entityToIndexMap[entity]];
+				}
+			}
+
+			return nullptr;
+		}
+
 		std::unordered_map<Entity, size_t> entityToIndexMap;
 		std::unordered_map<size_t, Entity> indexToEntityMap;
 

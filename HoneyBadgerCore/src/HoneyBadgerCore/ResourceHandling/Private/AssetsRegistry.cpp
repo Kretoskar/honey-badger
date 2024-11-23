@@ -9,6 +9,7 @@
 #include "HoneyBadgerCore/vendor/json.hpp"
 #include "HoneyBadgerCore/Scene/Public/Scene.h"
 #include "HoneyBadgerCore/vendor/filesystem.hpp"
+#include "HoneyBadgerCore/Scene/Public/Scene.h"
 
 namespace fs = ghc::filesystem;
 
@@ -62,6 +63,12 @@ namespace HoneyBadger
 				std::string name = File::GetFileName(pathStr);
 
 				LoadMesh(pathStr, name);
+			}
+			else if (extension == "hbscene")
+			{
+				std::string name = File::GetFileName(pathStr);
+
+				LoadScene(pathStr, name);
 			}
 		}
 	}
@@ -135,6 +142,29 @@ namespace HoneyBadger
 		return nullptr;
 	}
 
+	std::shared_ptr<Scene> AssetsRegistry::LoadScene(HBString path, HBString name)
+	{
+		File file(path.Get());
+		if (file.IsValid())
+		{
+			nlohmann::json j = nlohmann::json::parse(*file.GetFileContents());
+			SceneData sceneData = j.template get<SceneData>();
+
+			if (std::shared_ptr<Scene> loadedScene = GetSceneByGuid(sceneData.Guid))
+			{
+				return loadedScene;
+			}
+
+			std::shared_ptr<Scene> scene = std::make_shared<Scene>(sceneData);
+			GuidSceneMap.emplace(sceneData.Guid, scene);
+			NameSceneMap.emplace(name, scene);
+
+			return scene;
+		}
+
+		return nullptr;
+	}
+
 	std::shared_ptr<Mesh> AssetsRegistry::GetMeshByName(HBString name)
 	{
 		if (NameMeshMap.find(name) != NameMeshMap.end())
@@ -188,6 +218,26 @@ namespace HoneyBadger
 		if (GuidMaterialMap.find(guid) != GuidMaterialMap.end())
 		{
 			return GuidMaterialMap[guid];
+		}
+
+		return nullptr;
+	}
+
+	std::shared_ptr<Scene> AssetsRegistry::GetSceneByName(HBString name)
+	{
+		if (NameSceneMap.find(name) != NameSceneMap.end())
+		{
+			return NameSceneMap[name];
+		}
+
+		return nullptr;
+	}
+
+	std::shared_ptr<Scene> AssetsRegistry::GetSceneByGuid(HBString guid)
+	{
+		if (GuidSceneMap.find(guid) != GuidSceneMap.end())
+		{
+			return GuidSceneMap[guid];
 		}
 
 		return nullptr;

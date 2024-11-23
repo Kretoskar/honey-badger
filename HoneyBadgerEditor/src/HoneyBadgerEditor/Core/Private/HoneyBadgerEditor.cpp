@@ -46,8 +46,6 @@ bool HoneyBadgerEditor::Editor::Init()
 	_debugRenderer = std::make_shared<HoneyBadger::DebugRenderer>(_camera);
 	_debugRenderer->Init();
 
-	_scene = std::make_shared<HoneyBadger::Scene>();
-
 	_ecs = std::make_shared<HoneyBadger::ECS>();
 	_ecs->RegisterComponent<HoneyBadger::TransformComponent>();
 	_ecs->RegisterComponent<HoneyBadger::MeshComponent>();

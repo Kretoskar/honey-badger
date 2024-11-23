@@ -1,7 +1,10 @@
 #include "hbpch.h"
 #include "HoneyBadgerCore/Scene/Public/Scene.h"
 
-HoneyBadger::Scene::Scene()
+HoneyBadger::Scene::Scene(const ECS& Ecs)
 {
-	//SceneData.TransformComponentMap[0] = 0;
+	for (Entity e : Ecs.LivingEntities)
+	{
+		// TODO load from ECS here
+	}
 }

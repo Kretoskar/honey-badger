@@ -81,6 +81,8 @@ namespace HoneyBadger
 		Entity LivingEntityCount{};
 
 		std::vector<System*> Systems{};
+		// dynamic size, but reserves max entity count
+		std::unordered_set<Entity> LivingEntities{};
 
 		ComponentType CurrComponentType{};
 		std::unordered_map<HBString, ComponentType, HBString::HBStringHasher> CompNameToType{};

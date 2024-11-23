@@ -35,7 +35,6 @@ namespace HoneyBadgerEditor
 		std::shared_ptr<HoneyBadger::DebugRenderer> _debugRenderer;
 
 		std::shared_ptr<HoneyBadger::ECS> _ecs;
-		std::shared_ptr<HoneyBadger::Scene> _scene;
 
 		HoneyBadger::RenderingSystem _renderingSystem;
 	};

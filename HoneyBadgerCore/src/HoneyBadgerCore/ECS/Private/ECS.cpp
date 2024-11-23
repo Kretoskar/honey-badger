@@ -9,6 +9,8 @@ namespace HoneyBadger
 		{
 			AvailableEntities.push(entity);
 		}
+
+		LivingEntities.reserve(MAX_ENTITIES);
 	}
 
 	Entity ECS::CreateEntity()
@@ -16,6 +18,7 @@ namespace HoneyBadger
 		Entity id = AvailableEntities.front();
 		AvailableEntities.pop();
 		LivingEntityCount++;
+		LivingEntities.emplace(id);
 
 		return id;
 	}
@@ -25,6 +28,7 @@ namespace HoneyBadger
 		Signatures[entity].reset();
 		AvailableEntities.push(entity);
 		LivingEntityCount--;
+		LivingEntities.erase(entity);
 
 		for (auto CompArrayPair : ComponentArrays)
 		{
