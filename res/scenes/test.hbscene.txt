@@ -1,0 +1,33 @@
+{
+    "MeshComponentMap": [
+        [
+            0,
+            {
+                "MeshGuid": "a060-62-49e-8cb-d4239d"
+            }
+        ]
+    ],
+    "TransformComponentMap": [
+        [
+            0,
+            {
+                "Position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Rotation": {
+                    "w": 1.0,
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            }
+        ]
+    ]
+}

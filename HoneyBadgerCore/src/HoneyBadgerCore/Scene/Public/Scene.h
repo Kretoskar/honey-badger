@@ -20,14 +20,12 @@ namespace HoneyBadger
 		std::map<unsigned, TransformComponent> TransformComponentMap;
 		std::map<unsigned, MeshComponent> MeshComponentMap;
 
-		NLOHMANN_DEFINE_TYPE_INTRUSIVE(SceneData, TransformComponentMap)
+		NLOHMANN_DEFINE_TYPE_INTRUSIVE(SceneData, TransformComponentMap, MeshComponentMap)
 	};
 
 	struct Scene
 	{
 	public:
 		Scene();
-
-		
 	};
 }

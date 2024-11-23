@@ -38,6 +38,7 @@ namespace HoneyBadger
 		void Init(const std::vector<Vertex>& vertices, const std::vector<unsigned>& indices);
 
 		void Draw(Material* material);
+		const std::string& GetGuid() const { return _meshData._guid; };
 
 		NLOHMANN_DEFINE_TYPE_INTRUSIVE(Mesh, _meshData)
 
