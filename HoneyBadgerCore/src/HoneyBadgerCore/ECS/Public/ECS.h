@@ -41,6 +41,13 @@ namespace HoneyBadger
 		}
 
 		template<typename T>
+		T* GetComponentPtr(Entity e)
+		{
+			std::shared_ptr<ComponentArray<T>> compArray = GetComponentArray<T>(typeid(T).name());
+			return compArray->GetDataPtr(e);
+		}
+
+		template<typename T>
 		std::shared_ptr<ComponentArray<T>> GetComponentArray(HBString name)
 		{
 			return std::static_pointer_cast<ComponentArray<T>>(ComponentArrays[name]);

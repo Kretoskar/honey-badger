@@ -63,6 +63,11 @@ bool HoneyBadgerEditor::Editor::Init()
 	tc.Scale = tc.Scale * 0.1f;
 	tc.Rotation = HoneyBadger::Quat(3.14f / 2, { 1.0f, 0.0f, 0.0f });
 
+	HoneyBadger::Scene scene(*_ecs);
+	nlohmann::json j = scene.Data;
+	HoneyBadger::AssetsRegistry::StringToFileQuick(j.dump(4));
+
+
 	return true;
 }
 void HoneyBadgerEditor::Editor::Start()

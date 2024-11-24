@@ -63,12 +63,10 @@ namespace HoneyBadger
 
 		T* GetDataPtr(Entity entity)
 		{
-			if (entityToIndexMap.find(entity) != entityToIndexMap.end())
+			if (entityToIndexMap.find(entity) != entityToIndexMap.end() && 
+				entityToIndexMap[entity] < componentArray.size())
 			{
-				if (componentArray.find(entityToIndexMap[entity]) != entityToIndexMap.end())
-				{
-					return componentArray[entityToIndexMap[entity]];
-				}
+				return &componentArray[entityToIndexMap[entity]];
 			}
 
 			return nullptr;

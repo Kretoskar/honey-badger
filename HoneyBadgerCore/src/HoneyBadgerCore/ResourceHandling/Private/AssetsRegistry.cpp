@@ -17,7 +17,7 @@ namespace HoneyBadger
 {
 	AssetsRegistry* AssetsRegistry::Instance = nullptr;
 
-	void StringToFileQuick(const std::string& s)
+	void AssetsRegistry::StringToFileQuick(const std::string& s)
 	{
 		std::ofstream out("output.txt");
 		out << s;

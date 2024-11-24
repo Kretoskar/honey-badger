@@ -29,7 +29,7 @@ namespace HoneyBadger
 	public:
 		Scene() = default;
 		Scene(const SceneData& InData) : Data(InData) {};
-		Scene(const ECS& Ecs);
+		Scene(ECS& Ecs);
 
 		SceneData Data;
 	};
