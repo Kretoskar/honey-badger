@@ -20,8 +20,9 @@ namespace HoneyBadger
 		std::string Guid;
 		std::map<unsigned, TransformComponent> TransformComponentMap;
 		std::map<unsigned, MeshComponent> MeshComponentMap;
+		std::vector<Entity> Entities;
 
-		NLOHMANN_DEFINE_TYPE_INTRUSIVE(SceneData, Guid, TransformComponentMap, MeshComponentMap)
+		NLOHMANN_DEFINE_TYPE_INTRUSIVE(SceneData, Guid, TransformComponentMap, MeshComponentMap, Entities)
 	};
 
 	class Scene
@@ -30,6 +31,8 @@ namespace HoneyBadger
 		Scene() = default;
 		Scene(const SceneData& InData) : Data(InData) {};
 		Scene(ECS& Ecs);
+
+		void InitECS(ECS& Ecs);
 
 		SceneData Data;
 	};

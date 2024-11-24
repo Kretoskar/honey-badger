@@ -56,17 +56,10 @@ bool HoneyBadgerEditor::Editor::Init()
 	_ecs->RegisterComponentInSystem<HoneyBadger::TransformComponent>(_renderingSystem);
 	_ecs->RegisterComponentInSystem<HoneyBadger::MeshComponent>(_renderingSystem);
 
-	HoneyBadger::Entity e = _ecs->CreateEntity();
-	HoneyBadger::TransformComponent& tc = _ecs->AddComponent<HoneyBadger::TransformComponent>(e);
-	HoneyBadger::MeshComponent& mc = _ecs->AddComponent<HoneyBadger::MeshComponent>(e);
-	mc.MeshGuid = _engine.GetAssetsRegistry()->GetMeshByName("Plane")->GetGuid();
-	tc.Scale = tc.Scale * 0.1f;
-	tc.Rotation = HoneyBadger::Quat(3.14f / 2, { 1.0f, 0.0f, 0.0f });
-
-	HoneyBadger::Scene scene(*_ecs);
-	nlohmann::json j = scene.Data;
-	HoneyBadger::AssetsRegistry::StringToFileQuick(j.dump(4));
-
+	if (HoneyBadger::AssetsRegistry::Instance->GetSceneByName("test"))
+	{
+		HoneyBadger::AssetsRegistry::Instance->GetSceneByName("test")->InitECS(*_ecs);
+	}
 
 	return true;
 }

@@ -8,6 +8,8 @@ HoneyBadger::Scene::Scene(ECS& Ecs)
 
 	for (Entity e : Ecs.LivingEntities)
 	{
+		Data.Entities.push_back(e);
+
 		// TODO: Rewrite this
 		if (TransformComponent* tc = Ecs.GetComponentPtr<TransformComponent>(e))
 		{
@@ -17,6 +19,25 @@ HoneyBadger::Scene::Scene(ECS& Ecs)
 		if (MeshComponent* mc = Ecs.GetComponentPtr<MeshComponent>(e))
 		{
 			Data.MeshComponentMap[e] = *mc;
+		}
+	}
+}
+
+void HoneyBadger::Scene::InitECS(ECS& Ecs)
+{
+	for (Entity e : Data.Entities)
+	{
+		Entity newE = Ecs.CreateEntity();
+		if (Data.TransformComponentMap.find(e) != Data.TransformComponentMap.end())
+		{
+			TransformComponent& tc = Ecs.AddComponent<TransformComponent>(newE);
+			tc = Data.TransformComponentMap[e];
+		}
+
+		if (Data.MeshComponentMap.find(e) != Data.MeshComponentMap.end())
+		{
+			MeshComponent& mc = Ecs.AddComponent<MeshComponent>(newE);
+			mc = Data.MeshComponentMap[e];
 		}
 	}
 }
