@@ -1,8 +1,11 @@
+#include "HoneyBadgerEditor/Core/Public/HoneyBadgerEditor.h"
 #include "HoneyBadgerEditor/Core/Public/EditorUI.h"
 #include "HoneyBadgerCore/Core/Public/Logger.h"
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_glfw.h"
 #include "imgui/imgui_impl_opengl3.h"
+
+char HoneyBadgerEditor::EditorUI::SceneName[512] = "";
 
 void HoneyBadgerEditor::EditorUI::CreateWidgets()
 {
@@ -106,6 +109,11 @@ void HoneyBadgerEditor::EditorUI::CreateToolbarWidget()
 	ImGui::Begin("TOOLBAR", nullptr, flags);
 	ImGui::Button("SAVE", ImVec2(ImGui::GetMainViewport()->Size.x / 16, ImGui::GetMainViewport()->Size.y / 32));
 	ImGui::SameLine();
-	ImGui::Button("LOAD", ImVec2(ImGui::GetMainViewport()->Size.x / 16, ImGui::GetMainViewport()->Size.y / 32));
+	if (ImGui::Button("LOAD", ImVec2(ImGui::GetMainViewport()->Size.x / 16, ImGui::GetMainViewport()->Size.y / 32)))
+	{
+		_editor->LoadScene(SceneName);
+	}
+	ImGui::SameLine();
+	ImGui::InputTextWithHint("##scenePath", "scene path", SceneName, IM_ARRAYSIZE(SceneName));
 	ImGui::End();
 }

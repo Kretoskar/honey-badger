@@ -5,6 +5,7 @@
 #include "HoneyBadgerCore/ECS/Public/Components/MeshComponent.h"
 
 #include "HoneyBadgerCore/Rendering/Public/Mesh/SimpleMeshes/PlaneMesh.h"
+#include "HoneyBadgerCore/Core/Public/Logger.h"
 
 bool HoneyBadgerEditor::Editor::Init()
 {
@@ -35,6 +36,7 @@ bool HoneyBadgerEditor::Editor::Init()
 		return false;
 	}
 
+	_ui.SetEditorUI(this);
 	if (!_ui.Init(_window.GetGlfwWindow()))
 	{
 		return false;
@@ -55,11 +57,6 @@ bool HoneyBadgerEditor::Editor::Init()
 	_ecs->RegisterSystem(&_renderingSystem);
 	_ecs->RegisterComponentInSystem<HoneyBadger::TransformComponent>(_renderingSystem);
 	_ecs->RegisterComponentInSystem<HoneyBadger::MeshComponent>(_renderingSystem);
-
-	if (HoneyBadger::AssetsRegistry::Instance->GetSceneByName("test"))
-	{
-		HoneyBadger::AssetsRegistry::Instance->GetSceneByName("test")->InitECS(*_ecs);
-	}
 
 	return true;
 }
@@ -82,6 +79,18 @@ void HoneyBadgerEditor::Editor::Start()
 void HoneyBadgerEditor::Editor::ShutDown()
 {
 	_shouldClose = true;
+}
+
+void HoneyBadgerEditor::Editor::LoadScene(const char* name)
+{
+	if (auto scene = HoneyBadger::AssetsRegistry::Instance->GetSceneByName(name))
+	{
+		scene->InitECS(*_ecs);
+	}
+	else
+	{
+		HB_LOG_ERROR("Can't find scene with name %s", name)
+	}
 }
 
 void HoneyBadgerEditor::Editor::ShutDown_Internal()

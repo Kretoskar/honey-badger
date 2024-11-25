@@ -4,8 +4,18 @@
 
 namespace HoneyBadgerEditor
 {
+	class Editor;
+
 	class EditorUI : public HoneyBadger::UserInterface
 	{
+	public:
+		static char SceneName[512];
+
+		void SetEditorUI(Editor* editor)
+		{
+			_editor = editor;
+		}
+
 	protected:
 		virtual void CreateWidgets() override;
 
@@ -14,5 +24,7 @@ namespace HoneyBadgerEditor
 		void CreateSceneWidget();
 		void CreateDetailsWidget();
 		void CreateToolbarWidget();
+
+		Editor* _editor;
 	};
 }
