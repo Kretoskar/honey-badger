@@ -20,9 +20,9 @@ namespace HoneyBadger
 		// position
 
 
-		DrawNet(1000, 0.1f, 100.0f, Vec3(0.3f, 0.3f, 0.3f));
 		DrawNet(100, 1.0f, 100.0f, Vec3(0.6f, 0.6f, 0.6f));
-		
+		DrawNet(1000, 0.1f, 100.0f, Vec3(0.3f, 0.3f, 0.3f));
+
 		AddLine({ 0,0,0 }, { 1.0f,0,0 }, { 1.0f,0,0 });
 		AddLine({ 1.0f,0,0 }, { 0.9f,0,-0.1f }, { 1.0f,0,0 });
 		AddLine({ 1.0f,0,0 }, { 0.9f,0,0.1f }, { 1.0f,0,0 });

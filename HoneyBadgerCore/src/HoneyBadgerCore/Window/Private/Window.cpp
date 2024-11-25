@@ -50,6 +50,7 @@ bool HoneyBadger::Window::Init(WindowInitSettings InitSettings)
 
 
 	glClearColor(0.0f, 0.0f, 0.0f, 1.00f);
+	glEnable(GL_DEPTH_TEST);
 
 	// force VSYNC
 	glfwSwapInterval(1);
