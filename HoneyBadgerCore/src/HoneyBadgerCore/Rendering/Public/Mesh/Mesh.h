@@ -39,6 +39,7 @@ namespace HoneyBadger
 
 		void Draw(Material* material);
 		const std::string& GetGuid() const { return _meshData._guid; };
+		const MeshData& GetData() const { return _meshData; }
 
 		NLOHMANN_DEFINE_TYPE_INTRUSIVE(Mesh, _meshData)
 

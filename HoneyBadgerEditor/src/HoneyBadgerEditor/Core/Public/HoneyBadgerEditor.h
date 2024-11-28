@@ -27,6 +27,8 @@ namespace HoneyBadgerEditor
 		void SaveScene(const char* name);
 		void NewEntity();
 
+		std::shared_ptr<HoneyBadger::ECS> GetECS() const { return _ecs; }
+
 	private:
 		void ShutDown_Internal();
 

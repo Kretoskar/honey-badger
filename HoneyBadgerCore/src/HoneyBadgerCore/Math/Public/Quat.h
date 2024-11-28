@@ -33,6 +33,8 @@ namespace HoneyBadger
 
 		Quat(float x, float y, float z, float w) :
 			x(x), y(y), z(z), w(w) {}
+
+		static Quat FromRPY(float roll, float pitch, float yaw);
 		 
 		Quat(float angle, const Vec3& axis);
 
@@ -44,6 +46,9 @@ namespace HoneyBadger
 		Quat Normalized() const;
 		Quat Inverse() const;
 		Mat4 ToMat4();
+		float GetYaw() const;
+		float GetPitch() const;
+		float GetRoll() const;
 
 		NLOHMANN_DEFINE_TYPE_INTRUSIVE(Quat, x,y,z,w)
 	};

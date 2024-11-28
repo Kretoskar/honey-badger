@@ -20,6 +20,16 @@ namespace HoneyBadger
 		w = cosf(angle * 0.5f);
 	}
 
+	// roll - x pitch - y yaw - z
+	Quat Quat::FromRPY(float roll, float pitch, float yaw)
+	{
+		Quat qRoll(roll, { 1,0,0 });
+		Quat qPitch(pitch, { 0,1,0 });
+		Quat qYaw(yaw, { 0,0,1 });
+
+		return qRoll * qPitch * qYaw;
+	}
+
 	Vec3 Quat::GetAxis() const
 	{
 		return Vec3(x, y, z).Normalized();
@@ -58,6 +68,30 @@ namespace HoneyBadger
 		y *= i_len;
 		z *= i_len;
 		w *= i_len;
+	}
+
+	float Quat::GetYaw() const
+	{
+		// yaw (z-axis rotation)
+		double siny_cosp = 2 * (w * z + x * y);
+		double cosy_cosp = 1 - 2 * (y * y + z * z);
+		return std::atan2(siny_cosp, cosy_cosp);
+	}
+
+	float Quat::GetRoll() const
+	{
+		// roll (x-axis rotation)
+		double sinr_cosp = 2 * (w * x + y * z);
+		double cosr_cosp = 1 - 2 * (x * x + y * y);
+		return std::atan2(sinr_cosp, cosr_cosp);
+	}
+
+	float Quat::GetPitch() const
+	{
+		// pitch (y-axis rotation)
+		double sinp = std::sqrt(1 + 2 * (w * y - x * z));
+		double cosp = std::sqrt(1 - 2 * (w * y - x * z));
+		return 2 * std::atan2(sinp, cosp) - 3.1415926535f / 2;
 	}
 
 	Quat Quat::Normalized() const
