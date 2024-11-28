@@ -2,6 +2,19 @@
 #include "HoneyBadgerCore/Scene/Public/Scene.h"
 #include "HoneyBadgerCore/ResourceHandling/Public/Guid.h"
 
+#define INIT_COMPONENT(component, componentMap) \
+if (component* c = Ecs.GetComponentPtr<component>(e)) \
+{	\
+	Data.componentMap[e] = *c; \
+} \
+
+#define LOAD_COMPONENT(component, componentMap) \
+if (Data.componentMap.find(e) != Data.componentMap.end()) \
+{ \
+	component& tc = Ecs.AddComponent<component>(newE); \
+	tc = Data.componentMap[e]; \
+} \
+
 HoneyBadger::Scene::Scene(ECS& Ecs)
 {
 	Data.Guid = GenerateGUID();
@@ -10,21 +23,9 @@ HoneyBadger::Scene::Scene(ECS& Ecs)
 	{
 		Data.Entities.push_back(e);
 
-		// TODO: Rewrite this
-		if (TransformComponent* tc = Ecs.GetComponentPtr<TransformComponent>(e))
-		{
-			Data.TransformComponentMap[e] = *tc;
-		}
-
-		if (MeshComponent* mc = Ecs.GetComponentPtr<MeshComponent>(e))
-		{
-			Data.MeshComponentMap[e] = *mc;
-		}
-
-		if (NameComponent* nc = Ecs.GetComponentPtr<NameComponent>(e))
-		{
-			Data.NameComponentMap[e] = *nc;
-		}
+		INIT_COMPONENT(TransformComponent, TransformComponentMap);
+		INIT_COMPONENT(MeshComponent, MeshComponentMap);
+		INIT_COMPONENT(NameComponent, NameComponentMap);
 	}
 }
 
@@ -33,22 +34,12 @@ void HoneyBadger::Scene::InitECS(ECS& Ecs)
 	for (Entity e : Data.Entities)
 	{
 		Entity newE = Ecs.CreateEntity();
-		if (Data.TransformComponentMap.find(e) != Data.TransformComponentMap.end())
-		{
-			TransformComponent& tc = Ecs.AddComponent<TransformComponent>(newE);
-			tc = Data.TransformComponentMap[e];
-		}
 
-		if (Data.MeshComponentMap.find(e) != Data.MeshComponentMap.end())
-		{
-			MeshComponent& mc = Ecs.AddComponent<MeshComponent>(newE);
-			mc = Data.MeshComponentMap[e];
-		}
-
-		if (Data.NameComponentMap.find(e) != Data.NameComponentMap.end())
-		{
-			NameComponent & nc = Ecs.AddComponent<NameComponent>(newE);
-			nc = Data.NameComponentMap[e];
-		}
+		LOAD_COMPONENT(TransformComponent, TransformComponentMap);
+		LOAD_COMPONENT(MeshComponent, MeshComponentMap);
+		LOAD_COMPONENT(NameComponent, NameComponentMap);
 	}
 }
+
+#undef INIT_COMPONENT
+#undef LOAD_COMPONENT

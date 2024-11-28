@@ -7,6 +7,9 @@
 #include "HoneyBadgerCore/Rendering/Public/Mesh/SimpleMeshes/PlaneMesh.h"
 #include "HoneyBadgerCore/Core/Public/Logger.h"
 #include "HoneyBadgerCore/ECS/Public/Components/NameComponent.h"
+#include "HoneyBadgerCore/ResourceHandling/Public/File.h"
+#include "HoneyBadgerCore/Core/Public/HBString.h"
+
 
 bool HoneyBadgerEditor::Editor::Init()
 {
@@ -109,7 +112,20 @@ void HoneyBadgerEditor::Editor::LoadScene(const char* name)
 
 void HoneyBadgerEditor::Editor::SaveScene(const char* name)
 {
+	std::string path = "scenes\\";
+	path += name;
+	path += ".hbscene";
 
+	HoneyBadger::File file(path.c_str());
+	if (std::shared_ptr<HoneyBadger::Scene> scene = HoneyBadger::AssetsRegistry::Instance->GetSceneByName(name))
+	{
+		nlohmann::json j = scene->Data;
+		file.OverrideContent(j.dump(4));
+	}
+	else
+	{
+		HB_LOG_ERROR("Error saving scene. Can't find scene with name %s", name)
+	}
 }
 
 void HoneyBadgerEditor::Editor::ShutDown_Internal()

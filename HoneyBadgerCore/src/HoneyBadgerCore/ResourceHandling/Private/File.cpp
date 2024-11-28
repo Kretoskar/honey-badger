@@ -10,6 +10,7 @@ namespace HoneyBadger
 	{
 		std::string pathStr = lookInResFolder ? GetPathInRes(path) : path;
 
+		_path = pathStr;
 
 		std::ifstream file(pathStr);
 
@@ -63,6 +64,17 @@ namespace HoneyBadger
 		}
 
 		return _lines;
+	}
+
+	void File::OverrideContent(const std::string& newContent)
+	{
+		std::ofstream file;
+
+		file.open(_path, std::ofstream::out | std::ofstream::trunc);
+		if (file.good())
+		{
+			file << newContent;
+		}
 	}
 
 	std::string File::GetFileName(const std::string& path)

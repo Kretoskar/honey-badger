@@ -109,7 +109,7 @@ void HoneyBadgerEditor::EditorUI::CreateToolbarWidget()
 	ImGui::Begin("TOOLBAR", nullptr, flags);
 	if (ImGui::Button("SAVE", ImVec2(ImGui::GetMainViewport()->Size.x / 16, ImGui::GetMainViewport()->Size.y / 32)))
 	{
-
+		_editor->SaveScene(SceneName);
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("LOAD", ImVec2(ImGui::GetMainViewport()->Size.x / 16, ImGui::GetMainViewport()->Size.y / 32)))
