@@ -1,8 +1,9 @@
 {
     "Entities": [
-        0
+        0,
+        1
     ],
-    "Guid": "6ca5-9f-4c8-890-336904",
+    "Guid": "9256-ef-4f0-83e-871987",
     "MeshComponentMap": [
         [
             0,
@@ -16,6 +17,12 @@
             0,
             {
                 "Name": "Plane"
+            }
+        ],
+        [
+            1,
+            {
+                "Name": "entity_2"
             }
         ]
     ],

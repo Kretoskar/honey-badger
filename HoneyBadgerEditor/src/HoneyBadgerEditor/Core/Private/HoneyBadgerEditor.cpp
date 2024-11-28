@@ -117,15 +117,16 @@ void HoneyBadgerEditor::Editor::SaveScene(const char* name)
 	path += ".hbscene";
 
 	HoneyBadger::File file(path.c_str());
-	if (std::shared_ptr<HoneyBadger::Scene> scene = HoneyBadger::AssetsRegistry::Instance->GetSceneByName(name))
-	{
-		nlohmann::json j = scene->Data;
-		file.OverrideContent(j.dump(4));
-	}
-	else
-	{
-		HB_LOG_ERROR("Error saving scene. Can't find scene with name %s", name)
-	}
+	HoneyBadger::Scene s(*_ecs);
+	nlohmann::json j = s.Data;
+	file.OverrideContent(j.dump(4));
+}
+
+void HoneyBadgerEditor::Editor::NewEntity()
+{
+	HoneyBadger::Entity e = _ecs->CreateEntity();
+	HoneyBadger::NameComponent& nc = _ecs->AddComponent<HoneyBadger::NameComponent>(e);
+	nc.Name = "entity_" + std::to_string(_ecs->LivingEntityCount);
 }
 
 void HoneyBadgerEditor::Editor::ShutDown_Internal()

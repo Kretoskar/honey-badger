@@ -69,9 +69,14 @@ void HoneyBadgerEditor::EditorUI::CreateSceneWidget()
 	ImGui::SetNextWindowSize(SceneWindowSize, ImGuiCond_Always);
 	ImGui::Begin("SCENE", nullptr, flags);
 
+	if (ImGui::Button("---New---", ImVec2((SceneWindowSize.x - 15.0f) / 2, 50.0f)))
+	{
+		_editor->NewEntity();
+	}
+
 	for (auto& entity : _entityMap)
 	{
-		ImGui::Button(entity.second.Get());
+		ImGui::Button(entity.second.Get(), ImVec2(SceneWindowSize.x - 15.0f, 50.0f));
 	}
 
 

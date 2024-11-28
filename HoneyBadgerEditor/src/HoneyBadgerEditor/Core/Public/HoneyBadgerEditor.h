@@ -25,6 +25,7 @@ namespace HoneyBadgerEditor
 
 		void LoadScene(const char* name);
 		void SaveScene(const char* name);
+		void NewEntity();
 
 	private:
 		void ShutDown_Internal();
