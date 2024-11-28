@@ -10,6 +10,7 @@
 #include "HoneyBadgerCore/Scene/Public/Scene.h"
 #include "HoneyBadgerCore/ECS/Public/Systems/RenderingSystem.h"
 #include "HoneyBadgerCore/ResourceHandling/Public/AssetsRegistry.h"
+#include "HoneyBadgerEditor/Systems/Public/EditorUISystem.h"
 
 #include <memory>
 
@@ -23,6 +24,7 @@ namespace HoneyBadgerEditor
 		void ShutDown();
 
 		void LoadScene(const char* name);
+		void SaveScene(const char* name);
 
 	private:
 		void ShutDown_Internal();
@@ -39,5 +41,6 @@ namespace HoneyBadgerEditor
 		std::shared_ptr<HoneyBadger::ECS> _ecs;
 
 		HoneyBadger::RenderingSystem _renderingSystem;
+		HoneyBadgerEditor::EditorUISystem _uiSystem;
 	};
 }

@@ -4,6 +4,7 @@
 #include "HoneyBadgerCore/ECS/Public/ECS.h"
 #include "HoneyBadgerCore/ECS/Public/Components/TransformComponent.h"
 #include "HoneyBadgerCore/ECS/Public/Components/MeshComponent.h"
+#include "HoneyBadgerCore/ECS/Public/Components/NameComponent.h"
 
 #include "HoneyBadgerCore/vendor/json.hpp"
 
@@ -20,9 +21,10 @@ namespace HoneyBadger
 		std::string Guid;
 		std::map<unsigned, TransformComponent> TransformComponentMap;
 		std::map<unsigned, MeshComponent> MeshComponentMap;
+		std::map<unsigned, NameComponent> NameComponentMap;
 		std::vector<Entity> Entities;
 
-		NLOHMANN_DEFINE_TYPE_INTRUSIVE(SceneData, Guid, TransformComponentMap, MeshComponentMap, Entities)
+		NLOHMANN_DEFINE_TYPE_INTRUSIVE(SceneData, Guid, TransformComponentMap, MeshComponentMap, NameComponentMap, Entities)
 	};
 
 	class Scene

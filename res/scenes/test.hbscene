@@ -3,6 +3,14 @@
         0
     ],
     "Guid": "6ca5-9f-4c8-890-336904",
+	"NameComponentMap": [
+		[
+			0,
+			{
+				"Name": "Plane"
+			}
+		]
+	],
     "MeshComponentMap": [
         [
             0,

@@ -6,6 +6,7 @@
 
 #include "HoneyBadgerCore/Rendering/Public/Mesh/SimpleMeshes/PlaneMesh.h"
 #include "HoneyBadgerCore/Core/Public/Logger.h"
+#include "HoneyBadgerCore/ECS/Public/Components/NameComponent.h"
 
 bool HoneyBadgerEditor::Editor::Init()
 {
@@ -51,12 +52,18 @@ bool HoneyBadgerEditor::Editor::Init()
 	_ecs = std::make_shared<HoneyBadger::ECS>();
 	_ecs->RegisterComponent<HoneyBadger::TransformComponent>();
 	_ecs->RegisterComponent<HoneyBadger::MeshComponent>();
+	_ecs->RegisterComponent<HoneyBadger::NameComponent>();
 
 	_renderingSystem.Init(_camera.get());
 
 	_ecs->RegisterSystem(&_renderingSystem);
 	_ecs->RegisterComponentInSystem<HoneyBadger::TransformComponent>(_renderingSystem);
 	_ecs->RegisterComponentInSystem<HoneyBadger::MeshComponent>(_renderingSystem);
+
+	_uiSystem.Init(&_ui);
+
+	_ecs->RegisterSystem(&_uiSystem);
+	_ecs->RegisterComponentInSystem<HoneyBadger::NameComponent>(_uiSystem);
 
 	return true;
 }
@@ -71,6 +78,7 @@ void HoneyBadgerEditor::Editor::Start()
 		_renderingSystem.Render();
 		_debugRenderer->Render();
 		_window.Update();
+		_uiSystem.Update();
 	}
 
 	ShutDown_Internal();
@@ -86,11 +94,22 @@ void HoneyBadgerEditor::Editor::LoadScene(const char* name)
 	if (auto scene = HoneyBadger::AssetsRegistry::Instance->GetSceneByName(name))
 	{
 		scene->InitECS(*_ecs);
+
+		//HoneyBadger::Entity e = _ecs->LivingEntities[0];
+		//
+		//HoneyBadger::NameComponent& nc = _ecs->AddComponent<HoneyBadger::NameComponent>();
+		
+		//nc.Name = "Plane";
 	}
 	else
 	{
 		HB_LOG_ERROR("Can't find scene with name %s", name)
 	}
+}
+
+void HoneyBadgerEditor::Editor::SaveScene(const char* name)
+{
+
 }
 
 void HoneyBadgerEditor::Editor::ShutDown_Internal()

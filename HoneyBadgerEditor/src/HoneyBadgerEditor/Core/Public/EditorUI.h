@@ -1,5 +1,8 @@
 #pragma once
 
+#include <map>
+#include "HoneyBadgerCore/Core/Public/HBString.h"
+#include "HoneyBadgerCore/ECS/Public/ECS.h"
 #include "HoneyBadgerCore/Rendering/Public/UserInterface.h"
 
 namespace HoneyBadgerEditor
@@ -16,6 +19,9 @@ namespace HoneyBadgerEditor
 			_editor = editor;
 		}
 
+
+		void SetEntityMap(std::map<HoneyBadger::Entity, HoneyBadger::HBString> map);
+
 	protected:
 		virtual void CreateWidgets() override;
 
@@ -26,5 +32,7 @@ namespace HoneyBadgerEditor
 		void CreateToolbarWidget();
 
 		Editor* _editor;
+
+		std::map<HoneyBadger::Entity, HoneyBadger::HBString> _entityMap;
 	};
 }

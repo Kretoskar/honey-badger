@@ -69,10 +69,10 @@ void HoneyBadgerEditor::EditorUI::CreateSceneWidget()
 	ImGui::SetNextWindowSize(SceneWindowSize, ImGuiCond_Always);
 	ImGui::Begin("SCENE", nullptr, flags);
 
-	//for (auto& entity : _entityMap)
-	//{
-	//	ImGui::Button(entity.second.Get());
-	//}
+	for (auto& entity : _entityMap)
+	{
+		ImGui::Button(entity.second.Get());
+	}
 
 
 	ImGui::End();
@@ -107,13 +107,22 @@ void HoneyBadgerEditor::EditorUI::CreateToolbarWidget()
 	ImGui::SetNextWindowPos(ImVec2(ImGui::GetMainViewport()->Size.x / 2, 0.0f), ImGuiCond_Always, ImVec2(0.5f, 0.0f));
 	ImGui::SetNextWindowSize(TopWindowSize, ImGuiCond_Always);
 	ImGui::Begin("TOOLBAR", nullptr, flags);
-	ImGui::Button("SAVE", ImVec2(ImGui::GetMainViewport()->Size.x / 16, ImGui::GetMainViewport()->Size.y / 32));
+	if (ImGui::Button("SAVE", ImVec2(ImGui::GetMainViewport()->Size.x / 16, ImGui::GetMainViewport()->Size.y / 32)))
+	{
+
+	}
 	ImGui::SameLine();
 	if (ImGui::Button("LOAD", ImVec2(ImGui::GetMainViewport()->Size.x / 16, ImGui::GetMainViewport()->Size.y / 32)))
 	{
 		_editor->LoadScene(SceneName);
+		
 	}
 	ImGui::SameLine();
 	ImGui::InputTextWithHint("##scenePath", "scene path", SceneName, IM_ARRAYSIZE(SceneName));
 	ImGui::End();
+}
+
+void HoneyBadgerEditor::EditorUI::SetEntityMap(std::map<HoneyBadger::Entity, HoneyBadger::HBString> map)
+{
+	_entityMap = std::move(map);
 }

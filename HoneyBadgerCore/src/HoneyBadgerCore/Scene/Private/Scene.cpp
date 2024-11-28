@@ -20,6 +20,11 @@ HoneyBadger::Scene::Scene(ECS& Ecs)
 		{
 			Data.MeshComponentMap[e] = *mc;
 		}
+
+		if (NameComponent* nc = Ecs.GetComponentPtr<NameComponent>(e))
+		{
+			Data.NameComponentMap[e] = *nc;
+		}
 	}
 }
 
@@ -38,6 +43,12 @@ void HoneyBadger::Scene::InitECS(ECS& Ecs)
 		{
 			MeshComponent& mc = Ecs.AddComponent<MeshComponent>(newE);
 			mc = Data.MeshComponentMap[e];
+		}
+
+		if (Data.NameComponentMap.find(e) != Data.NameComponentMap.end())
+		{
+			NameComponent & nc = Ecs.AddComponent<NameComponent>(newE);
+			nc = Data.NameComponentMap[e];
 		}
 	}
 }
