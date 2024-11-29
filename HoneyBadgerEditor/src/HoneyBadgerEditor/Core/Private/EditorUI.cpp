@@ -161,9 +161,9 @@ void HoneyBadgerEditor::EditorUI::DrawTransformComponent()
 		float yaw = HoneyBadger::MathCore::RadToDeg(transformComponent->Rotation.GetYaw());
 		float roll = HoneyBadger::MathCore::RadToDeg(transformComponent->Rotation.GetRoll());
 
-		ImGui::DragFloat("roll", &roll, -0.01f, 0.01f);
-		ImGui::DragFloat("pitch", &pitch, -0.01f, 0.01f);
-		ImGui::DragFloat("yaw", &yaw, -0.01f, 0.01f);
+		ImGui::DragFloat("roll", &roll, -1.0f, 1.0f);
+		ImGui::DragFloat("pitch", &pitch, -1.0f, 1.0f);
+		ImGui::DragFloat("yaw", &yaw, -1.0f, 1.0f);
 
 		transformComponent->Rotation = HoneyBadger::Quat::FromRPY(
 			HoneyBadger::MathCore::DegToRad(roll),
