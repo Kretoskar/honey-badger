@@ -151,9 +151,9 @@ void HoneyBadgerEditor::EditorUI::DrawTransformComponent()
 	{
 		ImGui::Text("------");
 		ImGui::Text("Transform Component:");
-		ImGui::DragFloat("x_pos", &transformComponent->Position.x, -0.01f, 0.01f);
-		ImGui::DragFloat("y_pos", &transformComponent->Position.y, -0.01f, 0.01f);
-		ImGui::DragFloat("z_pos", &transformComponent->Position.z, -0.01f, 0.01f);
+
+		
+		HoneyBadger::DrawEditorPropertyEditable("Position", transformComponent->Position);
 		
 		ImGui::Spacing();
 
@@ -182,14 +182,7 @@ void HoneyBadgerEditor::EditorUI::DrawMeshComponent()
 {
 	if (HoneyBadger::MeshComponent* meshComponent = _editor->GetECS()->GetComponentPtr<HoneyBadger::MeshComponent>(_selectedEntity))
 	{
-		ImGui::Text("------");
-		ImGui::Text("Mesh Component:");
-		ImGui::Text("Guid: ");
-		ImGui::SameLine();
-		ImGui::Text(meshComponent->MeshGuid.c_str());
-		ImGui::Text("verts: ");
-		ImGui::SameLine();
-		ImGui::Text(std::to_string(HoneyBadger::AssetsRegistry::Instance->GetMeshByGuid(meshComponent->MeshGuid)->GetData()._vertices.size()).c_str());
+		meshComponent->DrawProperties();
 	}
 }
 

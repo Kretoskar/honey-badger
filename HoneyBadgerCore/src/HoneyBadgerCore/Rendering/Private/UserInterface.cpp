@@ -66,7 +66,7 @@ bool HoneyBadger::UserInterface::Init(GLFWwindow* window)
 
 	ImGuiIO& io = ImGui::GetIO();
 
-	io.Fonts->AddFontFromFileTTF("../res/fonts/Pixeled.ttf", 32);
+	io.Fonts->AddFontFromFileTTF("../res/fonts/Pixeled.ttf", 24);
 
 	return true;
 }
