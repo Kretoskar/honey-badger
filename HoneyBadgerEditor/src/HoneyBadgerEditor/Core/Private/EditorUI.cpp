@@ -95,6 +95,7 @@ void HoneyBadgerEditor::EditorUI::CreateSceneWidget()
 void HoneyBadgerEditor::EditorUI::CreateDetailsWidget()
 {
 	// TODO: Add components button here
+	// TODO: Add from dropdown
 
 	ImVec2 DetailsWindowSize = ImGui::GetMainViewport()->Size;
 	DetailsWindowSize.x /= 6;
@@ -109,6 +110,27 @@ void HoneyBadgerEditor::EditorUI::CreateDetailsWidget()
 
 	if (_anyEntitySelected)
 	{
+		if (ImGui::Button("Add transform comp", ImVec2(250.0f, 20.0f)))
+		{
+			if (!_editor->GetECS()->GetComponentPtr<HoneyBadger::TransformComponent>(_selectedEntity))
+			{
+				_editor->GetECS()->AddComponent<HoneyBadger::TransformComponent>(_selectedEntity);
+			}
+		}
+		if (ImGui::Button("Add name comp", ImVec2(250.0f, 20.0f)))
+		{
+			if (!_editor->GetECS()->GetComponentPtr<HoneyBadger::NameComponent>(_selectedEntity))
+			{
+				_editor->GetECS()->AddComponent<HoneyBadger::NameComponent>(_selectedEntity);
+			}
+		}
+		if (ImGui::Button("Add mesh comp", ImVec2(250.0f, 20.0f)))
+		{
+			if (!_editor->GetECS()->GetComponentPtr<HoneyBadger::MeshComponent>(_selectedEntity))
+			{
+				_editor->GetECS()->AddComponent<HoneyBadger::MeshComponent>(_selectedEntity);
+			}
+		}
 		HoneyBadger::Components::DrawAllComponents(*_editor->GetECS(), _selectedEntity);
 	}
 

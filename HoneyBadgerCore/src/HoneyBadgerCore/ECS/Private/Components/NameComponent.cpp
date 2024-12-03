@@ -4,6 +4,6 @@
 namespace HoneyBadger
 {
 	RTTI_BEGIN(NameComponent)
-	RTTI_PROPERTY(name, Name)
+	RTTI_PROPERTY_EDITABLE(name, Name)
 	RTTI_END()
 }

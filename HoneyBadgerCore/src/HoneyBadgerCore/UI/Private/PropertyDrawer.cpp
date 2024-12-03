@@ -51,6 +51,25 @@ void HoneyBadger::DrawEditorProperty(const char* name, int32_t value)
 	}
 }
 
+void HoneyBadger::DrawEditorPropertyEditable(const char* name, std::string& value)
+{
+	static char Prop[128] = "";
+	if (value.size() > 0)
+	{
+		for (int32_t i = 0; i < value.size(); i++)
+		{
+			Prop[i] = value[i];
+		}
+	
+	}
+
+	Prop[value.size()] = '\0';
+
+	ImGui::InputTextWithHint("##name", name, Prop, IM_ARRAYSIZE(Prop));
+
+	value = Prop;
+}
+
 void HoneyBadger::DrawEditorPropertyEditable(const char* name, Vec3& value)
 {
 	std::string propBase = "##";
