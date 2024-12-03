@@ -14,10 +14,16 @@
 
 #include "HoneyBadgerCore/Core/Public/Engine.h"
 #include "HoneyBadgerCore/ResourceHandling/Public/AssetsRegistry.h"
+#include "HoneyBadgerCore/ECS/Public/Components/MeshComponent.h"
+#include "HoneyBadgerCore/ECS/Public/Components/TransformComponent.h"
 
-void HoneyBadger::RenderingSystem::Init(Camera* camera)
+void HoneyBadger::RenderingSystem::Register(ECS& ecs, Camera* camera)
 {
 	_camera = camera;
+	
+	REGISTER_SYSTEM()
+	REGISTER_COMPONENT_IN_SYSTEM(TransformComponent)
+	REGISTER_COMPONENT_IN_SYSTEM(MeshComponent)
 }
 
 void HoneyBadger::RenderingSystem::Render()

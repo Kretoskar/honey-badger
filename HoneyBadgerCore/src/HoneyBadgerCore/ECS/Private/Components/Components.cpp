@@ -11,7 +11,10 @@ namespace HoneyBadger
 if (HoneyBadger::_TClass* comp = ecs.GetComponentPtr<_TClass>(e)) \
 { \
 	comp->DrawProperties(); \
-} \
+} 
+
+#define REGISTER_COMPONENT(_TClass) \
+ecs.RegisterComponent<HoneyBadger::_TClass>();
 
 	void Components::DrawAllComponents(ECS& ecs,  Entity e)
 	{
@@ -20,5 +23,13 @@ if (HoneyBadger::_TClass* comp = ecs.GetComponentPtr<_TClass>(e)) \
 		DRAW_COMPONENT(MeshComponent)
 	}
 
+	void Components::RegisterAllComponents(ECS& ecs)
+	{
+		REGISTER_COMPONENT(TransformComponent)
+		REGISTER_COMPONENT(MeshComponent)
+		REGISTER_COMPONENT(NameComponent)
+	}
+
 #undef DRAW_COMPONENT
+#undef REGISTER_COMPONENT
 }

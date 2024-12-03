@@ -94,6 +94,8 @@ void HoneyBadgerEditor::EditorUI::CreateSceneWidget()
 
 void HoneyBadgerEditor::EditorUI::CreateDetailsWidget()
 {
+	// TODO: Add components button here
+
 	ImVec2 DetailsWindowSize = ImGui::GetMainViewport()->Size;
 	DetailsWindowSize.x /= 6;
 	DetailsWindowSize.y = (DetailsWindowSize.y / 4) * 3;

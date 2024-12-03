@@ -9,5 +9,6 @@ namespace HoneyBadger
 	{
 	public:
 		static void DrawAllComponents(ECS& ECS, Entity e);
+		static void RegisterAllComponents(ECS& ecs);
 	};
 }

@@ -1,15 +1,14 @@
 #pragma once
 
+#include "HoneyBadgerEditor/Core/Public/EditorUI.h"
 #include "HoneyBadgerCore/ECS/Public/ECS.h"
 
 namespace HoneyBadgerEditor
 {
-	class EditorUI;
-
 	class EditorUISystem : public HoneyBadger::System
 	{
 	public:
-		void Init(EditorUI* editorUI);
+		void Register(HoneyBadger::ECS& ecs, EditorUI* editorUI);
 		void Update();
 
 	private:
