@@ -4,6 +4,7 @@
 #include "HoneyBadgerCore/Rendering/Public/Mesh/Mesh.h"
 #include "HoneyBadgerCore/Core/Public/Logger.h"
 #include "HoneyBadgerCore/Math/Public/MathCore.h"
+#include "HoneyBadgerCore/ECS/Public/Components/Components.h" 
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_glfw.h"
 #include "imgui/imgui_impl_opengl3.h"
@@ -106,12 +107,7 @@ void HoneyBadgerEditor::EditorUI::CreateDetailsWidget()
 
 	if (_anyEntitySelected)
 	{
-		if (HoneyBadger::NameComponent* nameComponent = _editor->GetECS()->GetComponentPtr<HoneyBadger::NameComponent>(_selectedEntity))
-		{
-			ImGui::Text(nameComponent->Name.c_str());
-			DrawTransformComponent();
-			DrawMeshComponent();
-		}
+		HoneyBadger::Components::DrawAllComponents(*_editor->GetECS(), _selectedEntity);
 	}
 
 	ImGui::End();
@@ -143,47 +139,6 @@ void HoneyBadgerEditor::EditorUI::CreateToolbarWidget()
 	ImGui::SameLine();
 	ImGui::InputTextWithHint("##scenePath", "scene path", SceneName, IM_ARRAYSIZE(SceneName));
 	ImGui::End();
-}
-
-void HoneyBadgerEditor::EditorUI::DrawTransformComponent()
-{
-	if (HoneyBadger::TransformComponent* transformComponent = _editor->GetECS()->GetComponentPtr<HoneyBadger::TransformComponent>(_selectedEntity))
-	{
-		ImGui::Text("------");
-		ImGui::Text("Transform Component:");
-
-		
-		HoneyBadger::DrawEditorPropertyEditable("Position", transformComponent->Position);
-		
-		ImGui::Spacing();
-
-		float pitch = HoneyBadger::MathCore::RadToDeg(transformComponent->Rotation.GetPitch());
-		float yaw = HoneyBadger::MathCore::RadToDeg(transformComponent->Rotation.GetYaw());
-		float roll = HoneyBadger::MathCore::RadToDeg(transformComponent->Rotation.GetRoll());
-
-		ImGui::DragFloat("roll", &roll, -1.0f, 1.0f);
-		ImGui::DragFloat("pitch", &pitch, -1.0f, 1.0f);
-		ImGui::DragFloat("yaw", &yaw, -1.0f, 1.0f);
-
-		transformComponent->Rotation = HoneyBadger::Quat::FromRPY(
-			HoneyBadger::MathCore::DegToRad(roll),
-			HoneyBadger::MathCore::DegToRad(pitch),
-			HoneyBadger::MathCore::DegToRad(yaw));
-		
-		ImGui::Spacing();
-
-		ImGui::DragFloat("x_scale", &transformComponent->Scale.x, -0.01f, 0.01f);
-		ImGui::DragFloat("y_scale", &transformComponent->Scale.y, -0.01f, 0.01f);
-		ImGui::DragFloat("z_scale", &transformComponent->Scale.z, -0.01f, 0.01f);
-	}
-}
-
-void HoneyBadgerEditor::EditorUI::DrawMeshComponent()
-{
-	if (HoneyBadger::MeshComponent* meshComponent = _editor->GetECS()->GetComponentPtr<HoneyBadger::MeshComponent>(_selectedEntity))
-	{
-		meshComponent->DrawProperties();
-	}
 }
 
 void HoneyBadgerEditor::EditorUI::SetEntityMap(std::map<HoneyBadger::Entity, HoneyBadger::HBString> map)

@@ -4,6 +4,7 @@
 #include "HoneyBadgerCore/Math/Public/Quat.h"
 #include "HoneyBadgerCore/Math/Public/Mat4.h"
 
+#include "HoneyBadgerCore/Core/Public/RTTI.h"
 #include "HoneyBadgerCore/vendor/json.hpp"
 
 namespace HoneyBadger
@@ -15,6 +16,7 @@ namespace HoneyBadger
 		Vec3 Scale = {1,1,1};
 
 		NLOHMANN_DEFINE_TYPE_INTRUSIVE(TransformComponent, Position, Rotation, Scale)
+		RTTI_DECLARE(TransformComponent)
 
 		Mat4 ToMat4()
 		{

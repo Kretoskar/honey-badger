@@ -31,9 +31,6 @@ namespace HoneyBadgerEditor
 		void CreateDetailsWidget();
 		void CreateToolbarWidget();
 
-		void DrawTransformComponent();
-		void DrawMeshComponent();
-
 		Editor* _editor;
 
 		std::map<HoneyBadger::Entity, HoneyBadger::HBString> _entityMap;
