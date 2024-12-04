@@ -7,6 +7,10 @@
 
 namespace HoneyBadger
 {
+	std::vector<char*> Components::Names = {};
+
+	std::unordered_map<HBString, std::function<void(ECS&, Entity)>, HBString::HBStringHasher> Components::ComponentsAddMap = {};
+
 #define DRAW_COMPONENT(_TClass) \
 if (HoneyBadger::_TClass* comp = ecs.GetComponentPtr<_TClass>(e)) \
 { \
@@ -14,7 +18,11 @@ if (HoneyBadger::_TClass* comp = ecs.GetComponentPtr<_TClass>(e)) \
 } 
 
 #define REGISTER_COMPONENT(_TClass) \
-ecs.RegisterComponent<HoneyBadger::_TClass>();
+ecs.RegisterComponent<HoneyBadger::_TClass>(); \
+Components::ComponentsAddMap.insert(std::make_pair \
+	<HBString, std::function<void(ECS&, Entity)>> \
+		(#_TClass, &Components::AddComponent<_TClass>)); \
+Names.push_back(#_TClass);
 
 	void Components::DrawAllComponents(ECS& ecs,  Entity e)
 	{

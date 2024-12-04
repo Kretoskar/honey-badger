@@ -97,6 +97,13 @@ void HoneyBadgerEditor::EditorUI::CreateDetailsWidget()
 	// TODO: Add components button here
 	// TODO: Add from dropdown
 
+	
+	//static int Selecteditem = 0;
+	//if (ImGui::Combo("##ComponnetsCompo", &Selecteditem, Components, IM_ARRAYSIZE(items)))
+	//{
+	//	// Here event is fired
+	//}
+
 	ImVec2 DetailsWindowSize = ImGui::GetMainViewport()->Size;
 	DetailsWindowSize.x /= 6;
 	DetailsWindowSize.y = (DetailsWindowSize.y / 4) * 3;
