@@ -15,27 +15,40 @@ namespace HoneyBadger
 if (HoneyBadger::_TClass* comp = ecs.GetComponentPtr<_TClass>(e)) \
 { \
 	comp->DrawProperties(); \
-} 
+} \
 
 #define REGISTER_COMPONENT(_TClass) \
 ecs.RegisterComponent<HoneyBadger::_TClass>(); \
 Components::ComponentsAddMap.insert(std::make_pair \
 	<HBString, std::function<void(ECS&, Entity)>> \
 		(#_TClass, &Components::AddComponent<_TClass>)); \
-Names.push_back(#_TClass);
+Names.push_back(#_TClass); \
 
-	void Components::DrawAllComponents(ECS& ecs,  Entity e)
+#define ADD_COMPONENT(_TClass) \
+if (name == QUOTE(_TClass)) \
+{ \
+	AddComponent<_TClass>(ECS, e); \
+}
+
+	void HoneyBadger::Components::DrawAllComponents(ECS& ecs,  Entity e)
 	{
 		DRAW_COMPONENT(NameComponent)
 		DRAW_COMPONENT(TransformComponent)
 		DRAW_COMPONENT(MeshComponent)
 	}
 
-	void Components::RegisterAllComponents(ECS& ecs)
+	void HoneyBadger::Components::RegisterAllComponents(ECS& ecs)
 	{
 		REGISTER_COMPONENT(TransformComponent)
 		REGISTER_COMPONENT(MeshComponent)
 		REGISTER_COMPONENT(NameComponent)
+	}
+
+	void Components::AddComponent(const char* name, ECS& ECS, Entity e)
+	{
+		ADD_COMPONENT(TransformComponent)
+		ADD_COMPONENT(MeshComponent)
+		ADD_COMPONENT(NameComponent)
 	}
 
 #undef DRAW_COMPONENT

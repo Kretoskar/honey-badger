@@ -4,7 +4,7 @@
 #include "HoneyBadgerCore/Rendering/Public/Mesh/Mesh.h"
 #include "HoneyBadgerCore/Core/Public/Logger.h"
 #include "HoneyBadgerCore/Math/Public/MathCore.h"
-#include "HoneyBadgerCore/ECS/Public/Components/Components.h" 
+#include "HoneyBadgerCore/ECS/Public/Components/Components.h"
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_glfw.h"
 #include "imgui/imgui_impl_opengl3.h"
@@ -94,16 +94,6 @@ void HoneyBadgerEditor::EditorUI::CreateSceneWidget()
 
 void HoneyBadgerEditor::EditorUI::CreateDetailsWidget()
 {
-	// TODO: Add components button here
-	// TODO: Add from dropdown
-
-	
-	//static int Selecteditem = 0;
-	//if (ImGui::Combo("##ComponnetsCompo", &Selecteditem, Components, IM_ARRAYSIZE(items)))
-	//{
-	//	// Here event is fired
-	//}
-
 	ImVec2 DetailsWindowSize = ImGui::GetMainViewport()->Size;
 	DetailsWindowSize.x /= 6;
 	DetailsWindowSize.y = (DetailsWindowSize.y / 4) * 3;
@@ -115,31 +105,40 @@ void HoneyBadgerEditor::EditorUI::CreateDetailsWidget()
 	ImGui::SetNextWindowSize(DetailsWindowSize, ImGuiCond_Always);
 	ImGui::Begin("DETAILS", nullptr, flags);
 
-	if (_anyEntitySelected)
+	if (!_anyEntitySelected) 
 	{
-		if (ImGui::Button("Add transform comp", ImVec2(250.0f, 20.0f)))
-		{
-			if (!_editor->GetECS()->GetComponentPtr<HoneyBadger::TransformComponent>(_selectedEntity))
-			{
-				_editor->GetECS()->AddComponent<HoneyBadger::TransformComponent>(_selectedEntity);
-			}
-		}
-		if (ImGui::Button("Add name comp", ImVec2(250.0f, 20.0f)))
-		{
-			if (!_editor->GetECS()->GetComponentPtr<HoneyBadger::NameComponent>(_selectedEntity))
-			{
-				_editor->GetECS()->AddComponent<HoneyBadger::NameComponent>(_selectedEntity);
-			}
-		}
-		if (ImGui::Button("Add mesh comp", ImVec2(250.0f, 20.0f)))
-		{
-			if (!_editor->GetECS()->GetComponentPtr<HoneyBadger::MeshComponent>(_selectedEntity))
-			{
-				_editor->GetECS()->AddComponent<HoneyBadger::MeshComponent>(_selectedEntity);
-			}
-		}
-		HoneyBadger::Components::DrawAllComponents(*_editor->GetECS(), _selectedEntity);
+		ImGui::End();
+		return; 
 	}
+
+	static const char* selectedComponent = nullptr;
+	const std::vector<char*> names = HoneyBadger::Components::Names;
+
+	if (ImGui::BeginCombo("##combo", selectedComponent))
+	{
+		for (int n = 0; n < names.size(); n++)
+		{
+			bool isSelected = (selectedComponent == names[n]);
+			if (ImGui::Selectable(names[n], isSelected))
+			{
+				selectedComponent = names[n];
+			}
+
+			if (isSelected)
+			{
+				ImGui::SetItemDefaultFocus();
+			}
+		}
+		ImGui::EndCombo();
+	}
+
+	ImGui::SameLine();
+	if (ImGui::Button("Add ", ImVec2(100.0f, 20.0f)))
+	{
+		HoneyBadger::Components::AddComponent(selectedComponent, *_editor->GetECS(), _selectedEntity);
+	}
+
+	HoneyBadger::Components::DrawAllComponents(*_editor->GetECS(), _selectedEntity);
 
 	ImGui::End();
 }

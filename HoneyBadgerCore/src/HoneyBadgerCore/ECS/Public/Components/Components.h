@@ -13,6 +13,8 @@ namespace HoneyBadger
 		static void RegisterAllComponents(ECS& ecs);
 		static std::vector<char*> Names;
 
+		static void AddComponent(const char* name, ECS& ECS, Entity e);
+
 		template <typename T>
 		static void AddComponent(ECS& ECS, Entity e);
 
