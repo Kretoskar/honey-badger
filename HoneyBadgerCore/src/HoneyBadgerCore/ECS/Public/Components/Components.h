@@ -19,6 +19,7 @@ namespace HoneyBadger
 		static void AddComponent(ECS& ECS, Entity e);
 
 		static std::unordered_map<HBString, std::function<void(ECS&, Entity)>, HBString::HBStringHasher> ComponentsAddMap;
+		static std::unordered_map<HBString, HBString, HBString::HBStringHasher> ComponentsNameTypeIdNameMap;
 	};
 
 	template<typename T>

@@ -114,7 +114,7 @@ void HoneyBadgerEditor::EditorUI::CreateDetailsWidget()
 	static const char* selectedComponent = nullptr;
 	const std::vector<char*> names = HoneyBadger::Components::Names;
 
-	if (ImGui::BeginCombo("##combo", selectedComponent))
+	if (ImGui::BeginCombo("##addComponentCombo", selectedComponent))
 	{
 		for (int n = 0; n < names.size(); n++)
 		{
@@ -169,6 +169,12 @@ void HoneyBadgerEditor::EditorUI::CreateToolbarWidget()
 	ImGui::SameLine();
 	ImGui::InputTextWithHint("##scenePath", "scene path", SceneName, IM_ARRAYSIZE(SceneName));
 	ImGui::End();
+}
+
+void HoneyBadgerEditor::EditorUI::RemoveComponent(void* payload)
+{
+	HoneyBadger::HBString* name = reinterpret_cast<HoneyBadger::HBString*>(payload);
+	_editor->GetECS()->RemoveComponent(_selectedEntity, *name);
 }
 
 void HoneyBadgerEditor::EditorUI::SetEntityMap(std::map<HoneyBadger::Entity, HoneyBadger::HBString> map)

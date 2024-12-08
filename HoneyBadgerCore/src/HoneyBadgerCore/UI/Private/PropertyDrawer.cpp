@@ -5,6 +5,8 @@
 #include "imgui/imgui_impl_opengl3.h"
 #include <string>
 #include <HoneyBadgerCore/Math/Public/MathCore.h>
+#include "HoneyBadgerCore/Core/Public/EventSystem.h"
+#include "HoneyBadgerCore/ECS/Public/Components/Components.h"
 
 // TODO: Handle test concat better
 
@@ -24,6 +26,20 @@ void HoneyBadger::DrawEditorComponentName(const char* name)
 	ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 255, 0, 255));
 	ImGui::Text(name);
 	ImGui::PopStyleColor();
+	ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 0, 0, 255));
+	ImGui::SameLine();
+	std::string buff = "##";
+	buff += name;
+	buff += "X";
+
+	if (ImGui::Button(buff.c_str(), ImVec2(20, 20)))
+	{
+		RemoveComponentEvent::RemoveComponentEventPayload payload = 
+			{ HoneyBadger::Components::ComponentsNameTypeIdNameMap[name] };
+		HB_POST_EVENT(RemoveComponentEvent::Type(), &payload);
+	}
+	ImGui::PopStyleColor();
+
 	ImGui::Separator();
 }
 

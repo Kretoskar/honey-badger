@@ -44,6 +44,11 @@ namespace HoneyBadger
 		template<typename T>
 		T* GetComponentPtr(Entity e)
 		{
+			if (!HasComponent<T>(e))
+			{
+				return nullptr;
+			}
+
 			std::shared_ptr<ComponentArray<T>> compArray = GetComponentArray<T>(typeid(T).name());
 			return compArray->GetDataPtr(e);
 		}
@@ -76,12 +81,31 @@ namespace HoneyBadger
 
 		void RegisterSystem(System* system);
 
+		void RemoveComponent(Entity entity, HBString name)
+		{
+			const char* nameC = name.Get();
+			RemoveComponent(entity, CompNameToType[name]);
+		}
+
+		template <typename T>
+		void RemoveComponent(Entity entity)
+		{
+			RemoveComponent(entity, CompNameToType[typeid(T).name()]);
+		}
+
 		void RemoveComponent(Entity entity, ComponentType compType);
 
 		template <typename T>
 		void RegisterComponentInSystem(System& system)
 		{
 			system._sig.set(CompNameToType[typeid(T).name()], true);
+		}
+
+		template <typename T>
+		bool HasComponent(Entity e)
+		{
+			return Signatures[e].test(CompNameToType[typeid(T).name()]);
+
 		}
 		
 		std::queue<Entity> AvailableEntities{};
@@ -94,6 +118,7 @@ namespace HoneyBadger
 
 		ComponentType CurrComponentType{};
 		std::unordered_map<HBString, ComponentType, HBString::HBStringHasher> CompNameToType{};
+		std::unordered_map<ComponentType, HBString> CompTypeToName{};
 		std::unordered_map<HBString, std::shared_ptr<IComponentArray>, HBString::HBStringHasher> ComponentArrays{};
 	};
 }

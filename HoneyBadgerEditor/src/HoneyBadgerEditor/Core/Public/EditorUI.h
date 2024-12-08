@@ -4,6 +4,7 @@
 #include "HoneyBadgerCore/Core/Public/HBString.h"
 #include "HoneyBadgerCore/ECS/Public/ECS.h"
 #include "HoneyBadgerCore/Rendering/Public/UserInterface.h"
+#include "HoneyBadgerCore/Core/Public/EventSystem.h"
 
 namespace HoneyBadgerEditor
 {
@@ -16,6 +17,7 @@ namespace HoneyBadgerEditor
 
 		void SetEditorUI(Editor* editor)
 		{
+			HB_BIND_EVENT(HoneyBadger::RemoveComponentEvent::Type(), RemoveComponent)
 			_editor = editor;
 		}
 
@@ -30,6 +32,7 @@ namespace HoneyBadgerEditor
 		void CreateSceneWidget();
 		void CreateDetailsWidget();
 		void CreateToolbarWidget();
+		void RemoveComponent(void* payload);
 
 		Editor* _editor;
 

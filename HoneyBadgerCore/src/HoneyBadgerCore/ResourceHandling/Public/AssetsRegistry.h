@@ -53,6 +53,7 @@ namespace HoneyBadger
 
 		std::unordered_map<HBString, std::shared_ptr<Mesh>, HBString::HBStringHasher> GuidMeshMap;
 		std::unordered_map<HBString, std::shared_ptr<Mesh>, HBString::HBStringHasher> NameMeshMap;
+		std::vector<const char*> MeshNames;
 
 		std::unordered_map<HBString, std::shared_ptr<Scene>, HBString::HBStringHasher> GuidSceneMap;
 		std::unordered_map<HBString, std::shared_ptr<Scene>, HBString::HBStringHasher> NameSceneMap;

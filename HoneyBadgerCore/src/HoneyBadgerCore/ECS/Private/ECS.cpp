@@ -56,8 +56,8 @@ namespace HoneyBadger
 		for (System* system : Systems)
 		{
 			system->_entities.erase(entity);
-
-			if ((system->_sig & Signatures[entity]) == Signatures[entity])
+			
+			if ((system->_sig & Signatures[entity]) == system->_sig)
 			{
 				system->_entities.insert(entity);
 			}

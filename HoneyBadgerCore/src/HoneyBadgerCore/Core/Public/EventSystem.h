@@ -95,4 +95,17 @@ namespace HoneyBadger
             return type;
         }
     }
+
+    namespace RemoveComponentEvent
+    {
+        struct RemoveComponentEventPayload
+        {
+            HBString typeId;
+        };
+
+		static HBString Type()
+		{
+            return HBString("RemoveComponent");
+		}
+    }
 }

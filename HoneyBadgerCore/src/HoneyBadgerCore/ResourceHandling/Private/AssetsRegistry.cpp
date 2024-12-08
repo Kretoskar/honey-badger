@@ -90,6 +90,8 @@ namespace HoneyBadger
 			GuidMeshMap.emplace(meshData._guid, mesh);
 			NameMeshMap.emplace(name, mesh);
 
+			MeshNames.push_back(name.Get());
+			
 			return mesh;
 		}
 
