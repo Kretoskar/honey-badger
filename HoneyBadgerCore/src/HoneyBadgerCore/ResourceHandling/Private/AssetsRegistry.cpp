@@ -10,6 +10,8 @@
 #include "HoneyBadgerCore/Scene/Public/Scene.h"
 #include "HoneyBadgerCore/vendor/filesystem.hpp"
 #include "HoneyBadgerCore/Scene/Public/Scene.h"
+#include "HoneyBadgerCore/vendor/cgltf.h"
+#include <HoneyBadgerCore/ResourceHandling/Public/GLTFReader.h>
 
 namespace fs = ghc::filesystem;
 
@@ -28,6 +30,15 @@ namespace HoneyBadger
 		Instance = this;
 
 		LoadEngineAssets();
+
+		cgltf_data* data = HoneyBadger::GLTFReader::Read("car.glb");
+		std::vector<MeshData> mds = HoneyBadger::GLTFReader::LoadMeshes(data);
+		mds[1]._guid = HoneyBadger::GenerateGUID();
+		std::shared_ptr<Mesh> mesh = std::make_shared<Mesh>(mds[1]);
+		GuidMeshMap.emplace(mds[1]._guid, mesh);
+		NameMeshMap.emplace("autko", mesh);
+
+		MeshNames.push_back("autko");
 	}
 
 	void AssetsRegistry::Cleanup()
