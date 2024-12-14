@@ -2,6 +2,8 @@
 #include "HoneyBadgerCore/ResourceHandling/Public/GLTFReader.h"
 #include "HoneyBadgerCore/Core/Public/Logger.h"
 #include "HoneyBadgerCore/vendor/cgltf.h"
+#include <HoneyBadgerCore/Math/Public/Mat4.h>
+#include <HoneyBadgerCore/ECS/Public/Components/TransformComponent.h>
 
 namespace HoneyBadger
 {
@@ -80,6 +82,41 @@ namespace HoneyBadger
 
 				result.push_back(md);
 			}
+		}
+
+		return result;
+	}
+
+	std::vector<TransformComponent> GLTFReader::LoadLocalTransforms(cgltf_data* data)
+	{
+		std::vector<TransformComponent> result;
+		cgltf_node* nodes = data->nodes;
+		const unsigned nodeCount = static_cast<unsigned>(data->nodes_count);
+
+		for (unsigned n = 0; n < nodeCount; ++n)
+		{
+			TransformComponent transform;
+
+			const cgltf_node* node = &nodes[n];
+
+			// TODO: node->has_matrix?
+
+			if (node->has_translation)
+			{
+				transform.Position = { node->translation[0], node->translation[1], node->translation[2] };
+			}
+
+			if (node->has_rotation)
+			{
+				transform.Rotation = {node->rotation[0], node->rotation[1], node->rotation[2], node->rotation[3] };
+			}
+
+			if (node->has_scale)
+			{
+				transform.Scale = { node->scale[0], node->scale[1], node->scale[2] };
+			}
+
+			result.push_back(std::move(transform));
 		}
 
 		return result;

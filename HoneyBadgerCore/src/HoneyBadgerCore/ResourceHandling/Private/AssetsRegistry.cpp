@@ -61,6 +61,9 @@ namespace HoneyBadger
 				out << j.dump(4);
 			}
 
+			modelData._meshesLocalTransforms = HoneyBadger::GLTFReader::LoadLocalTransforms(data);
+
+
 			nlohmann::json j;
 			j = modelData;
 			modelData._guid = GenerateGUID();

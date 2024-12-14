@@ -36,16 +36,16 @@ void HoneyBadger::ModelRenderingSystem::Render()
 
 		if (std::shared_ptr<ModelData> model = AssetsRegistry::Instance->GetModelByGuid(modelComp.Guid))
 		{
-			for (std::string& meshGuid : model->_meshesGuids)
+			for (int32_t i = 0; i < model->_meshesGuids.size(); ++i)
 			{
-				std::shared_ptr<Mesh> mesh = AssetsRegistry::Instance->GetMeshByGuid(meshGuid);
+				std::shared_ptr<Mesh> mesh = AssetsRegistry::Instance->GetMeshByGuid(model->_meshesGuids[i]);
 
 				// TODO: take material from component
 				Material* mat = Engine::Instance->GetAssetsRegistry()->GetMaterialByName("unlit_color").get();
 
 				if (std::shared_ptr<Shader> shader = mat->GetShader())
 				{
-					shader->SetModelMatrix(transformComp.ToMat4());
+					shader->SetModelMatrix(transformComp.ToMat4() * model->_meshesLocalTransforms[i].ToMat4());
 					shader->SetVPMatrix(_camera->GetVPMatrix());
 					mesh->Draw(mat);
 				}
