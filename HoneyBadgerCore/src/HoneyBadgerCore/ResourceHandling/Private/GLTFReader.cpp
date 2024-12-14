@@ -141,12 +141,13 @@ namespace HoneyBadger
 			componentCount = 4;
 		}
 
-		// std;: move?
-		std::vector<float> values = GetFloats(componentCount, accessor);
+		std::vector<float> values = std::move(GetFloats(componentCount, accessor));
 		
 		unsigned int acessorCount = static_cast<unsigned>(accessor.count);
 
 		std::vector<Vec3> positions;
+		std::vector<Vec3> normals;
+		std::vector<Vec2> texUvs;
 
 		for (unsigned i = 0; i < acessorCount; ++i)
 		{
@@ -156,12 +157,73 @@ namespace HoneyBadger
 			case cgltf_attribute_type_position:
 				positions.push_back(Vec3(values[index + 0], values[index + 1], values[index + 2]));
 				break;
+			case cgltf_attribute_type_texcoord:
+				texUvs.push_back(Vec2(values[index + 0], values[index + 1]));
+				break;
+			case cgltf_attribute_type_normal:
+				normals.push_back(Vec3(values[index + 0], values[index + 1], values[index + 2]));
+				break;
 			}
 		}
 
-		for (auto& pos : positions)
+		if (positions.size() > 0)
 		{
-			md._vertices.push_back({ pos, {}, {1.0f, 0.0f, 0.0f}, {} });
+			for (int32_t i = 0; i < positions.size(); i++)
+			{
+				int32_t verts = md._vertices.size() - 1;
+				if (i >= verts)
+				{
+					md._vertices.push_back({
+						positions[i], 
+						{0.0f, 0.0f, 0.0f},
+						{0.0f,0.0f,0.0f},
+						{0.0f,0.0f}});
+				}
+				else
+				{
+					md._vertices[i].Position = positions[i];
+				}
+			}
+		}
+
+		if (normals.size() > 0)
+		{
+			for (int32_t i = 0; i < normals.size(); i++)
+			{
+				int32_t verts = md._vertices.size() - 1;
+				if (i >= verts)
+				{
+					md._vertices.push_back({
+						{0.0f, 0.0f, 0.0f},
+						normals[i],
+						{0.0f,0.0f,0.0f},
+						{0.0f,0.0f} });
+				}
+				else
+				{
+					md._vertices[i].Normal = normals[i];
+				}
+			}
+		}
+
+		if (texUvs.size() > 0)
+		{
+			for (int32_t i = 0; i < texUvs.size(); i++)
+			{
+				int32_t verts = md._vertices.size() - 1;
+				if (i >= verts)
+				{
+					md._vertices.push_back({
+						{0.0f, 0.0f, 0.0f},
+						{0.0f, 0.0f, 0.0f},
+						{0.0f,0.0f,0.0f},
+						texUvs[i]});
+				}
+				else
+				{
+					md._vertices[i].TexUV = texUvs[i];
+				}
+			}
 		}
 	}
 

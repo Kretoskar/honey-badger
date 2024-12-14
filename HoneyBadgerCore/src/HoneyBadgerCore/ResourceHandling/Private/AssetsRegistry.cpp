@@ -28,7 +28,7 @@ namespace HoneyBadger
 
 	void AssetsRegistry::LoadGltfModel(const std::string& path, HBString name)
 	{
-		cgltf_data* data = HoneyBadger::GLTFReader::Read("car.glb");
+		cgltf_data* data = HoneyBadger::GLTFReader::Read(path.c_str());
 		if (data)
 		{
 			std::vector<MeshData> mds = HoneyBadger::GLTFReader::LoadMeshes(data);
