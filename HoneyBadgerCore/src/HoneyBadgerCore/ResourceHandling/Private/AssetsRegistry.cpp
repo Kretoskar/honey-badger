@@ -82,7 +82,7 @@ namespace HoneyBadger
 	{
 		Instance = this;
 
-		//LoadGltfModel("Duck.glb", "duck");
+		LoadGltfModel("car.glb", "car");
 		LoadEngineAssets();
 	
 	}

@@ -41,15 +41,18 @@ void HoneyBadger::ModelRenderingSystem::Render()
 				std::shared_ptr<Mesh> mesh = AssetsRegistry::Instance->GetMeshByGuid(model->_meshesGuids[i]);
 
 				// TODO: take material from component
-				Material* mat = Engine::Instance->GetAssetsRegistry()->GetMaterialByGuid(model->_materialGuid).get();
+				Material* mat = Engine::Instance->GetAssetsRegistry()->GetMaterialByName("car").get();
 
-				if (std::shared_ptr<Shader> shader = mat->GetShader())
+				if (mat)
 				{
-					shader->SetModelMatrix(transformComp.ToMat4() * model->_meshesLocalTransforms[i].ToMat4());
-					shader->SetVPMatrix(_camera->GetVPMatrix());
-					shader->AssignDiffuseMap(*Engine::Instance->GetAssetsRegistry()->GetTextureByName(mat->GetDiffuseMapName()));
+					if (std::shared_ptr<Shader> shader = mat->GetShader())
+					{
+						shader->SetModelMatrix(transformComp.ToMat4() * model->_meshesLocalTransforms[i].ToMat4());
+						shader->SetVPMatrix(_camera->GetVPMatrix());
+						shader->AssignDiffuseMap(*Engine::Instance->GetAssetsRegistry()->GetTextureByName(mat->GetDiffuseMapName()));
 
-					mesh->Draw(mat);
+						mesh->Draw(mat);
+					}
 				}
 			}
 		}

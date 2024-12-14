@@ -103,7 +103,7 @@ namespace HoneyBadger
 
 			if (node->has_translation)
 			{
-				transform.Position = { node->translation[0], node->translation[1], node->translation[2] };
+				transform.Position = { node->translation[0], node->translation[1], node->translation[2]};
 			}
 
 			if (node->has_rotation)
