@@ -20,6 +20,7 @@ namespace HoneyBadger
 	class Shader;
 	class Mesh;
 	class Scene;
+	class Texture;
 
 	class AssetsRegistry
 	{
@@ -39,6 +40,7 @@ namespace HoneyBadger
 		std::shared_ptr<Material> LoadMaterial(HBString path, HBString name);
 		std::shared_ptr<Scene> LoadScene(HBString path, HBString name);
 		std::shared_ptr<ModelData> LoadModel(HBString path, HBString name);
+		std::shared_ptr<Texture> LoadTexture(HBString path, HBString name);
 
 		std::shared_ptr<Mesh> GetMeshByName(HBString name);
 		std::shared_ptr<Mesh> GetMeshByGuid(HBString guid);
@@ -50,6 +52,8 @@ namespace HoneyBadger
 		std::shared_ptr<Scene> GetSceneByGuid(HBString guid);
 		std::shared_ptr<ModelData> GetModelByName(HBString name);
 		std::shared_ptr<ModelData> GetModelByGuid(HBString guid);
+		std::shared_ptr<Texture> GetTextureByName(HBString name);
+		std::shared_ptr<Texture> GetTextureByGuid(HBString guid);
 
 		std::unordered_map<HBString, std::shared_ptr<Shader>, HBString::HBStringHasher> GuidShaderMap;
 		std::unordered_map<HBString, std::shared_ptr<Shader>, HBString::HBStringHasher> NameShaderMap;
@@ -67,6 +71,9 @@ namespace HoneyBadger
 		std::unordered_map<HBString, std::shared_ptr<ModelData>, HBString::HBStringHasher> GuidModelMap;
 		std::unordered_map<HBString, std::shared_ptr<ModelData>, HBString::HBStringHasher> NameModelMap;
 		std::vector<std::string> ModelNames;
+
+		std::unordered_map<HBString, std::shared_ptr<Texture>, HBString::HBStringHasher> GuidTextureMap;
+		std::unordered_map<HBString, std::shared_ptr<Texture>, HBString::HBStringHasher> NameTextureMap;
 
 		static AssetsRegistry* Instance;
 	};

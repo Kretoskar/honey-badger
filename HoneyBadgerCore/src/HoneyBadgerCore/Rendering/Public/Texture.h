@@ -10,6 +10,8 @@ namespace HoneyBadger
 	{
 		std::string guid;
 		std::string path;
+
+		
 	};
 
 	class Texture

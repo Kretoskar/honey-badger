@@ -11,10 +11,10 @@ namespace HoneyBadger
 	{
 		std::string Guid;
 		std::string ShaderGuid;
-		std::string DiffuseMapGuid;
-		std::string SpecularMapGuid;
+		std::string DiffuseMapName;
+		std::string SpecularMapName;
 
-		NLOHMANN_DEFINE_TYPE_INTRUSIVE(MaterialData, Guid, ShaderGuid, DiffuseMapGuid, SpecularMapGuid)
+		NLOHMANN_DEFINE_TYPE_INTRUSIVE(MaterialData, Guid, ShaderGuid, DiffuseMapName, SpecularMapName)
 	};
 
 	struct Material

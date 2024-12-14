@@ -1,0 +1,5 @@
+{
+    "FragmentShaderPath": "Shaders/pbr.frag",
+    "Guid": "7a32-e8-4c5-848-00ff2f",
+    "VertexShaderPath": "Shaders/pbr.vert"
+}

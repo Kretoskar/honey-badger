@@ -13,6 +13,7 @@
 #include "HoneyBadgerCore/vendor/cgltf.h"
 #include <HoneyBadgerCore/ResourceHandling/Public/GLTFReader.h>
 #include "HoneyBadgerCore/Rendering/Public/Mesh/Model.h"
+#include "HoneyBadgerCore/Rendering/Public/Texture.h"
 
 namespace fs = ghc::filesystem;
 
@@ -81,7 +82,7 @@ namespace HoneyBadger
 	{
 		Instance = this;
 
-		LoadGltfModel("car.glb", "car");
+		//LoadGltfModel("Duck.glb", "duck");
 		LoadEngineAssets();
 	
 	}
@@ -131,6 +132,12 @@ namespace HoneyBadger
 				std::string name = File::GetFileName(pathStr);
 
 				LoadModel(pathStr, name);
+			}
+			else if (extension == "png")
+			{
+				std::string name = File::GetFileName(pathStr);
+
+				LoadTexture(pathStr, name);
 			}
 		}
 	}
@@ -253,6 +260,19 @@ namespace HoneyBadger
 		return nullptr;
 	}
 
+	std::shared_ptr<Texture> AssetsRegistry::LoadTexture(HBString path, HBString name)
+	{
+		if (std::shared_ptr<Texture> loadedTex = GetTextureByName(name))
+		{
+			return loadedTex;
+		}
+
+		std::shared_ptr<Texture> tex = std::make_shared<Texture>(path, GL_TEXTURE0, GL_RGB);
+		GuidTextureMap.emplace(GenerateGUID(), tex);
+		NameTextureMap.emplace(name, tex);
+		return tex;
+	}
+
 	std::shared_ptr<Mesh> AssetsRegistry::GetMeshByName(HBString name)
 	{
 		if (NameMeshMap.find(name) != NameMeshMap.end())
@@ -346,6 +366,26 @@ namespace HoneyBadger
 		if (GuidModelMap.find(guid) != GuidModelMap.end())
 		{
 			return GuidModelMap[guid];
+		}
+
+		return nullptr;
+	}
+	
+	std::shared_ptr<Texture> AssetsRegistry::GetTextureByName(HBString name)
+	{
+		if (NameTextureMap.find(name) != NameTextureMap.end())
+		{
+			return NameTextureMap[name];
+		}
+
+		return nullptr;
+	}
+
+	std::shared_ptr<Texture> AssetsRegistry::GetTextureByGuid(HBString guid)
+	{
+		if (GuidTextureMap.find(guid) != GuidTextureMap.end())
+		{
+			return GuidTextureMap[guid];
 		}
 
 		return nullptr;
