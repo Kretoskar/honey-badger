@@ -7,6 +7,8 @@
 
 namespace HoneyBadger
 {
+	struct ModelData;
+
 	enum class AssetType
 	{
 		Invalid,
@@ -30,11 +32,13 @@ namespace HoneyBadger
 		void LoadAllAssetsInPath(HBString path);
 
 		static void StringToFileQuick(const std::string& s);
+		void LoadGltfModel (const std::string& path, HBString name);
 
 		std::shared_ptr<Mesh> LoadMesh(HBString path, HBString name);
 		std::shared_ptr<Shader> LoadShader(HBString path, HBString name);
 		std::shared_ptr<Material> LoadMaterial(HBString path, HBString name);
 		std::shared_ptr<Scene> LoadScene(HBString path, HBString name);
+		std::shared_ptr<ModelData> LoadModel(HBString path, HBString name);
 
 		std::shared_ptr<Mesh> GetMeshByName(HBString name);
 		std::shared_ptr<Mesh> GetMeshByGuid(HBString guid);
@@ -44,6 +48,8 @@ namespace HoneyBadger
 		std::shared_ptr<Material> GetMaterialByGuid(HBString guid);
 		std::shared_ptr<Scene> GetSceneByName(HBString name);
 		std::shared_ptr<Scene> GetSceneByGuid(HBString guid);
+		std::shared_ptr<ModelData> GetModelByName(HBString name);
+		std::shared_ptr<ModelData> GetModelByGuid(HBString guid);
 
 		std::unordered_map<HBString, std::shared_ptr<Shader>, HBString::HBStringHasher> GuidShaderMap;
 		std::unordered_map<HBString, std::shared_ptr<Shader>, HBString::HBStringHasher> NameShaderMap;
@@ -53,10 +59,14 @@ namespace HoneyBadger
 
 		std::unordered_map<HBString, std::shared_ptr<Mesh>, HBString::HBStringHasher> GuidMeshMap;
 		std::unordered_map<HBString, std::shared_ptr<Mesh>, HBString::HBStringHasher> NameMeshMap;
-		std::vector<const char*> MeshNames;
+		std::vector<std::string> MeshNames;
 
 		std::unordered_map<HBString, std::shared_ptr<Scene>, HBString::HBStringHasher> GuidSceneMap;
 		std::unordered_map<HBString, std::shared_ptr<Scene>, HBString::HBStringHasher> NameSceneMap;
+
+		std::unordered_map<HBString, std::shared_ptr<ModelData>, HBString::HBStringHasher> GuidModelMap;
+		std::unordered_map<HBString, std::shared_ptr<ModelData>, HBString::HBStringHasher> NameModelMap;
+		std::vector<std::string> ModelNames;
 
 		static AssetsRegistry* Instance;
 	};

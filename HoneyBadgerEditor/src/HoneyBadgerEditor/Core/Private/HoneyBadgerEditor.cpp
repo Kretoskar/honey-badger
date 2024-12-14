@@ -41,6 +41,11 @@ bool HoneyBadgerEditor::Editor::Init()
 		return false;
 	}
 
+	for (std::string x : _engine.GetAssetsRegistry()->MeshNames)
+	{
+		HB_LOG_ERROR(x.c_str());
+	}
+
 	_ui.SetEditorUI(this);
 	if (!_ui.Init(_window.GetGlfwWindow()))
 	{
@@ -58,6 +63,7 @@ bool HoneyBadgerEditor::Editor::Init()
 	HoneyBadger::Components::RegisterAllComponents(*_ecs);
 
 	_renderingSystem.Register(*_ecs, _camera.get());
+	_modelRenderingSystem.Register(*_ecs, _camera.get());
 	_uiSystem.Register(*_ecs, &_ui);
 
 	return true;
@@ -71,6 +77,7 @@ void HoneyBadgerEditor::Editor::Start()
 		_ui.CreateFrame();
 		_ui.Render();
 		_renderingSystem.Render();
+		_modelRenderingSystem.Render();
 		_debugRenderer->Render();
 		_window.Update();
 		_uiSystem.Update();

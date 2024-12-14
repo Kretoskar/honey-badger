@@ -25,7 +25,11 @@ namespace HoneyBadger
 	RTTI_BEGIN(MeshComponent)
 
 	static const char* selectedMesh = nullptr;
-	const std::vector<const char*> names = HoneyBadger::AssetsRegistry::Instance->MeshNames;
+	std::vector<const char*> names; 
+	for (const std::string& s : HoneyBadger::AssetsRegistry::Instance->MeshNames)
+	{
+		names.emplace_back(s.c_str());
+	}
 
 	if (ImGui::BeginCombo("##meshCombo", selectedMesh))
 	{

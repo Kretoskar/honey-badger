@@ -12,6 +12,7 @@
 #include "HoneyBadgerCore/Scene/Public/Scene.h"
 #include "HoneyBadgerCore/vendor/cgltf.h"
 #include <HoneyBadgerCore/ResourceHandling/Public/GLTFReader.h>
+#include "HoneyBadgerCore/Rendering/Public/Mesh/Model.h"
 
 namespace fs = ghc::filesystem;
 
@@ -25,20 +26,61 @@ namespace HoneyBadger
 		out << s;
 	}
 
+	void AssetsRegistry::LoadGltfModel(const std::string& path, HBString name)
+	{
+		cgltf_data* data = HoneyBadger::GLTFReader::Read("car.glb");
+		if (data)
+		{
+			std::vector<MeshData> mds = HoneyBadger::GLTFReader::LoadMeshes(data);
+
+			ModelData modelData;
+			modelData._guid = GenerateGUID();
+
+			for (int32_t i = 0; i < mds.size(); ++i)
+			{
+				mds[i]._guid = HoneyBadger::GenerateGUID();
+				modelData._meshesGuids.push_back(mds[i]._guid);
+
+				std::shared_ptr<Mesh> mesh = std::make_shared<Mesh>(mds[i]);
+
+				std::string nameIndexed = name.Get();
+				nameIndexed += std::to_string(i);
+
+				GuidMeshMap.emplace(mds[i]._guid, mesh);
+				NameMeshMap.emplace(nameIndexed, mesh);
+				MeshNames.push_back(nameIndexed.c_str());
+
+				nlohmann::json j;
+				j = mds[i];
+
+				std::string outPath = "../res/meshes/";
+				outPath += nameIndexed;
+				outPath += ".hbmesh";
+				
+				std::ofstream out(outPath);
+				out << j.dump(4);
+			}
+
+			nlohmann::json j;
+			j = modelData;
+			modelData._guid = GenerateGUID();
+
+			std::string outPath = "../res/models/";
+			outPath += name.Get();
+			outPath += ".hbmodel";
+
+			std::ofstream out(outPath);
+			out << j.dump(4);
+		}
+	}
+
 	void AssetsRegistry::Init()
 	{
 		Instance = this;
 
+		LoadGltfModel("car.glb", "car");
 		LoadEngineAssets();
-
-		cgltf_data* data = HoneyBadger::GLTFReader::Read("car.glb");
-		std::vector<MeshData> mds = HoneyBadger::GLTFReader::LoadMeshes(data);
-		mds[1]._guid = HoneyBadger::GenerateGUID();
-		std::shared_ptr<Mesh> mesh = std::make_shared<Mesh>(mds[1]);
-		GuidMeshMap.emplace(mds[1]._guid, mesh);
-		NameMeshMap.emplace("autko", mesh);
-
-		MeshNames.push_back("autko");
+	
 	}
 
 	void AssetsRegistry::Cleanup()
@@ -80,6 +122,12 @@ namespace HoneyBadger
 				std::string name = File::GetFileName(pathStr);
 
 				LoadScene(pathStr, name);
+			}
+			else if (extension == "hbmodel")
+			{
+				std::string name = File::GetFileName(pathStr);
+
+				LoadModel(pathStr, name);
 			}
 		}
 	}
@@ -178,6 +226,30 @@ namespace HoneyBadger
 		return nullptr;
 	}
 
+	std::shared_ptr<ModelData> AssetsRegistry::LoadModel(HBString path, HBString name)
+	{
+		File file(path.Get());
+		if (file.IsValid())
+		{
+			nlohmann::json j = nlohmann::json::parse(*file.GetFileContents());
+			ModelData modelData = j.template get<ModelData>();
+
+			if (std::shared_ptr<ModelData> loadedModel = GetModelByGuid(modelData._guid))
+			{
+				return loadedModel;
+			}
+
+			std::shared_ptr<ModelData> model = std::make_shared<ModelData>(modelData);
+			GuidModelMap.emplace(modelData._guid, model);
+			NameModelMap.emplace(name, model);
+			ModelNames.push_back(name.Get());
+
+			return model;
+		}
+
+		return nullptr;
+	}
+
 	std::shared_ptr<Mesh> AssetsRegistry::GetMeshByName(HBString name)
 	{
 		if (NameMeshMap.find(name) != NameMeshMap.end())
@@ -251,6 +323,26 @@ namespace HoneyBadger
 		if (GuidSceneMap.find(guid) != GuidSceneMap.end())
 		{
 			return GuidSceneMap[guid];
+		}
+
+		return nullptr;
+	}
+
+	std::shared_ptr<ModelData> AssetsRegistry::GetModelByName(HBString name)
+	{
+		if (NameModelMap.find(name) != NameModelMap.end())
+		{
+			return NameModelMap[name];
+		}
+
+		return nullptr;
+	}
+
+	std::shared_ptr<ModelData> AssetsRegistry::GetModelByGuid(HBString guid)
+	{
+		if (GuidModelMap.find(guid) != GuidModelMap.end())
+		{
+			return GuidModelMap[guid];
 		}
 
 		return nullptr;

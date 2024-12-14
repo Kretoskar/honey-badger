@@ -3,6 +3,7 @@
 #include "HoneyBadgerCore/ECS/Public/Components/NameComponent.h"
 #include "HoneyBadgerCore/ECS/Public/Components/MeshComponent.h"
 #include "HoneyBadgerCore/ECS/Public/Components/TransformComponent.h"
+#include "HoneyBadgerCore/ECS/Public/Components/ModelComponent.h"
 #include "HoneyBadgerCore/Core/Public/RTTI.h"
 
 namespace HoneyBadger
@@ -39,6 +40,7 @@ if (name == QUOTE(_TClass)) \
 		DRAW_COMPONENT(NameComponent)
 		DRAW_COMPONENT(TransformComponent)
 		DRAW_COMPONENT(MeshComponent)
+		DRAW_COMPONENT(ModelComponent)
 	}
 
 	void HoneyBadger::Components::RegisterAllComponents(ECS& ecs)
@@ -46,6 +48,7 @@ if (name == QUOTE(_TClass)) \
 		REGISTER_COMPONENT(TransformComponent)
 		REGISTER_COMPONENT(MeshComponent)
 		REGISTER_COMPONENT(NameComponent)
+		REGISTER_COMPONENT(ModelComponent)
 	}
 
 	void Components::AddComponent(const char* name, ECS& ECS, Entity e)
@@ -53,6 +56,7 @@ if (name == QUOTE(_TClass)) \
 		ADD_COMPONENT(TransformComponent)
 		ADD_COMPONENT(MeshComponent)
 		ADD_COMPONENT(NameComponent)
+		ADD_COMPONENT(ModelComponent)
 	}
 
 #undef DRAW_COMPONENT

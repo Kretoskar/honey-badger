@@ -9,6 +9,7 @@
 #include "HoneyBadgerCore/ECS/Public/ECS.h"
 #include "HoneyBadgerCore/Scene/Public/Scene.h"
 #include "HoneyBadgerCore/ECS/Public/Systems/RenderingSystem.h"
+#include "HoneyBadgerCore/ECS/Public/Systems/ModelRenderingSystem.h"
 #include "HoneyBadgerCore/ResourceHandling/Public/AssetsRegistry.h"
 #include "HoneyBadgerEditor/Systems/Public/EditorUISystem.h"
 
@@ -44,6 +45,7 @@ namespace HoneyBadgerEditor
 		std::shared_ptr<HoneyBadger::ECS> _ecs;
 
 		HoneyBadger::RenderingSystem _renderingSystem;
+		HoneyBadger::ModelRenderingSystem _modelRenderingSystem;
 		HoneyBadgerEditor::EditorUISystem _uiSystem;
 	};
 }
