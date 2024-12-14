@@ -58,7 +58,7 @@ namespace HoneyBadger
 				outPath += ".hbmesh";
 				
 				std::ofstream out(outPath);
-				out << j.dump(4);
+				out << j.dump();
 			}
 
 			modelData._meshesLocalTransforms = HoneyBadger::GLTFReader::LoadLocalTransforms(data);
@@ -73,7 +73,7 @@ namespace HoneyBadger
 			outPath += ".hbmodel";
 
 			std::ofstream out(outPath);
-			out << j.dump(4);
+			out << j.dump();
 		}
 	}
 
