@@ -5,7 +5,7 @@
 HoneyBadger::Texture::Texture(HBString path, unsigned unit, unsigned format, unsigned pixelType, unsigned texType)
 	: _type(texType), _unit(unit)
 {
-	stbi_set_flip_vertically_on_load(true);
+	stbi_set_flip_vertically_on_load(false);
 	unsigned char* _bytes = stbi_load(path.Get(), &_width, &_height, &_numColCh, 0);
 
 	glGenTextures(1, &_id);
