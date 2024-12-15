@@ -8,11 +8,10 @@ namespace HoneyBadger
 	struct ModelData
 	{
 		std::string _guid;
-		std::string _materialGuid;
 		std::vector<std::string> _meshesGuids;
 		// FixMe: Decouple transform from transform component
 		std::vector<TransformComponent> _meshesLocalTransforms;
 
-		NLOHMANN_DEFINE_TYPE_INTRUSIVE(ModelData, _guid, _materialGuid, _meshesGuids, _meshesLocalTransforms)
+		NLOHMANN_DEFINE_TYPE_INTRUSIVE(ModelData, _guid, _meshesGuids, _meshesLocalTransforms)
 	};
 }

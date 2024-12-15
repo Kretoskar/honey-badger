@@ -14,11 +14,10 @@ namespace HoneyBadger
 	struct MeshData
 	{
 		std::string _guid;
-		std::string _materialGuid;
 		std::vector<Vertex> _vertices;
 		std::vector<unsigned> _indices;
 
-		NLOHMANN_DEFINE_TYPE_INTRUSIVE(MeshData, _guid, _materialGuid, _vertices, _indices)
+		NLOHMANN_DEFINE_TYPE_INTRUSIVE(MeshData, _guid, _vertices, _indices)
 	};
 
 	class Mesh
@@ -40,10 +39,8 @@ namespace HoneyBadger
 
 		void Draw(Material* material);
 		const std::string& GetGuid() const { return _meshData._guid; };
-		const std::string& GetMaterialGuid() const { return _meshData._materialGuid; };
 		const MeshData& GetData() const { return _meshData; }
-		void SetMaterial(const std::string MaterialGuid) { _meshData._materialGuid = MaterialGuid; }
-
+		
 		NLOHMANN_DEFINE_TYPE_INTRUSIVE(Mesh, _meshData)
 
 	protected:

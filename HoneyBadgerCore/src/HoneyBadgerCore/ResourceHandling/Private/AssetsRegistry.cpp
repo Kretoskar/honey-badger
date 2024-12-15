@@ -81,7 +81,7 @@ namespace HoneyBadger
 	{
 		Instance = this;
 
-		LoadGltfModel("scene.gltf", "car");
+	//	LoadGltfModel("scene.gltf", "car");
 		LoadEngineAssets();
 	
 	}
@@ -159,6 +159,7 @@ namespace HoneyBadger
 			NameMeshMap.emplace(name, mesh);
 
 			MeshNames.push_back(name.Get());
+			GuidNameMeshMap.emplace(meshData._guid, name);
 			
 			return mesh;
 		}
@@ -205,6 +206,8 @@ namespace HoneyBadger
 			std::shared_ptr<Material> material = std::make_shared<Material>(materialData);
 			GuidMaterialMap.emplace(materialData.Guid, material);
 			NameMaterialMap.emplace(name, material);
+			MaterialNames.push_back(name.Get());
+			NameGuidMaterialMap.emplace(name, materialData.Guid);
 
 			return material;
 		}
@@ -388,5 +391,24 @@ namespace HoneyBadger
 		}
 
 		return nullptr;
+	}
+
+	HBString AssetsRegistry::GetMeshName(HBString guid)
+	{
+		if (GuidNameMeshMap.find(guid) != GuidNameMeshMap.end())
+		{
+			return GuidNameMeshMap[guid];
+		}
+
+		return "";
+	}
+	HBString AssetsRegistry::GetMaterialGuid(HBString name)
+	{
+		if (NameGuidMaterialMap.find(name) != NameGuidMaterialMap.end())
+		{
+			return NameGuidMaterialMap[name];
+		}
+
+		return "";
 	}
 }
