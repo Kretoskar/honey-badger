@@ -64,7 +64,6 @@ namespace HoneyBadger
 
 			modelData._meshesLocalTransforms = HoneyBadger::GLTFReader::LoadLocalTransforms(data);
 
-
 			nlohmann::json j;
 			j = modelData;
 			modelData._guid = GenerateGUID();
@@ -82,7 +81,7 @@ namespace HoneyBadger
 	{
 		Instance = this;
 
-		LoadGltfModel("car.glb", "car");
+		LoadGltfModel("scene.gltf", "car");
 		LoadEngineAssets();
 	
 	}

@@ -170,7 +170,7 @@ namespace HoneyBadger
 		{
 			for (int32_t i = 0; i < positions.size(); i++)
 			{
-				int32_t verts = md._vertices.size() - 1;
+				int32_t verts = md._vertices.size();
 				if (i >= verts)
 				{
 					md._vertices.push_back({
@@ -190,7 +190,7 @@ namespace HoneyBadger
 		{
 			for (int32_t i = 0; i < normals.size(); i++)
 			{
-				int32_t verts = md._vertices.size() - 1;
+				int32_t verts = md._vertices.size();
 				if (i >= verts)
 				{
 					md._vertices.push_back({
@@ -210,7 +210,7 @@ namespace HoneyBadger
 		{
 			for (int32_t i = 0; i < texUvs.size(); i++)
 			{
-				int32_t verts = md._vertices.size() - 1;
+				int32_t verts = md._vertices.size();
 				if (i >= verts)
 				{
 					md._vertices.push_back({
