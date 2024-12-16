@@ -56,11 +56,30 @@ namespace HoneyBadger
 				continue;
 			}
 
+			TransformComponent transform;
+
+			// TODO: node->has_matrix?
+
+			if (node->has_translation)
+			{
+				transform.Position = { node->translation[0], node->translation[1], node->translation[2] };
+			}
+
+			if (node->has_rotation)
+			{
+				transform.Rotation = { node->rotation[0], node->rotation[1], node->rotation[2], node->rotation[3] };
+			}
+
+			if (node->has_scale)
+			{
+				transform.Scale = { node->scale[0], node->scale[1], node->scale[2] };
+			}
+
 			const unsigned numPrimitives = static_cast<unsigned>(node->mesh->primitives_count);
 			for (unsigned p = 0; p < numPrimitives; ++p)
 			{
 				MeshData md;
-				
+				md._localTransform = transform;
 				const cgltf_primitive* primitive = &node->mesh->primitives[p];
 
 				const unsigned numAttributes = static_cast<unsigned>(primitive->attributes_count);
@@ -79,44 +98,8 @@ namespace HoneyBadger
 						md._indices[k] = static_cast<unsigned>(cgltf_accessor_read_index(primitive->indices, k));
 					}
 				}
-
 				result.push_back(md);
 			}
-		}
-
-		return result;
-	}
-
-	std::vector<TransformComponent> GLTFReader::LoadLocalTransforms(cgltf_data* data)
-	{
-		std::vector<TransformComponent> result;
-		cgltf_node* nodes = data->nodes;
-		const unsigned nodeCount = static_cast<unsigned>(data->nodes_count);
-
-		for (unsigned n = 0; n < nodeCount; ++n)
-		{
-			TransformComponent transform;
-
-			const cgltf_node* node = &nodes[n];
-
-			// TODO: node->has_matrix?
-
-			if (node->has_translation)
-			{
-				transform.Position = { node->translation[0], node->translation[1], node->translation[2]};
-			}
-
-			if (node->has_rotation)
-			{
-				transform.Rotation = {node->rotation[0], node->rotation[1], node->rotation[2], node->rotation[3] };
-			}
-
-			if (node->has_scale)
-			{
-				transform.Scale = { node->scale[0], node->scale[1], node->scale[2] };
-			}
-
-			result.push_back(std::move(transform));
 		}
 
 		return result;
@@ -176,7 +159,7 @@ namespace HoneyBadger
 					md._vertices.push_back({
 						positions[i], 
 						{0.0f, 0.0f, 0.0f},
-						{0.0f,0.0f,0.0f},
+						{0.0f,0.0f,255.0f},
 						{0.0f,0.0f}});
 				}
 				else
@@ -196,7 +179,7 @@ namespace HoneyBadger
 					md._vertices.push_back({
 						{0.0f, 0.0f, 0.0f},
 						normals[i],
-						{0.0f,0.0f,0.0f},
+						{0.0f,0.0f,255.0f},
 						{0.0f,0.0f} });
 				}
 				else
@@ -216,7 +199,7 @@ namespace HoneyBadger
 					md._vertices.push_back({
 						{0.0f, 0.0f, 0.0f},
 						{0.0f, 0.0f, 0.0f},
-						{0.0f,0.0f,0.0f},
+						{0.0f,0.0f,255.0f},
 						texUvs[i]});
 				}
 				else

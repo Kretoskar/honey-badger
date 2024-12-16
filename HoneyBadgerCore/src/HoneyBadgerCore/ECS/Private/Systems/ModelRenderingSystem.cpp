@@ -51,7 +51,8 @@ void HoneyBadger::ModelRenderingSystem::Render()
 				{
 					if (std::shared_ptr<Shader> shader = mat->GetShader())
 					{
-						shader->SetModelMatrix(transformComp.ToMat4() * model->_meshesLocalTransforms[i].ToMat4());
+						MeshData md = mesh->GetData();
+						shader->SetModelMatrix(transformComp.ToMat4() * md._localTransform.ToMat4());
 						shader->SetVPMatrix(_camera->GetVPMatrix());
 						if (Texture* tex = Engine::Instance->GetAssetsRegistry()->GetTextureByName(mat->GetDiffuseMapName()).get())
 						{

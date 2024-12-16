@@ -20,7 +20,6 @@ namespace HoneyBadger
 		// TODO: shared ptr, or free?
 		cgltf_data* Read(const char* filePath);
 		std::vector<MeshData> LoadMeshes(cgltf_data* data);
-		std::vector<TransformComponent> LoadLocalTransforms(cgltf_data* data);
 		void MeshFromAttribute(MeshData& md, cgltf_attribute& attribute, cgltf_skin* skin, cgltf_node* nodes, unsigned nodeCount);
 
 		std::vector<float> GetFloats(unsigned inComponentCount, const cgltf_accessor& inAccessor);

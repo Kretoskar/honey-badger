@@ -4,6 +4,7 @@
 
 #include "HoneyBadgerCore/Rendering/Public/Vertex.h"
 #include "HoneyBadgerCore/Rendering/Public/VertexArrayObject.h"
+#include "HoneyBadgerCore/ECS/Public/Components/TransformComponent.h"
 #include "HoneyBadgerCore/vendor/json.hpp"
 #include "HoneyBadgerCore/ResourceHandling/Public/Guid.h"
 
@@ -14,10 +15,11 @@ namespace HoneyBadger
 	struct MeshData
 	{
 		std::string _guid;
+		TransformComponent _localTransform;
 		std::vector<Vertex> _vertices;
 		std::vector<unsigned> _indices;
 
-		NLOHMANN_DEFINE_TYPE_INTRUSIVE(MeshData, _guid, _vertices, _indices)
+		NLOHMANN_DEFINE_TYPE_INTRUSIVE(MeshData, _localTransform, _guid, _vertices, _indices)
 	};
 
 	class Mesh
