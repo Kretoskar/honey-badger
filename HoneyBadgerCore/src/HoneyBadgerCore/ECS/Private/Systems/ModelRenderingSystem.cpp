@@ -44,7 +44,7 @@ void HoneyBadger::ModelRenderingSystem::Render()
 				Material* mat = Engine::Instance->GetAssetsRegistry()->GetMaterialByGuid(modelComp.MaterialsGuids[i]).get();
 				if (!mat)
 				{
-					mat = Engine::Instance->GetAssetsRegistry()->GetMaterialByName("unlit_color").get();
+					mat = Engine::Instance->GetAssetsRegistry()->GetMaterialByName("track").get();
 				}
 				
 				if (mat)
