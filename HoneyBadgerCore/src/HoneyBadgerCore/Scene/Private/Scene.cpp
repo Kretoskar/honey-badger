@@ -1,6 +1,6 @@
 #include "hbpch.h"
 #include "HoneyBadgerCore/Scene/Public/Scene.h"
-#include "HoneyBadgerCore/ResourceHandling/Public/Guid.h"
+#include "HoneyBadgerCore/ResourceHandling/Public/Guid.h""
 
 #define INIT_COMPONENT(component, componentMap) \
 if (component* c = Ecs.GetComponentPtr<component>(e)) \
@@ -26,6 +26,7 @@ HoneyBadger::Scene::Scene(ECS& Ecs)
 		INIT_COMPONENT(TransformComponent, TransformComponentMap);
 		INIT_COMPONENT(MeshComponent, MeshComponentMap);
 		INIT_COMPONENT(NameComponent, NameComponentMap);
+		INIT_COMPONENT(ModelComponent, ModelComponentMap);
 	}
 }
 
@@ -38,6 +39,7 @@ void HoneyBadger::Scene::InitECS(ECS& Ecs)
 		LOAD_COMPONENT(TransformComponent, TransformComponentMap);
 		LOAD_COMPONENT(MeshComponent, MeshComponentMap);
 		LOAD_COMPONENT(NameComponent, NameComponentMap);
+		LOAD_COMPONENT(ModelComponent, ModelComponentMap);
 	}
 }
 
