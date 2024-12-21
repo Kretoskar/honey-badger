@@ -206,6 +206,7 @@ namespace HoneyBadger
 			NameMaterialMap.emplace(name, material);
 			MaterialNames.push_back(name.Get());
 			NameGuidMaterialMap.emplace(name, materialData.Guid);
+			GuidNameMaterialMap.emplace(materialData.Guid, name);
 
 			return material;
 		}
@@ -405,6 +406,15 @@ namespace HoneyBadger
 		if (NameGuidMaterialMap.find(name) != NameGuidMaterialMap.end())
 		{
 			return NameGuidMaterialMap[name];
+		}
+
+		return "";
+	}
+	HBString AssetsRegistry::GetMaterialName(HBString guid)
+	{
+		if (GuidNameMaterialMap.find(guid) != GuidNameMaterialMap.end())
+		{
+			return GuidNameMaterialMap[guid];
 		}
 
 		return "";

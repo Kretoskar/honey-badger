@@ -55,19 +55,21 @@ namespace HoneyBadger
 	}
 
 	RTTI_PROPERTY(Guid, Guid)
+
 	ImGui::Text("---Meshes---");
 
 	std::shared_ptr<ModelData> Model = HoneyBadger::AssetsRegistry::Instance->GetModelByGuid(Guid);
 	if (Model)
 	{
-		for (const std::string& meshGuid : Model->_meshesGuids)
+		for (int32_t i = 0; i < Model->_meshesGuids.size(); ++i)
 		{
-			
+			const std::string& meshGuid = Model->_meshesGuids[i];
 			ImGui::Text(HoneyBadger::AssetsRegistry::Instance->GetMeshName(meshGuid).Get());
 			ImGui::SameLine();
 
-			static const char* selectedMaterial = nullptr;
-			int32_t selectedMatIdx = 0;
+			const char* selectedMaterial =
+				HoneyBadger::AssetsRegistry::Instance->GetMaterialName(MaterialsGuids[i].c_str()).Get();
+
 			std::vector<const char*> matNames;
 
 			for (const std::string& s : HoneyBadger::AssetsRegistry::Instance->MaterialNames)
@@ -75,7 +77,10 @@ namespace HoneyBadger
 				matNames.emplace_back(s.c_str());
 			}
 
-			if (ImGui::BeginCombo("##meshMatCombo", selectedMaterial))
+			std::string name = "##materialCombo";
+			name += meshGuid;
+
+			if (ImGui::BeginCombo(name.c_str(), selectedMaterial))
 			{
 				for (int32_t n = 0; n < matNames.size(); n++)
 				{
@@ -84,7 +89,7 @@ namespace HoneyBadger
 					if (ImGui::Selectable(matNames[n], isSelected))
 					{
 						selectedMaterial = matNames[n];
-						selectedMatIdx = n;
+						MaterialsGuids[i] = HoneyBadger::AssetsRegistry::Instance->GetMaterialGuid(selectedMaterial).Get();
 					}
 
 					if (isSelected)
@@ -93,15 +98,6 @@ namespace HoneyBadger
 					}
 				}
 				ImGui::EndCombo();
-			}
-
-			ImGui::SameLine();
-			if (ImGui::Button("Set Mat", ImVec2(100.0f, 20.0f)))
-			{
-				if (selectedMaterial)
-				{
-					MaterialsGuids[selectedMatIdx] = HoneyBadger::AssetsRegistry::Instance->GetMaterialGuid(selectedMaterial).Get();
-				}
 			}
 		}
 	}
