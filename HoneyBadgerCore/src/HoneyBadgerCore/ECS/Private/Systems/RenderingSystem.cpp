@@ -37,8 +37,12 @@ void HoneyBadger::RenderingSystem::Render()
 		if (mesh)
 		{
 			// TODO: take material from component
-			Material* mat = Engine::Instance->GetAssetsRegistry()->GetMaterialByName("unlit_color").get();
-			
+			Material* mat = Engine::Instance->GetAssetsRegistry()->GetMaterialByGuid(meshComp.MaterialGuid.c_str()).get();
+			if (!mat)
+			{
+				mat = Engine::Instance->GetAssetsRegistry()->GetMaterialByName("unlit_color").get();
+			}
+
 			if (std::shared_ptr<Shader> shader = mat->GetShader())
 			{
 				shader->SetModelMatrix(transformComp.ToMat4());

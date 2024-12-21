@@ -3,6 +3,7 @@
 #include "HoneyBadgerCore/UI/Public/PropertyDrawer.h"
 #include "HoneyBadgerCore/ResourceHandling/Public/AssetsRegistry.h"
 #include "HoneyBadgerCore/Rendering/Public/Mesh/Mesh.h"
+#include "HoneyBadgerCore/Rendering/Public/Material.h"
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_glfw.h"
 #include "imgui/imgui_impl_opengl3.h"
@@ -25,20 +26,21 @@ namespace HoneyBadger
 	RTTI_BEGIN(MeshComponent)
 
 	static const char* selectedMesh = nullptr;
-	std::vector<const char*> names; 
+	std::vector<const char*> meshNames; 
 	for (const std::string& s : HoneyBadger::AssetsRegistry::Instance->MeshNames)
 	{
-		names.emplace_back(s.c_str());
+		meshNames.emplace_back(s.c_str());
 	}
 
 	if (ImGui::BeginCombo("##meshCombo", selectedMesh))
 	{
-		for (int n = 0; n < names.size(); n++)
+		for (int n = 0; n < meshNames.size(); n++)
 		{
-			bool isSelected = (selectedMesh == names[n]);
-			if (ImGui::Selectable(names[n], isSelected))
+			bool isSelected = (selectedMesh == meshNames[n]);
+			if (ImGui::Selectable(meshNames[n], isSelected))
 			{
-				selectedMesh = names[n];
+				selectedMesh = meshNames[n];
+				MeshGuid = HoneyBadger::AssetsRegistry::Instance->GetMeshByName(selectedMesh)->GetGuid();
 			}
 
 			if (isSelected)
@@ -48,13 +50,31 @@ namespace HoneyBadger
 		}
 		ImGui::EndCombo();
 	}
-	ImGui::SameLine();
-	if (ImGui::Button("Set", ImVec2(100.0f, 20.0f)))
+
+	static const char* selectedMaterial = nullptr;
+	std::vector<const char*> materialNames;
+	for (const std::string& s : HoneyBadger::AssetsRegistry::Instance->MaterialNames)
 	{
-		if (selectedMesh)
+		materialNames.emplace_back(s.c_str());
+	}
+
+	if (ImGui::BeginCombo("##meshMaterialCombo", selectedMaterial))
+	{
+		for (int n = 0; n < materialNames.size(); n++)
 		{
-			MeshGuid = HoneyBadger::AssetsRegistry::Instance->GetMeshByName(selectedMesh)->GetGuid();
+			bool isSelected = (selectedMaterial == materialNames[n]);
+			if (ImGui::Selectable(materialNames[n], isSelected))
+			{
+				selectedMaterial = materialNames[n];
+				MaterialGuid = HoneyBadger::AssetsRegistry::Instance->GetMaterialGuid(selectedMaterial).Get();
+			}
+
+			if (isSelected)
+			{
+				ImGui::SetItemDefaultFocus();
+			}
 		}
+		ImGui::EndCombo();
 	}
 
 	RTTI_PROPERTY(Guid, MeshGuid)
