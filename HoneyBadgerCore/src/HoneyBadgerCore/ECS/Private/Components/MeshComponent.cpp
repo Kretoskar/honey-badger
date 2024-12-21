@@ -51,7 +51,7 @@ namespace HoneyBadger
 		ImGui::EndCombo();
 	}
 
-	static const char* selectedMaterial = nullptr;
+	const char* selectedMaterial = HoneyBadger::AssetsRegistry::Instance->GetMaterialName(MaterialGuid).Get();
 	std::vector<const char*> materialNames;
 	for (const std::string& s : HoneyBadger::AssetsRegistry::Instance->MaterialNames)
 	{

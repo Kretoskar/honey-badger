@@ -21,7 +21,7 @@ namespace HoneyBadger
 		int _width = 1920;
 		int _height = 1080;
 
-		float _speed = 0.015f;
+		float _speed = 0.15f;
 		float _sensitivity = 100.0f;
 
 		float _FOVdeg = 120;
