@@ -34,6 +34,8 @@ namespace HoneyBadger
 				shader->SetLightColor(Vec4(lightComp.LightColor.x, lightComp.LightColor.y, lightComp.LightColor.z, 1.0f));
 				shader->SetLightDirection(Vec3(dir.x, dir.y, dir.z));
 				shader->SetCameraPosition(_camera->GetPosition());
+				shader->SetAmbientIntensity(lightComp.AmbientIntensity);
+				shader->SetDiffuseIntensity(lightComp.Intensity);
 			}
 		}
 	}

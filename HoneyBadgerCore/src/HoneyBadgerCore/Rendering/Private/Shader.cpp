@@ -145,6 +145,18 @@ namespace HoneyBadger
 		SetUniform3f("lightDir", dir.x, dir.y, dir.z);
 	}
 
+	void Shader::SetAmbientIntensity(float ambient)
+	{
+		Bind();
+		SetUniform1f("ambient", ambient);
+	}
+
+	void Shader::SetDiffuseIntensity(float intensity)
+	{
+		Bind();
+		SetUniform1f("diffuseIntensity", intensity);
+	}
+
 	int Shader::GetUniformLocation(HBString name)
 	{
 		Bind();

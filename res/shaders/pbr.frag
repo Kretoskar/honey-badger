@@ -8,15 +8,14 @@ in vec2 texUV;
 
 uniform sampler2D diffuseMap;
 
+uniform float ambient;
+uniform float diffuseIntensity;
 uniform vec4 lightColor;
 uniform vec3 lightDir;
 uniform vec3 cameraPos;
 
 void main()
 {    
-    // ambient lighting
-    float ambient = 0.20f;
-
     // diffuse lighting
     vec3 normal = normalize(normal);
     vec3 lightDirection = normalize(lightDir);
@@ -33,5 +32,5 @@ void main()
         specular = specAmount * specularLight;
     }
 
-    FragColor = texture(diffuseMap, texUV) * lightColor * (diffuse + ambient + specular);
+    FragColor = texture(diffuseMap, texUV) * lightColor * (diffuse * diffuseIntensity + ambient + specular);
 }
