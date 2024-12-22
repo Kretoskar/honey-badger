@@ -13,4 +13,5 @@ namespace HoneyBadger
 	void DrawEditorPropertyEditable(const char* name, std::string& value);
 	void DrawEditorPropertyEditable(const char* name, Vec3& value);
 	void DrawEditorPropertyEditable(const char* name, Quat& value);
+	void DrawEditorPropertyEditable(const char* name, float& value);
 }

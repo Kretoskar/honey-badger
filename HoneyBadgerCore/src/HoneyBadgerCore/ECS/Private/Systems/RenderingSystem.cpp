@@ -48,7 +48,6 @@ void HoneyBadger::RenderingSystem::Render()
 				shader->SetModelMatrix(transformComp.ToMat4());
 				shader->SetRotModelMatrix(transformComp.ToRotMat4());
 				shader->SetVPMatrix(_camera->GetVPMatrix());
-				shader->SetCameraPosition(_camera->GetPosition());
 
 				if (Texture* tex = Engine::Instance->GetAssetsRegistry()->GetTextureByName(mat->GetDiffuseMapName()).get())
 				{

@@ -139,6 +139,12 @@ namespace HoneyBadger
 		SetUniform4f("lightColor", color.x, color.y, color.z, color.w);
 	}
 
+	void Shader::SetLightDirection(const Vec3& dir)
+	{
+		Bind();
+		SetUniform3f("lightDir", dir.x, dir.y, dir.z);
+	}
+
 	int Shader::GetUniformLocation(HBString name)
 	{
 		Bind();

@@ -73,6 +73,7 @@ namespace HoneyBadger
 		void SetCameraPosition(Vec3 pos);
 		void SetLightPosition(Vec3 pos);
 		void SetLightColor(Vec4 color);
+		void SetLightDirection(const Vec3& dir);
 
 	private:
 		int GetUniformLocation(HBString name);

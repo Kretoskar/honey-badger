@@ -10,6 +10,7 @@
 #include "HoneyBadgerCore/Scene/Public/Scene.h"
 #include "HoneyBadgerCore/ECS/Public/Systems/RenderingSystem.h"
 #include "HoneyBadgerCore/ECS/Public/Systems/ModelRenderingSystem.h"
+#include "HoneyBadgerCore/ECS/Public/Systems/LightingSystem.h"
 #include "HoneyBadgerCore/ResourceHandling/Public/AssetsRegistry.h"
 #include "HoneyBadgerEditor/Systems/Public/EditorUISystem.h"
 
@@ -46,6 +47,7 @@ namespace HoneyBadgerEditor
 
 		HoneyBadger::RenderingSystem _renderingSystem;
 		HoneyBadger::ModelRenderingSystem _modelRenderingSystem;
+		HoneyBadger::LightRenderingSystem _lightRenderingSystem;
 		HoneyBadgerEditor::EditorUISystem _uiSystem;
 	};
 }

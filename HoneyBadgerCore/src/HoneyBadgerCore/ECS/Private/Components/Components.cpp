@@ -4,6 +4,7 @@
 #include "HoneyBadgerCore/ECS/Public/Components/MeshComponent.h"
 #include "HoneyBadgerCore/ECS/Public/Components/TransformComponent.h"
 #include "HoneyBadgerCore/ECS/Public/Components/ModelComponent.h"
+#include "HoneyBadgerCore/ECS/Public/Components/DirectionalLightComponent.h"
 #include "HoneyBadgerCore/Core/Public/RTTI.h"
 
 namespace HoneyBadger
@@ -36,11 +37,11 @@ if (name == QUOTE(_TClass)) \
 
 	void HoneyBadger::Components::DrawAllComponents(ECS& ecs,  Entity e)
 	{
-		
 		DRAW_COMPONENT(NameComponent)
 		DRAW_COMPONENT(TransformComponent)
 		DRAW_COMPONENT(MeshComponent)
 		DRAW_COMPONENT(ModelComponent)
+		DRAW_COMPONENT(DirectionalLightComponent)
 	}
 
 	void HoneyBadger::Components::RegisterAllComponents(ECS& ecs)
@@ -49,6 +50,7 @@ if (name == QUOTE(_TClass)) \
 		REGISTER_COMPONENT(MeshComponent)
 		REGISTER_COMPONENT(NameComponent)
 		REGISTER_COMPONENT(ModelComponent)
+		REGISTER_COMPONENT(DirectionalLightComponent)
 	}
 
 	void Components::AddComponent(const char* name, ECS& ECS, Entity e)
@@ -57,6 +59,7 @@ if (name == QUOTE(_TClass)) \
 		ADD_COMPONENT(MeshComponent)
 		ADD_COMPONENT(NameComponent)
 		ADD_COMPONENT(ModelComponent)
+		ADD_COMPONENT(DirectionalLightComponent)
 	}
 
 #undef DRAW_COMPONENT

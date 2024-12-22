@@ -64,6 +64,7 @@ bool HoneyBadgerEditor::Editor::Init()
 
 	_renderingSystem.Register(*_ecs, _camera.get());
 	_modelRenderingSystem.Register(*_ecs, _camera.get());
+	_lightRenderingSystem.Register(*_ecs, _camera.get());
 	_uiSystem.Register(*_ecs, &_ui);
 
 	return true;
@@ -76,6 +77,7 @@ void HoneyBadgerEditor::Editor::Start()
 
 		_ui.CreateFrame();
 		_ui.Render();
+		_lightRenderingSystem.UpdateShaders();
 		_renderingSystem.Render();
 		_modelRenderingSystem.Render();
 		_debugRenderer->Render();

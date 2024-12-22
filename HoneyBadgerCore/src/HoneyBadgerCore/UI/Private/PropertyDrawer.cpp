@@ -122,3 +122,14 @@ void HoneyBadger::DrawEditorPropertyEditable(const char* name, Quat& value)
 		HoneyBadger::MathCore::DegToRad(pitch),
 		HoneyBadger::MathCore::DegToRad(yaw));
 }
+
+void HoneyBadger::DrawEditorPropertyEditable(const char* name, float& value)
+{
+	std::string propBase = "##";
+	propBase += name;
+
+	PrintName(name);
+	ImGui::SameLine();
+	ImGui::PushItemWidth(50);
+	ImGui::DragFloat((propBase).c_str(), &value, 0.01f, 0.0f, 0.0f, "%.2f");
+}
