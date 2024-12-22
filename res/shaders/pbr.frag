@@ -27,5 +27,5 @@ void main()
     vec3 lightDirection = normalize(lightVec);
     float diffuse = max(dot(normal, lightDirection), 0.0f);
 
-    FragColor = texture(diffuseMap, texUV) * lightColor * diffuse;
+    FragColor = texture(diffuseMap, texUV) * lightColor * (diffuse + ambient);
 }
