@@ -53,7 +53,12 @@ void HoneyBadger::ModelRenderingSystem::Render()
 					{
 						MeshData md = mesh->GetData();
 						shader->SetModelMatrix(transformComp.ToMat4() * md._localTransform.ToMat4());
+						shader->SetRotModelMatrix(transformComp.ToRotMat4() * md._localTransform.ToRotMat4());
 						shader->SetVPMatrix(_camera->GetVPMatrix());
+						shader->SetLightColor({ 1.0f, 1.0f, 1.0f, 1.0f });
+						shader->SetLightPosition({ 0.0f, 0.0f, 0.0f });
+						
+
 						if (Texture* tex = Engine::Instance->GetAssetsRegistry()->GetTextureByName(mat->GetDiffuseMapName()).get())
 						{
 							shader->AssignDiffuseMap(*tex);

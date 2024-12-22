@@ -109,6 +109,12 @@ namespace HoneyBadger
 		SetUniformMat4f("model", m);
 	}
 
+	void Shader::SetRotModelMatrix(Mat4 m)
+	{
+		Bind();
+		SetUniformMat4f("modelRot", m);
+	}
+
 	void Shader::SetVPMatrix(Mat4 m)
 	{
 		Bind();

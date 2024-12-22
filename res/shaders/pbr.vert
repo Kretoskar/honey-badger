@@ -11,12 +11,13 @@ out vec3 color;
 out vec2 texUV;
 
 uniform mat4 model;
+uniform mat4 modelRot;
 uniform mat4 viewProj;
 
 void main()
 {
     pos = vec3(model * vec4(aPos, 1.0f));
-    normal = aNormal;
+    normal =  vec3(modelRot * vec4(aNormal, 1.0f));;
     color = aColor;
     texUV = aTexUV;
 

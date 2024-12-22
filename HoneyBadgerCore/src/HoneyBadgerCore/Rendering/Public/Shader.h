@@ -68,6 +68,7 @@ namespace HoneyBadger
 		void AssignSpecularMap(Texture& texture);
 
 		void SetModelMatrix(Mat4 m);
+		void SetRotModelMatrix(Mat4 m);
 		void SetVPMatrix(Mat4 m);
 		void SetCameraPosition(Vec3 pos);
 		void SetLightPosition(Vec3 pos);

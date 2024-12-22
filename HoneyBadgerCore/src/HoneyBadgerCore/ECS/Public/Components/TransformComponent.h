@@ -41,5 +41,21 @@ namespace HoneyBadger
 				p.x, p.y, p.z, 1 // Position
 			);
 		}
+
+		Mat4 ToRotMat4()
+		{
+			// First, extract the rotation basis of the transform
+			Vec3 x = Rotation * Vec3(1, 0, 0);
+			Vec3 y = Rotation * Vec3(0, 1, 0);
+			Vec3 z = Rotation * Vec3(0, 0, 1);
+
+			// Create matrix
+			return Mat4(
+				x.x, x.y, x.z, 0, 
+				y.x, y.y, y.z, 0, 
+				z.x, z.y, z.z, 0, 
+				0, 0, 0, 1 // Position
+			);
+		}
 	};
 }
