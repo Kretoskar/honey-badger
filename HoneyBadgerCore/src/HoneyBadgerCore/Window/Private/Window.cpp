@@ -123,6 +123,8 @@ void HoneyBadger::Window::Update()
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glEnable(GL_DEPTH_TEST);
 	HoneyBadger::AssetsRegistry::Instance->GetShaderByName("framebuffer")->SetUniform1f("screenTexture", 0);
+	HoneyBadger::AssetsRegistry::Instance->GetShaderByName("framebuffer")->SetUniform1f("width", _width);
+	HoneyBadger::AssetsRegistry::Instance->GetShaderByName("framebuffer")->SetUniform1f("height", _height);
 	glDisable(GL_DEPTH_TEST);
 	HoneyBadger::AssetsRegistry::Instance->GetShaderByName("framebuffer")->Bind();
 	glBindVertexArray(_rectVao);
