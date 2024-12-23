@@ -75,12 +75,16 @@ void HoneyBadgerEditor::Editor::Start()
 	{
 		_camera->Update();
 
-		_ui.CreateFrame();
-		_ui.Render();
 		_lightRenderingSystem.UpdateShaders();
 		_renderingSystem.Render();
 		_modelRenderingSystem.Render();
+
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
 		_debugRenderer->Render();
+
+		_ui.CreateFrame();
+		_ui.Render();
 		_window.Update();
 		_uiSystem.Update();
 	}
