@@ -1,0 +1,5 @@
+{
+    "FragmentShaderPath": "Shaders/framebuffer.frag",
+    "Guid": "7a32-e8-4c5-848-11ff2e",
+    "VertexShaderPath": "Shaders/framebuffer.vert"
+}
