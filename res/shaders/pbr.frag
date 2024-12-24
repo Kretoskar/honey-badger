@@ -14,23 +14,41 @@ uniform vec4 lightColor;
 uniform vec3 lightDir;
 uniform vec3 cameraPos;
 
+const int bands = 4;
+const float toonColorFactor = 1.0f / bands;
+
+float CalcRimLightFactor(vec3 PixelToCamera, vec3 Normal)
+{
+	float RimFactor = dot (PixelToCamera, Normal);
+	RimFactor = 1 - RimFactor;
+	RimFactor = max(0.0, RimFactor);
+	RimFactor = pow(RimFactor, 8.0);
+	return RimFactor;
+}
+
 void main()
 {    
     // diffuse lighting
     vec3 normal = normalize(normal);
     vec3 lightDirection = normalize(lightDir);
     float diffuse = max(dot(normal, lightDirection), 0.0f);
+	diffuse = ceil(diffuse * bands) * toonColorFactor;
+	
+	vec3 viewDirection = normalize(cameraPos - pos);
 	
 	// specular lighting
 	float specular = 0.0f;
     if (diffuse != 0.0f)
     {
         float specularLight = 0.50f;
-        vec3 viewDirection = normalize(cameraPos - pos);
+        
         vec3 halfwayVec = normalize(viewDirection + lightDirection);
         float specAmount = pow(max(dot(normal, halfwayVec), 0.0f), 16);
         specular = specAmount * specularLight;
     }
 
-    FragColor = texture(diffuseMap, texUV) * lightColor * (diffuse * diffuseIntensity + ambient + specular);
+	vec4 diffuseColor = texture(diffuseMap, texUV);
+	vec4 RimColor = diffuseColor * CalcRimLightFactor(viewDirection, normal);
+	
+    FragColor = RimColor + diffuseColor * lightColor * (diffuse * diffuseIntensity + ambient + specular);
 }
