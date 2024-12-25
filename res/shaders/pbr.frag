@@ -49,6 +49,7 @@ void main()
 
 	vec4 diffuseColor = texture(diffuseMap, texUV);
 	vec4 RimColor = diffuseColor * CalcRimLightFactor(viewDirection, normal);
+	vec4 finalColor = RimColor + diffuseColor * lightColor * (diffuse * diffuseIntensity + ambient + specular);
 	
-    FragColor = RimColor + diffuseColor * lightColor * (diffuse * diffuseIntensity + ambient + specular);
+    FragColor = vec4(finalColor.r, finalColor.g, finalColor.b, diffuseColor.a);
 }

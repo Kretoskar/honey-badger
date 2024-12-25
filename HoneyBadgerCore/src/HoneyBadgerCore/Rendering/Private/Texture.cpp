@@ -6,7 +6,7 @@ HoneyBadger::Texture::Texture(HBString path, unsigned unit, unsigned format, uns
 	: _type(texType), _unit(unit)
 {
 	stbi_set_flip_vertically_on_load(false);
-	unsigned char* _bytes = stbi_load(path.Get(), &_width, &_height, &_numColCh, 3);
+	unsigned char* _bytes = stbi_load(path.Get(), &_width, &_height, &_numColCh, 4);
 
 	glGenTextures(1, &_id);
 
@@ -19,7 +19,7 @@ HoneyBadger::Texture::Texture(HBString path, unsigned unit, unsigned format, uns
 	glTexParameteri(_type, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(_type, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-	glTexImage2D(_type, 0, GL_RGB, _width, _height, 0, format, pixelType, _bytes);
+	glTexImage2D(_type, 0, GL_RGBA, _width, _height, 0, GL_RGBA, pixelType, _bytes);
 	glGenerateMipmap(_type);
 
 	stbi_image_free(_bytes);

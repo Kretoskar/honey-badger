@@ -62,6 +62,9 @@ bool HoneyBadger::Window::Init(WindowInitSettings InitSettings)
 	}
 
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_BLEND);
+
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	// Prepare framebuffer rectangle VBO and VAO
 	unsigned int rectVBO;
