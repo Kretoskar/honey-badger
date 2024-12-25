@@ -123,8 +123,8 @@ void HoneyBadger::Window::Update()
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glEnable(GL_DEPTH_TEST);
 	HoneyBadger::AssetsRegistry::Instance->GetShaderByName("framebuffer")->SetUniform1f("screenTexture", 0);
-	HoneyBadger::AssetsRegistry::Instance->GetShaderByName("framebuffer")->SetUniform1f("width", _width);
-	HoneyBadger::AssetsRegistry::Instance->GetShaderByName("framebuffer")->SetUniform1f("height", _height);
+	HoneyBadger::AssetsRegistry::Instance->GetShaderByName("framebuffer")->SetUniform1f("width", _finalWidth);
+	HoneyBadger::AssetsRegistry::Instance->GetShaderByName("framebuffer")->SetUniform1f("height", _finalHeight);
 	glDisable(GL_DEPTH_TEST);
 	HoneyBadger::AssetsRegistry::Instance->GetShaderByName("framebuffer")->Bind();
 	glBindVertexArray(_rectVao);
@@ -147,11 +147,13 @@ void HoneyBadger::Window::Shutdown()
 
 void HoneyBadger::Window::UpdateViewportSize()
 {
+	_finalWidth = _width - (_width * _viewportMarginRatioLeft) - (_width * _viewportMarginRatioRight);
+	_finalHeight = _height - (_height * _viewportMarginRatioTop) - (_height * _viewportMarginRatioBottom);
 	glViewport
 	(
 		_width * _viewportMarginRatioLeft,
 		_height * _viewportMarginRatioBottom,
-		_width - (_width * _viewportMarginRatioLeft) - (_width * _viewportMarginRatioRight),
-		_height - (_height * _viewportMarginRatioTop) - (_height * _viewportMarginRatioBottom)
+		_finalWidth,
+		_finalHeight
 	);
 }

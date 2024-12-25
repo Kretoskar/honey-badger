@@ -65,5 +65,7 @@ namespace HoneyBadger
 		unsigned int _framebufferTexture = -1;
 		unsigned int _rectVao = -1;
 
+		float _finalWidth{};
+		float _finalHeight{};
 	};
 }
