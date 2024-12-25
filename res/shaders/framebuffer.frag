@@ -10,8 +10,8 @@ uniform sampler2D screenTexture;
 
 void make_kernel(inout vec4 n[9], sampler2D tex, vec2 coord)
 {
-	float w = 1.0 / width;
-	float h = 1.0 / height;
+	float w = 1.0 / (width * 2);
+	float h = 1.0 / (height * 2);
 
 	n[0] = texture2D(tex, coord + vec2( -w, -h));
 	n[1] = texture2D(tex, coord + vec2(0.0, -h));
@@ -38,7 +38,7 @@ void main()
 	float sobelMag = sobel.r * sobel.g * sobel.b;
 	if (sobelMag > 0.1)
 	{
-		color = vec4(0.8, 0.8, 0.8, 1.0);
+		color = vec4(0.1, 0.1, 0.1, 1.0);
 	}
 	else 
 	{

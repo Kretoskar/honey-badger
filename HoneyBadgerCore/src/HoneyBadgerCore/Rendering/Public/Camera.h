@@ -24,7 +24,7 @@ namespace HoneyBadger
 		float _speed = 0.15f;
 		float _sensitivity = 100.0f;
 
-		float _FOVdeg = 120;
+		float _FOVdeg = 75;
 		float _nearPlane = 0.01f;
 		float _farPlane = 1000;
 
