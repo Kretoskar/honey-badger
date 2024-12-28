@@ -1,0 +1,5 @@
+{
+    "FragmentShaderPath": "Shaders/postProcess.frag",
+    "Guid": "7b32-12-4a5-213-11ff2e",
+    "VertexShaderPath": "Shaders/framebuffer.vert"
+}

@@ -8,12 +8,13 @@
 float rectangleVertices[] =
 {
 	// Coords    // texCoords
-	 2.0f, -2.0f,  1.0f, 0.0f,
+	 1.0f, -2.0f,  1.0f, 0.0f,
 	-2.0f, -2.0f,  0.0f, 0.0f,
-	-2.0f,  2.0f,  0.0f, 1.0f,
-	 2.0f,  2.0f,  1.0f, 1.0f,
-	 2.0f, -2.0f,  1.0f, 0.0f,
-	-2.0f,  2.0f,  0.0f, 1.0f
+	-2.0f,  1.0f,  0.0f, 1.0f,
+
+	 1.0f,  1.0f,  1.0f, 1.0f,
+	 1.0f, -2.0f,  1.0f, 0.0f,
+	-2.0f,  1.0f,  0.0f, 1.0f
 };
 
 bool HoneyBadger::Window::Init(WindowInitSettings InitSettings)
@@ -124,15 +125,26 @@ bool HoneyBadger::Window::Init(WindowInitSettings InitSettings)
 void HoneyBadger::Window::Update()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glEnable(GL_DEPTH_TEST);
-	HoneyBadger::AssetsRegistry::Instance->GetShaderByName("framebuffer")->SetUniform1f("screenTexture", 0);
-	HoneyBadger::AssetsRegistry::Instance->GetShaderByName("framebuffer")->SetUniform1f("width", _finalWidth);
-	HoneyBadger::AssetsRegistry::Instance->GetShaderByName("framebuffer")->SetUniform1f("height", _finalHeight);
 	glDisable(GL_DEPTH_TEST);
+	
+	HoneyBadger::AssetsRegistry::Instance->GetShaderByName("framebuffer")->SetUniform1f("screenTexture", 0);
+	HoneyBadger::AssetsRegistry::Instance->GetShaderByName("framebuffer")->SetUniform1f("width", _width);
+	HoneyBadger::AssetsRegistry::Instance->GetShaderByName("framebuffer")->SetUniform1f("height", _height);
 	HoneyBadger::AssetsRegistry::Instance->GetShaderByName("framebuffer")->Bind();
+
 	glBindVertexArray(_rectVao);
 	glBindTexture(GL_TEXTURE_2D, _framebufferTexture);
 	glDrawArrays(GL_TRIANGLES, 0, 6);
+
+	HoneyBadger::AssetsRegistry::Instance->GetShaderByName("postProcess")->SetUniform1f("screenTexture", 0);
+	HoneyBadger::AssetsRegistry::Instance->GetShaderByName("postProcess")->SetUniform1f("width", _width);
+	HoneyBadger::AssetsRegistry::Instance->GetShaderByName("postProcess")->SetUniform1f("height", _height);
+	HoneyBadger::AssetsRegistry::Instance->GetShaderByName("postProcess")->Bind();
+
+	glBindVertexArray(_rectVao);
+	glBindTexture(GL_TEXTURE_2D, _framebufferTexture);
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+
 	glEnable(GL_DEPTH_TEST);
 	glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
 

@@ -14,7 +14,7 @@ uniform vec4 lightColor;
 uniform vec3 lightDir;
 uniform vec3 cameraPos;
 
-const int bands = 4;
+const int bands = 1;
 const float toonColorFactor = 1.0f / bands;
 
 float CalcRimLightFactor(vec3 PixelToCamera, vec3 Normal)
@@ -22,7 +22,7 @@ float CalcRimLightFactor(vec3 PixelToCamera, vec3 Normal)
 	float RimFactor = dot (PixelToCamera, Normal);
 	RimFactor = 1 - RimFactor;
 	RimFactor = max(0.0, RimFactor);
-	RimFactor = pow(RimFactor, 8.0);
+	RimFactor = pow(RimFactor, 2.0);
 	return RimFactor;
 }
 
@@ -48,8 +48,8 @@ void main()
     }
 
 	vec4 diffuseColor = texture(diffuseMap, texUV);
-	vec4 RimColor = diffuseColor * CalcRimLightFactor(viewDirection, normal);
-	vec4 finalColor = RimColor + diffuseColor * lightColor * (diffuse * diffuseIntensity + ambient + specular);
+	//vec4 RimColor = diffuseColor * CalcRimLightFactor(viewDirection, normal);
+	vec4 finalColor = diffuseColor * lightColor * (diffuse * diffuseIntensity + ambient + specular);
 	
     FragColor = vec4(finalColor.r, finalColor.g, finalColor.b, diffuseColor.a);
 }
