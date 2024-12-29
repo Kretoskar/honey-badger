@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <unordered_map>
 
 #include "HoneyBadgerCore/Core/Public/Engine.h"
 #include "HoneyBadgerCore/Window/Public/Window.h"
@@ -23,11 +24,15 @@ namespace HoneyBadgerGame
 		void Start();
 		void ShutDown();
 
+		HoneyBadger::Entity GetEntityByName(HoneyBadger::HBString Name);
+
 	protected:
 		virtual bool Init_Internal() = 0;
 		virtual void BeginPlay_Internal() = 0;
 		virtual void Tick_Internal() = 0;
 		virtual void EndPlay_Internal() = 0;
+
+		std::shared_ptr<HoneyBadger::ECS> _ecs;
 
 	private:
 		void BeginPlay();
@@ -40,10 +45,11 @@ namespace HoneyBadgerGame
 		HoneyBadger::Window _window;
 
 		std::shared_ptr<HoneyBadger::Camera> _camera;
-		std::shared_ptr<HoneyBadger::ECS> _ecs;
 
 		HoneyBadger::RenderingSystem _renderingSystem;
 		HoneyBadger::ModelRenderingSystem _modelRenderingSystem;
 		HoneyBadger::LightRenderingSystem _lightRenderingSystem;
+
+		std::unordered_map<HoneyBadger::HBString, HoneyBadger::Entity, HoneyBadger::HBString::HBStringHasher> NameEntityMap;
 	};
 }

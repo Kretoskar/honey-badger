@@ -47,6 +47,15 @@ bool HoneyBadgerGame::Game::Init(HoneyBadger::HBString name, HoneyBadger::HBStri
 		return false;
 	}
 
+	for (HoneyBadger::Entity entity : _ecs->LivingEntities)
+	{
+		HoneyBadger::NameComponent* nameComp = _ecs->GetComponentPtr<HoneyBadger::NameComponent>(entity);
+		if (nameComp)
+		{
+			NameEntityMap.emplace(nameComp->Name, entity);
+		}
+	}
+
 	return true;
 }
 
@@ -71,6 +80,11 @@ void HoneyBadgerGame::Game::Start()
 void HoneyBadgerGame::Game::ShutDown()
 {
 	_shouldClose = true;
+}
+
+HoneyBadger::Entity HoneyBadgerGame::Game::GetEntityByName(HoneyBadger::HBString Name)
+{
+	return NameEntityMap[Name];
 }
 
 void HoneyBadgerGame::Game::BeginPlay()
