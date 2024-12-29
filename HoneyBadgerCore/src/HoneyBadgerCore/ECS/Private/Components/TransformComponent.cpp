@@ -5,6 +5,7 @@
 namespace HoneyBadger
 {
 	RTTI_BEGIN(TransformComponent)
+	RTTI_PROPERTY_EDITABLE(tr_parent, Parent)
 	RTTI_PROPERTY_EDITABLE(pos, Position)
 	RTTI_PROPERTY_EDITABLE(rot, Rotation)
 	RTTI_PROPERTY_EDITABLE(scale, Scale)

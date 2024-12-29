@@ -11,11 +11,12 @@ namespace HoneyBadger
 {
 	struct TransformComponent
 	{
+		std::string Parent;
 		Vec3 Position;
 		Quat Rotation;
 		Vec3 Scale = {1,1,1};
 
-		NLOHMANN_DEFINE_TYPE_INTRUSIVE(TransformComponent, Position, Rotation, Scale)
+		NLOHMANN_DEFINE_TYPE_INTRUSIVE(TransformComponent, Parent, Position, Rotation, Scale)
 		RTTI_DECLARE(TransformComponent)
 
 		Mat4 ToMat4()

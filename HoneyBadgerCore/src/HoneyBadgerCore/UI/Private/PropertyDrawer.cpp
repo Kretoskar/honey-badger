@@ -81,7 +81,9 @@ void HoneyBadger::DrawEditorPropertyEditable(const char* name, std::string& valu
 
 	Prop[value.size()] = '\0';
 
-	ImGui::InputTextWithHint("##name", name, Prop, IM_ARRAYSIZE(Prop));
+	std::string buff = "##";
+	buff += name;
+	ImGui::InputTextWithHint(buff.c_str(), name, Prop, IM_ARRAYSIZE(Prop));
 
 	value = Prop;
 }
