@@ -23,8 +23,8 @@ bool HoneyBadgerEditor::Editor::Init()
 	{
 		"Honey Badger Editor",
 		HoneyBadger::WindowState::Maximized,
-		1920, 
-		1080,
+		2560,
+		1440,
 		1.0f / 6.0f,
 		1.0f / 6.0f,
 		1.0f / 14.0f,
@@ -39,11 +39,6 @@ bool HoneyBadgerEditor::Editor::Init()
 	if (!_engine.InitAfterWindow())
 	{
 		return false;
-	}
-
-	for (std::string x : _engine.GetAssetsRegistry()->MeshNames)
-	{
-		HB_LOG_ERROR(x.c_str());
 	}
 
 	_ui.SetEditorUI(this);
@@ -79,9 +74,9 @@ void HoneyBadgerEditor::Editor::Start()
 		_renderingSystem.Render();
 		_modelRenderingSystem.Render();
 
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
 		_debugRenderer->Render();
+
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 		_ui.CreateFrame();
 		_ui.Render();

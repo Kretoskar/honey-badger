@@ -3,7 +3,7 @@
 int main(int argc, char* argv[])
 {
 	Sandbox::Sandbox sandbox;
-	if (sandbox.Init("Sandbox"))
+	if (sandbox.Init("Sandbox", "car"))
 	{
 		sandbox.Start();
 	}
