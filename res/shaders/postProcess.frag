@@ -85,15 +85,15 @@ void main()
 	float wws = sobel(ww);
 	
 	vec4 color;
-	if (s > 0.5)
+	if (s > 0.1)
 	{
 		color = vec4(0.0, 0.0, 0.0, 0.9);
 	}
-	else if (ws > 0.5)
+	else if (ws > 0.1)
 	{
 		color = vec4(0.0, 0.0, 0.0, 0.6);
 	}
-	else if (wws > 0.5)
+	else if (wws > 0.1)
 	{
 		color = vec4(0.0, 0.0, 0.0, 0.2);
 	}

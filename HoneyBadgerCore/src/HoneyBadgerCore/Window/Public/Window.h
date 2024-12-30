@@ -63,6 +63,7 @@ namespace HoneyBadger
 		unsigned int _framebuffer = -1;
 		unsigned int _renderBuffer = -1;
 		unsigned int _framebufferTexture = -1;
+		unsigned int _depthFramebufferTexture = -1;
 		unsigned int _rectVao = -1;
 
 		float _finalWidth{};

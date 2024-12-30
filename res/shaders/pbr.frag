@@ -1,5 +1,7 @@
 #version 330 core
-out vec4 FragColor;
+
+layout (location = 0) out vec4 FragColor;
+layout (location = 1) out vec4 DepthColor;
 
 in vec3 pos;
 in vec3 normal;
@@ -25,6 +27,15 @@ float CalcRimLightFactor(vec3 PixelToCamera, vec3 Normal)
 	RimFactor = pow(RimFactor, 2.0);
 	return RimFactor;
 }
+
+float near = 0.1f;
+float far = 100.0f;
+
+float linearizeDepth(float depth)
+{
+	return (2.0 * near * far) / (far + near - (depth * 2.0 - 1.0) * (far - near));
+}
+
 
 void main()
 {    
@@ -52,4 +63,5 @@ void main()
 	vec4 finalColor = diffuseColor * lightColor * (diffuse * diffuseIntensity + ambient + specular);
 	
     FragColor = vec4(finalColor.r, finalColor.g, finalColor.b, diffuseColor.a);
+	DepthColor = vec4(vec3(linearizeDepth(gl_FragCoord.z) / far), 1.0f);
 }

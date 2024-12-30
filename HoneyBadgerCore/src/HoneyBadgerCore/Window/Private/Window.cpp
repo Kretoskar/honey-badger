@@ -92,10 +92,22 @@ bool HoneyBadger::Window::Init(WindowInitSettings InitSettings)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE); // Prevents edge bleeding
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _framebufferTexture, 0);
 
+	glGenTextures(1, &_depthFramebufferTexture);
+	glBindTexture(GL_TEXTURE_2D, _depthFramebufferTexture);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, _width, _height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE); // Prevents edge bleeding
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE); // Prevents edge bleeding
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, _depthFramebufferTexture, 0);
+
 	glGenRenderbuffers(1, &_renderBuffer);
 	glBindRenderbuffer(GL_RENDERBUFFER, _renderBuffer);
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, _width , _height);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, _renderBuffer);
+
+	const GLenum buffers[]{ GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1 };
+	glDrawBuffers(2, buffers);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
@@ -105,7 +117,7 @@ bool HoneyBadger::Window::Init(WindowInitSettings InitSettings)
 		return false;
 	}
 
-	glClearColor(0.0f, 0.0f, 0.0f, 1.00f);
+	glClearColor(0.0f, 0.0f, 1.0f, 1.00f);
 
 
 	// force VSYNC
@@ -127,7 +139,7 @@ void HoneyBadger::Window::Update()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glDisable(GL_DEPTH_TEST);
-	
+
 	HoneyBadger::AssetsRegistry::Instance->GetShaderByName("framebuffer")->SetUniform1f("screenTexture", 0);
 	HoneyBadger::AssetsRegistry::Instance->GetShaderByName("framebuffer")->SetUniform1f("width", _width);
 	HoneyBadger::AssetsRegistry::Instance->GetShaderByName("framebuffer")->SetUniform1f("height", _height);
@@ -143,7 +155,7 @@ void HoneyBadger::Window::Update()
 	HoneyBadger::AssetsRegistry::Instance->GetShaderByName("postProcess")->Bind();
 
 	glBindVertexArray(_rectVao);
-	glBindTexture(GL_TEXTURE_2D, _framebufferTexture);
+	glBindTexture(GL_TEXTURE_2D, _depthFramebufferTexture);
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 
 	glEnable(GL_DEPTH_TEST);
