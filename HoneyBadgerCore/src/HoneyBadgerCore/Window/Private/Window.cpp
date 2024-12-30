@@ -120,8 +120,8 @@ bool HoneyBadger::Window::Init(WindowInitSettings InitSettings)
 	glClearColor(0.0f, 0.0f, 1.0f, 1.00f);
 
 
-	// force VSYNC
-	glfwSwapInterval(1);
+	// uncap FPS
+	glfwSwapInterval(0);
 
 	BindWindowEvents();
 

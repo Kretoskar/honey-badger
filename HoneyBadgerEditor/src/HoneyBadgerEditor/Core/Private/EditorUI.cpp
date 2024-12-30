@@ -168,6 +168,13 @@ void HoneyBadgerEditor::EditorUI::CreateToolbarWidget()
 	}
 	ImGui::SameLine();
 	ImGui::InputTextWithHint("##scenePath", "scene path", SceneName, IM_ARRAYSIZE(SceneName));
+	ImGui::SameLine();
+
+	std::string fpsText = "FPS: ";
+	fpsText += std::to_string(1000 / dt);
+
+	ImGui::Text(fpsText.c_str());
+
 	ImGui::End();
 }
 

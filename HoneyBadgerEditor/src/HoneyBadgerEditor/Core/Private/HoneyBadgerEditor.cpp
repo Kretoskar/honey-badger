@@ -66,8 +66,18 @@ bool HoneyBadgerEditor::Editor::Init()
 }
 void HoneyBadgerEditor::Editor::Start()
 {
+	double prevTime = 0.0;
+	double crntTime = 0.0;
+	double deltaTime;
+
 	while (!_shouldClose && !_window.GetShouldClose())
 	{
+		crntTime = glfwGetTime();
+		deltaTime = (crntTime - prevTime) * 1000;
+
+		// Resets times and counter
+		prevTime = crntTime;
+
 		_camera->Update();
 
 		_lightRenderingSystem.UpdateShaders();
@@ -78,7 +88,7 @@ void HoneyBadgerEditor::Editor::Start()
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-		_ui.CreateFrame();
+		_ui.CreateFrame(deltaTime);
 		_ui.Render();
 		_window.Update();
 		_uiSystem.Update();

@@ -71,8 +71,10 @@ bool HoneyBadger::UserInterface::Init(GLFWwindow* window)
 	return true;
 }
 
-void HoneyBadger::UserInterface::CreateFrame()
+void HoneyBadger::UserInterface::CreateFrame(double deltaTime)
 {
+	dt = deltaTime;
+
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();

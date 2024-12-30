@@ -8,11 +8,13 @@ namespace HoneyBadger
 	{
 	public:
 		bool Init(GLFWwindow* window);
-		void CreateFrame();
+		void CreateFrame(double deltaTime);
 		void Render();
 		void Cleanup();
 
 	protected:
 		virtual void CreateWidgets() = 0;
+
+		double dt = 0.0;
 	};
 }
