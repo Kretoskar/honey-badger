@@ -65,6 +65,8 @@ namespace HoneyBadger
 		void OnMouseMoved(void* payload);
 
 		Mat4 GetVPMatrix() const { return _projection * _view; }
+		Mat4 GetProjectionMatrix() const { return _projection; }
+		Mat4 GetViewMatrix() const { return _view; }
 
 		Vec3 GetPosition() const { return _position; }
 	};

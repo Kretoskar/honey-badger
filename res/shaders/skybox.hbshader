@@ -1,0 +1,5 @@
+{
+    "FragmentShaderPath": "Shaders/skybox.frag",
+    "Guid": "acab-ab-aaa-eee-eeeee1",
+    "VertexShaderPath": "Shaders/skybox.vert"
+}

@@ -5,6 +5,7 @@
 #include "HoneyBadgerCore/Core/Public/HBString.h"
 #include "HoneyBadgerCore/Rendering/Public/Camera.h"
 #include "HoneyBadgerCore/Rendering/Public/DebugRenderer.h"
+#include "HoneyBadgerCore/Rendering/Public/Skybox.h"
 #include "HoneyBadgerEditor/Core/Public/EditorUI.h"
 #include "HoneyBadgerCore/ECS/Public/ECS.h"
 #include "HoneyBadgerCore/Scene/Public/Scene.h"
@@ -48,6 +49,7 @@ namespace HoneyBadgerEditor
 		HoneyBadger::RenderingSystem _renderingSystem;
 		HoneyBadger::ModelRenderingSystem _modelRenderingSystem;
 		HoneyBadger::LightRenderingSystem _lightRenderingSystem;
+		HoneyBadger::Skybox _skybox;
 		HoneyBadgerEditor::EditorUISystem _uiSystem;
 	};
 }

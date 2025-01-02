@@ -62,6 +62,8 @@ bool HoneyBadgerEditor::Editor::Init()
 	_lightRenderingSystem.Register(*_ecs, _camera.get());
 	_uiSystem.Register(*_ecs, &_ui);
 
+	_skybox.Init(_camera.get());
+
 	return true;
 }
 void HoneyBadgerEditor::Editor::Start()
@@ -85,6 +87,8 @@ void HoneyBadgerEditor::Editor::Start()
 		_modelRenderingSystem.Render();
 
 		_debugRenderer->Render();
+
+		_skybox.Render();
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
