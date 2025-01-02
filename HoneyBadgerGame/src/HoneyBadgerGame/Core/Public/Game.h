@@ -13,6 +13,7 @@
 #include "HoneyBadgerCore/ECS/Public/Systems/LightingSystem.h"
 #include "HoneyBadgerCore/ResourceHandling/Public/AssetsRegistry.h"
 #include "HoneyBadgerCore/Scene/Public/Scene.h"
+#include <HoneyBadgerCore/Rendering/Public/Skybox.h>
 
 namespace HoneyBadgerGame
 {
@@ -49,6 +50,7 @@ namespace HoneyBadgerGame
 		HoneyBadger::RenderingSystem _renderingSystem;
 		HoneyBadger::ModelRenderingSystem _modelRenderingSystem;
 		HoneyBadger::LightRenderingSystem _lightRenderingSystem;
+		HoneyBadger::Skybox _skybox;
 
 		std::unordered_map<HoneyBadger::HBString, HoneyBadger::Entity, HoneyBadger::HBString::HBStringHasher> NameEntityMap;
 	};

@@ -127,10 +127,10 @@ void Skybox::Render()
 	Mat4 view = camera->GetViewMatrix();
 	Mat4 viewNoTranslation = 
 	{
-		view.v[0], view.v[1], view.v[2], 0.0f,
-		view.v[4], view.v[5], view.v[6], 0.0f,
+		view.v[0], view.v[1], view.v[2],  0.0f,
+		view.v[4], view.v[5], view.v[6],  0.0f,
 		view.v[8], view.v[9], view.v[10], 0.0f,
-		0.0f,    0.0f,    0.0f,    1.0f
+		0.0f,      0.0f,      0.0f,       1.0f
 	};
 
 	// TODO: No translation here

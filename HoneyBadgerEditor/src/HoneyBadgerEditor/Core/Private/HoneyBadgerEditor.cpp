@@ -87,7 +87,6 @@ void HoneyBadgerEditor::Editor::Start()
 		_modelRenderingSystem.Render();
 
 		_debugRenderer->Render();
-
 		_skybox.Render();
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);

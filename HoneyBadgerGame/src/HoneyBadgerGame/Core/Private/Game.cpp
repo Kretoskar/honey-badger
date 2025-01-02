@@ -56,6 +56,8 @@ bool HoneyBadgerGame::Game::Init(HoneyBadger::HBString name, HoneyBadger::HBStri
 		}
 	}
 
+	_skybox.Init(_camera.get());
+
 	return true;
 }
 
@@ -71,7 +73,7 @@ void HoneyBadgerGame::Game::Start()
 		_lightRenderingSystem.UpdateShaders();
 		_renderingSystem.Render();
 		_modelRenderingSystem.Render();
-
+		_skybox.Render();
 		_window.Update();
 	}
 	EndPlay();
