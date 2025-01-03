@@ -61,6 +61,7 @@ bool HoneyBadgerEditor::Editor::Init()
 	_modelRenderingSystem.Register(*_ecs, _camera.get());
 	_lightRenderingSystem.Register(*_ecs, _camera.get());
 	_uiSystem.Register(*_ecs, &_ui);
+	_transformSystem.Register(*_ecs);
 
 	_skybox.Init(_camera.get());
 
@@ -82,6 +83,7 @@ void HoneyBadgerEditor::Editor::Start()
 
 		_camera->Update();
 
+		_transformSystem.UpdateWorldTransforms();
 		_lightRenderingSystem.UpdateShaders();
 		_renderingSystem.Render();
 		_modelRenderingSystem.Render();

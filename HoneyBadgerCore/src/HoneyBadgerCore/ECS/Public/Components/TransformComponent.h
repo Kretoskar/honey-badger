@@ -16,6 +16,9 @@ namespace HoneyBadger
 		Quat Rotation;
 		Vec3 Scale = {1,1,1};
 
+		Mat4 WorldMatrix;
+		Mat4 WorldRotMatrix;
+
 		NLOHMANN_DEFINE_TYPE_INTRUSIVE(TransformComponent, Parent, Position, Rotation, Scale)
 		RTTI_DECLARE(TransformComponent)
 

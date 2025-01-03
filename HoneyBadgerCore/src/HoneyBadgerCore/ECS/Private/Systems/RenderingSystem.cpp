@@ -14,8 +14,6 @@
 
 #include "HoneyBadgerCore/Core/Public/Engine.h"
 #include "HoneyBadgerCore/ResourceHandling/Public/AssetsRegistry.h"
-#include "HoneyBadgerCore/ECS/Public/Components/MeshComponent.h"
-#include "HoneyBadgerCore/ECS/Public/Components/TransformComponent.h"
 #include "HoneyBadgerCore/ECS/Public/Components/NameComponent.h"
 
 void HoneyBadger::RenderingSystem::Register(ECS& ecs, Camera* camera)
@@ -30,15 +28,6 @@ void HoneyBadger::RenderingSystem::Register(ECS& ecs, Camera* camera)
 
 void HoneyBadger::RenderingSystem::Render()
 {
-	// TODO: rewrite this shit
-	std::unordered_map<HBString, TransformComponent*, HBString::HBStringHasher> EntityTransformMap;
-	for (Entity entity : _entities)
-	{
-		TransformComponent& transformComp = _ecs->GetComponent<TransformComponent>(entity);
-		NameComponent& nameComp = _ecs->GetComponent<NameComponent>(entity);
-		EntityTransformMap.emplace(nameComp.Name, &transformComp);
-	}
-
 	for (Entity entity : _entities)
 	{
 		TransformComponent& transformComp = _ecs->GetComponent<TransformComponent>(entity);
@@ -56,46 +45,8 @@ void HoneyBadger::RenderingSystem::Render()
 
 			if (std::shared_ptr<Shader> shader = mat->GetShader())
 			{
-
-				// TODO: For the love of God, rewrite this shit recursively
-				bool hasParent = false;
-				Mat4 parentMat;
-				Mat4 parentRotMat;
-
-				if (EntityTransformMap.find(EntityTransformMap[transformComp.Parent]->Parent) != EntityTransformMap.end()
-					&& !EntityTransformMap[transformComp.Parent]->Parent.empty())
-				{
-					hasParent = true;
-					parentMat = EntityTransformMap[EntityTransformMap[transformComp.Parent]->Parent]->ToMat4();
-					parentRotMat = EntityTransformMap[EntityTransformMap[transformComp.Parent]->Parent]->ToRotMat4();
-				}
-
-				Mat4 modelMat;
-				Mat4 RotModelMat;
-
-				if (hasParent)
-				{
-					modelMat = EntityTransformMap.find(transformComp.Parent) == EntityTransformMap.end() ?
-						transformComp.ToMat4() :
-						parentMat * EntityTransformMap[transformComp.Parent]->ToMat4() * transformComp.ToMat4();
-
-					RotModelMat = EntityTransformMap.find(transformComp.Parent) == EntityTransformMap.end() ?
-						transformComp.ToRotMat4() :
-						parentRotMat * EntityTransformMap[transformComp.Parent]->ToRotMat4() * transformComp.ToRotMat4();
-				}
-				else
-				{
-					modelMat = EntityTransformMap.find(transformComp.Parent) == EntityTransformMap.end() ?
-						transformComp.ToMat4() :
-						EntityTransformMap[transformComp.Parent]->ToMat4() * transformComp.ToMat4();
-
-					RotModelMat = EntityTransformMap.find(transformComp.Parent) == EntityTransformMap.end() ?
-						transformComp.ToRotMat4() :
-						EntityTransformMap[transformComp.Parent]->ToRotMat4() * transformComp.ToRotMat4();
-				}
-
-				shader->SetModelMatrix(modelMat);
-				shader->SetRotModelMatrix(RotModelMat);
+				shader->SetModelMatrix(transformComp.WorldMatrix);
+				shader->SetRotModelMatrix(transformComp.WorldRotMatrix);
 				shader->SetVPMatrix(_camera->GetVPMatrix());
 
 				if (Texture* tex = Engine::Instance->GetAssetsRegistry()->GetTextureByName(mat->GetDiffuseMapName()).get())
