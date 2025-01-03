@@ -56,14 +56,43 @@ void HoneyBadger::RenderingSystem::Render()
 
 			if (std::shared_ptr<Shader> shader = mat->GetShader())
 			{
-				Mat4 modelMat = EntityTransformMap.find(transformComp.Parent) == EntityTransformMap.end() ?
-					transformComp.ToMat4() :
-					EntityTransformMap[transformComp.Parent]->ToMat4() * transformComp.ToMat4();
 
-				Mat4 RotModelMat = EntityTransformMap.find(transformComp.Parent) == EntityTransformMap.end() ?
-					transformComp.ToRotMat4():
-					EntityTransformMap[transformComp.Parent]->ToRotMat4() * transformComp.ToRotMat4();
+				// TODO: For the love of God, rewrite this shit recursively
+				bool hasParent = false;
+				Mat4 parentMat;
+				Mat4 parentRotMat;
 
+				if (EntityTransformMap.find(EntityTransformMap[transformComp.Parent]->Parent) != EntityTransformMap.end()
+					&& !EntityTransformMap[transformComp.Parent]->Parent.empty())
+				{
+					hasParent = true;
+					parentMat = EntityTransformMap[EntityTransformMap[transformComp.Parent]->Parent]->ToMat4();
+					parentRotMat = EntityTransformMap[EntityTransformMap[transformComp.Parent]->Parent]->ToRotMat4();
+				}
+
+				Mat4 modelMat;
+				Mat4 RotModelMat;
+
+				if (hasParent)
+				{
+					modelMat = EntityTransformMap.find(transformComp.Parent) == EntityTransformMap.end() ?
+						transformComp.ToMat4() :
+						parentMat * EntityTransformMap[transformComp.Parent]->ToMat4() * transformComp.ToMat4();
+
+					RotModelMat = EntityTransformMap.find(transformComp.Parent) == EntityTransformMap.end() ?
+						transformComp.ToRotMat4() :
+						parentRotMat * EntityTransformMap[transformComp.Parent]->ToRotMat4() * transformComp.ToRotMat4();
+				}
+				else
+				{
+					modelMat = EntityTransformMap.find(transformComp.Parent) == EntityTransformMap.end() ?
+						transformComp.ToMat4() :
+						EntityTransformMap[transformComp.Parent]->ToMat4() * transformComp.ToMat4();
+
+					RotModelMat = EntityTransformMap.find(transformComp.Parent) == EntityTransformMap.end() ?
+						transformComp.ToRotMat4() :
+						EntityTransformMap[transformComp.Parent]->ToRotMat4() * transformComp.ToRotMat4();
+				}
 
 				shader->SetModelMatrix(modelMat);
 				shader->SetRotModelMatrix(RotModelMat);

@@ -30,14 +30,14 @@ namespace HoneyBadgerGame
 	protected:
 		virtual bool Init_Internal() = 0;
 		virtual void BeginPlay_Internal() = 0;
-		virtual void Tick_Internal() = 0;
+		virtual void Tick_Internal(float deltaTime) = 0;
 		virtual void EndPlay_Internal() = 0;
 
 		std::shared_ptr<HoneyBadger::ECS> _ecs;
 
 	private:
 		void BeginPlay();
-		void Tick();
+		void Tick(float deltaTime);
 		void EndPlay();
 
 		bool _shouldClose = false;

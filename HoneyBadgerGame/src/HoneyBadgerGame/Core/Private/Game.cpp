@@ -1,5 +1,7 @@
 #include "HoneyBadgerGame/Core/Public/Game.h"
 #include "HoneyBadgerCore/ECS/Public/Components/Components.h"
+#include <chrono>
+#include <ctime>   
 
 bool HoneyBadgerGame::Game::Init(HoneyBadger::HBString name, HoneyBadger::HBString startSceneName)
 {
@@ -63,10 +65,12 @@ bool HoneyBadgerGame::Game::Init(HoneyBadger::HBString name, HoneyBadger::HBStri
 
 void HoneyBadgerGame::Game::Start()
 {
+	static float deltaTime = 0.1f;
 	BeginPlay();
 	while (!_shouldClose && !_window.GetShouldClose())
 	{
-		Tick();
+		auto start = std::chrono::system_clock::now();
+		Tick(deltaTime);
 
 		_camera->Update();
 
@@ -75,6 +79,10 @@ void HoneyBadgerGame::Game::Start()
 		_modelRenderingSystem.Render();
 		_skybox.Render();
 		_window.Update();
+
+		auto end = std::chrono::system_clock::now();
+		std::chrono::duration<float> elapsed_seconds = end - start;
+		deltaTime = elapsed_seconds.count() / 1000.0f;
 	}
 	EndPlay();
 }
@@ -94,9 +102,9 @@ void HoneyBadgerGame::Game::BeginPlay()
 	BeginPlay_Internal();
 }
 
-void HoneyBadgerGame::Game::Tick()
+void HoneyBadgerGame::Game::Tick(float deltaTime)
 {
-	Tick_Internal();
+	Tick_Internal(deltaTime);
 }
 
 void HoneyBadgerGame::Game::EndPlay()

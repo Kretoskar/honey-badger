@@ -11,6 +11,7 @@ namespace HoneyBadger
 
 	class Camera
 	{
+	protected:
 		Vec3 _position;
 		Vec3 _orientation = Vec3(-0.5f, -0.5f, -0.5f);
 		Vec3 _up = Vec3(0.0f, 1.0f, 0.0f);
@@ -42,27 +43,27 @@ namespace HoneyBadger
 	public:
 		Camera(Window* inWindow, Vec3 position)
 			: _window(inWindow), _position(position) {}
-		void Init();
-		void Update();
+		virtual void Init();
+		virtual void Update();
 
 		Vec3 GetRightVector() const;
 
-		void OnRightMouseButtonClick(void* event);
-		void OnRightMouseButtonRelease(void* event);
-
-		void OnForwardPressed(void* payload);
-		void OnForwardReleased(void* payload);
-
-		void OnBackwardPressed(void* payload);
-		void OnBackwardReleased(void* payload);
-
-		void OnRightPressed(void* payload);
-		void OnRightReleased(void* payload);
-
-		void OnLeftPressed(void* payload);
-		void OnLeftReleased(void* payload);
-
-		void OnMouseMoved(void* payload);
+		virtual void OnRightMouseButtonClick(void* event);
+		virtual void OnRightMouseButtonRelease(void* event);
+		
+		virtual void OnForwardPressed(void* payload);
+		virtual void OnForwardReleased(void* payload);
+		
+		virtual void OnBackwardPressed(void* payload);
+		virtual void OnBackwardReleased(void* payload);
+		
+		virtual void OnRightPressed(void* payload);
+		virtual void OnRightReleased(void* payload);
+		
+		virtual void OnLeftPressed(void* payload);
+		virtual void OnLeftReleased(void* payload);
+		
+		virtual void OnMouseMoved(void* payload);
 
 		Mat4 GetVPMatrix() const { return _projection * _view; }
 		Mat4 GetProjectionMatrix() const { return _projection; }

@@ -7,15 +7,22 @@
 
 float rectangleVertices[] =
 {
+	//// Coords    // texCoords
+	// 1.55f, -1.8f,  1.0f, 0.0f,
+	//-1.55f, -1.8f,  0.0f, 0.0f,
+	//-1.55f,  1.5f,  0.0f, 1.0f,
+	//	
+	// 1.55f,  1.5f,  1.0f, 1.0f,
+	// 1.55f, -1.8f,  1.0f, 0.0f,
+	//-1.55f,  1.5f,  0.0f, 1.0f
 	// Coords    // texCoords
-	 1.55f, -1.8f,  1.0f, 0.0f,
-	-1.55f, -1.8f,  0.0f, 0.0f,
-	-1.55f,  1.5f,  0.0f, 1.0f,
-		
-	 1.55f,  1.5f,  1.0f, 1.0f,
-	 1.55f, -1.8f,  1.0f, 0.0f,
-	-1.55f,  1.5f,  0.0f, 1.0f
-
+	 1.0f, -1.0f,  1.0f, 0.0f,
+	-1.0f, -1.0f,  0.0f, 0.0f,
+	-1.0f,  1.0f,  0.0f, 1.0f,
+	   
+	 1.0f,  1.0f,  1.0f, 1.0f,
+	 1.0f, -1.0f,  1.0f, 0.0f,
+	-1.0f,  1.0f,  0.0f, 1.0f
 };
 
 bool HoneyBadger::Window::Init(WindowInitSettings InitSettings)
