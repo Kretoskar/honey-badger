@@ -10,6 +10,7 @@
 #include "HoneyBadgerCore/Rendering/Public/Camera.h"
 #include "HoneyBadgerCore/ECS/Public/Systems/RenderingSystem.h"
 #include "HoneyBadgerCore/ECS/Public/Systems/ModelRenderingSystem.h"
+#include "HoneyBadgerCore/ECS/Public/Systems/TransformSystem.h"
 #include "HoneyBadgerCore/ECS/Public/Systems/LightingSystem.h"
 #include "HoneyBadgerCore/ResourceHandling/Public/AssetsRegistry.h"
 #include "HoneyBadgerCore/Scene/Public/Scene.h"
@@ -25,7 +26,7 @@ namespace HoneyBadgerGame
 		void Start();
 		void ShutDown();
 
-		HoneyBadger::Entity GetEntityByName(HoneyBadger::HBString Name);
+		HoneyBadger::Entity GetEntityByName(std::string Name);
 
 	protected:
 		virtual bool Init_Internal() = 0;
@@ -34,6 +35,8 @@ namespace HoneyBadgerGame
 		virtual void EndPlay_Internal() = 0;
 
 		std::shared_ptr<HoneyBadger::ECS> _ecs;
+		std::shared_ptr<HoneyBadger::Camera> _camera;
+		HoneyBadger::Window _window;
 
 	private:
 		void BeginPlay();
@@ -43,15 +46,13 @@ namespace HoneyBadgerGame
 		bool _shouldClose = false;
 
 		HoneyBadger::Engine _engine;
-		HoneyBadger::Window _window;
-
-		std::shared_ptr<HoneyBadger::Camera> _camera;
 
 		HoneyBadger::RenderingSystem _renderingSystem;
 		HoneyBadger::ModelRenderingSystem _modelRenderingSystem;
 		HoneyBadger::LightRenderingSystem _lightRenderingSystem;
+		HoneyBadger::TransformSystem _transformSystem;
 		HoneyBadger::Skybox _skybox;
 
-		std::unordered_map<HoneyBadger::HBString, HoneyBadger::Entity, HoneyBadger::HBString::HBStringHasher> NameEntityMap;
+		std::unordered_map<std::string, HoneyBadger::Entity> NameEntityMap;
 	};
 }

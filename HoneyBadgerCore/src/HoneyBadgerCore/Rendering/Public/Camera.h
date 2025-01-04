@@ -1,12 +1,12 @@
 #pragma once
 
+#include "HoneyBadgerCore/Window/Public/Window.h"
 #include "HoneyBadgerCore/Core/Public/EventSystem.h"
 #include "HoneyBadgerCore/Math/Public/Vec3.h"
 #include "HoneyBadgerCore/Math/Public/Mat4.h"
 
 namespace HoneyBadger
 {
-	class Window;
 	class Shader;
 
 	class Camera

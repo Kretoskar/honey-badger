@@ -29,13 +29,13 @@ bool HoneyBadgerGame::Game::Init(HoneyBadger::HBString name, HoneyBadger::HBStri
 		return false;
 	}
 
-	_camera = std::make_shared<HoneyBadger::Camera>(&_window, HoneyBadger::Vec3(1.0f, 1.0f, 1.0f));
-	_camera->Init();
-
 	_ecs = std::make_shared<HoneyBadger::ECS>();
 
 	HoneyBadger::Components::RegisterAllComponents(*_ecs);
 
+	Init_Internal();
+
+	_transformSystem.Register(*_ecs);
 	_renderingSystem.Register(*_ecs, _camera.get());
 	_modelRenderingSystem.Register(*_ecs, _camera.get());
 	_lightRenderingSystem.Register(*_ecs, _camera.get());
@@ -72,6 +72,8 @@ void HoneyBadgerGame::Game::Start()
 		auto start = std::chrono::system_clock::now();
 		Tick(deltaTime);
 
+		_transformSystem.UpdateWorldTransforms();
+
 		_camera->Update();
 
 		_lightRenderingSystem.UpdateShaders();
@@ -92,9 +94,9 @@ void HoneyBadgerGame::Game::ShutDown()
 	_shouldClose = true;
 }
 
-HoneyBadger::Entity HoneyBadgerGame::Game::GetEntityByName(HoneyBadger::HBString Name)
+HoneyBadger::Entity HoneyBadgerGame::Game::GetEntityByName(std::string Name)
 {
-	return NameEntityMap[Name];
+	return NameEntityMap.find(Name) != NameEntityMap.end() ? NameEntityMap[Name] : -1;
 }
 
 void HoneyBadgerGame::Game::BeginPlay()

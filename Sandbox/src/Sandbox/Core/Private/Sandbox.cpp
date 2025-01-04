@@ -1,22 +1,29 @@
 #include "Sandbox/Core/Public/Sandbox.h"
+#include "HoneyBadgerCore/Math/Public/Vec3.h"
+#include "HoneyBadgerCore/Window/Public/Window.h"
 
-bool Sandbox::Sandbox::Init_Internal()
+bool Sand::CarGame::Init_Internal()
 {
+	camEntity = GetEntityByName("cam");
+	camArmEntity = GetEntityByName("camArm");
+
+	std::shared_ptr<Sand::SandboxCamera> sandboxCam = std::make_shared<Sand::SandboxCamera>(&_window, HoneyBadger::Vec3());
+	sandboxCam->Init(_ecs, this);
+
+	_camera = sandboxCam;
+
 	return true;
 }
 
-void Sandbox::Sandbox::BeginPlay_Internal()
+void Sand::CarGame::BeginPlay_Internal()
 {
 }
 
-void Sandbox::Sandbox::Tick_Internal(float deltaTime)
+void Sand::CarGame::Tick_Internal(float deltaTime)
 {
-	// TODO: delta time
-	HoneyBadger::Entity e = GetEntityByName("car");
-	HoneyBadger::TransformComponent& tc = _ecs->GetComponent<HoneyBadger::TransformComponent>(e);
-	tc.Rotation = tc.Rotation * HoneyBadger::Quat(90.0 * deltaTime, HoneyBadger::Vec3(0.0f, 1.0f, 0.0f));
+	
 }
 
-void Sandbox::Sandbox::EndPlay_Internal()
+void Sand::CarGame::EndPlay_Internal()
 {
 }
