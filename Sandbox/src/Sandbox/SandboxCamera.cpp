@@ -24,7 +24,7 @@ void Sand::SandboxCamera::Update()
 	_position = { camTransform.WorldMatrix.position.x, camTransform.WorldMatrix.position.y, camTransform.WorldMatrix.position.z };
 	_orientation = { camArmTransform.WorldMatrix.position.x, camArmTransform.WorldMatrix.position.y, camArmTransform.WorldMatrix.position.z};
 	// look to the front of the car
-	_orientation += HoneyBadger::Vec3(carTransform.ToMat4().forward.x, carTransform.ToMat4().forward.y, carTransform.ToMat4().forward.z) * -100.0f;
+	_orientation += HoneyBadger::Vec3(carTransform.ToMat4().forward.x, carTransform.ToMat4().forward.y, carTransform.ToMat4().forward.z) * -200.0f;
 
 
 	_view = HoneyBadger::Mat4::LookAt(_position, _orientation, _up);
