@@ -28,7 +28,7 @@
         11,
         12
     ],
-    "Guid": "1fba-63-4ac-84f-055b9f",
+    "Guid": "f0a4-2d-4bf-82e-e6880a",
     "MeshComponentMap": [
         [
             0,
@@ -48,49 +48,49 @@
             4,
             {
                 "MaterialGuid": "2234-1a-123-12a-a12345",
-                "MeshGuid": "3c24-16-491-834-89436d"
+                "MeshGuid": "25a4-fa-4d5-8ce-392071"
             }
         ],
         [
             5,
             {
                 "MaterialGuid": "4234-1a-123-12a-a12345",
-                "MeshGuid": "abf4-91-410-8d1-0ff0d3"
+                "MeshGuid": "dcf3-3b-453-8e7-16dd31"
             }
         ],
         [
             6,
             {
                 "MaterialGuid": "4976-9b-464-88d-b54123",
-                "MeshGuid": "d1d8-7e-4bd-8e0-651866"
+                "MeshGuid": "4c51-06-466-85f-7ee492"
             }
         ],
         [
             7,
             {
                 "MaterialGuid": "1234-1a-123-12a-a12345",
-                "MeshGuid": "d9b8-e6-40a-863-67abe2"
+                "MeshGuid": "c414-c4-4cd-8cc-d7afd9"
             }
         ],
         [
             8,
             {
                 "MaterialGuid": "1234-1a-123-12a-a12345",
-                "MeshGuid": "d9b8-e6-40a-863-67abe2"
+                "MeshGuid": "c414-c4-4cd-8cc-d7afd9"
             }
         ],
         [
             9,
             {
                 "MaterialGuid": "1234-1a-123-12a-a12345",
-                "MeshGuid": "d9b8-e6-40a-863-67abe2"
+                "MeshGuid": "c414-c4-4cd-8cc-d7afd9"
             }
         ],
         [
             10,
             {
                 "MaterialGuid": "1234-1a-123-12a-a12345",
-                "MeshGuid": "d9b8-e6-40a-863-67abe2"
+                "MeshGuid": "c414-c4-4cd-8cc-d7afd9"
             }
         ],
         [

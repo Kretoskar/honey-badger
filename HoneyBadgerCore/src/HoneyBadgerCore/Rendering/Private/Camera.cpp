@@ -40,8 +40,8 @@ namespace HoneyBadger
 
     void Camera::Init()
     {
-        _width = 1920; // TODO: window get viewport size
-        _height = 1080;
+        _width = 2560; // TODO: window get viewport size
+        _height = 1440;
 
 		HB_BIND_EVENT(MouseButtonEvent::Type(GLFW_MOUSE_BUTTON_RIGHT, GLFW_PRESS, 0), OnRightMouseButtonClick)
         HB_BIND_EVENT(MouseButtonEvent::Type(GLFW_MOUSE_BUTTON_RIGHT, GLFW_RELEASE, 0), OnRightMouseButtonRelease)

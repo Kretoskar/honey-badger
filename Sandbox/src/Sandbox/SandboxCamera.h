@@ -30,7 +30,7 @@ namespace Sand
 		virtual void OnLeftPressed(void* payload) {}
 		virtual void OnLeftReleased(void* payload) {}
 
-		virtual void OnMouseMoved(void* payload) {}
+		virtual void OnMouseMoved(void* payload);
 
 		std::shared_ptr<HoneyBadger::ECS> ecs;
 		HoneyBadgerGame::Game* game;
