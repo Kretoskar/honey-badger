@@ -28,6 +28,7 @@ HoneyBadger::Scene::Scene(ECS& Ecs)
 		INIT_COMPONENT(NameComponent, NameComponentMap);
 		INIT_COMPONENT(ModelComponent, ModelComponentMap);
 		INIT_COMPONENT(DirectionalLightComponent, DirectionalLightComponentMap);
+		INIT_COMPONENT(RigidbodyComponent, RigidbodyComponentMap);
 	}
 }
 
@@ -42,6 +43,7 @@ void HoneyBadger::Scene::InitECS(ECS& Ecs)
 		LOAD_COMPONENT(NameComponent, NameComponentMap);
 		LOAD_COMPONENT(ModelComponent, ModelComponentMap);
 		LOAD_COMPONENT(DirectionalLightComponent, DirectionalLightComponentMap);
+		LOAD_COMPONENT(RigidbodyComponent, RigidbodyComponentMap);
 	}
 }
 

@@ -39,6 +39,7 @@ bool HoneyBadgerGame::Game::Init(HoneyBadger::HBString name, HoneyBadger::HBStri
 	_renderingSystem.Register(*_ecs, _camera.get());
 	_modelRenderingSystem.Register(*_ecs, _camera.get());
 	_lightRenderingSystem.Register(*_ecs, _camera.get());
+	_physicsSystem.Register(*_ecs);
 
 	if (auto scene = HoneyBadger::AssetsRegistry::Instance->GetSceneByName(startSceneName))
 	{
@@ -65,7 +66,7 @@ bool HoneyBadgerGame::Game::Init(HoneyBadger::HBString name, HoneyBadger::HBStri
 
 void HoneyBadgerGame::Game::Start()
 {
-	static float deltaTime = 0.1f;
+	static float deltaTime = 0.0f;
 	BeginPlay();
 	while (!_shouldClose && !_window.GetShouldClose())
 	{
@@ -73,6 +74,7 @@ void HoneyBadgerGame::Game::Start()
 		Tick(deltaTime);
 
 		_transformSystem.UpdateWorldTransforms();
+		_physicsSystem.Update(deltaTime);
 
 		_camera->Update();
 

@@ -12,6 +12,7 @@
 #include "HoneyBadgerCore/ECS/Public/Systems/ModelRenderingSystem.h"
 #include "HoneyBadgerCore/ECS/Public/Systems/TransformSystem.h"
 #include "HoneyBadgerCore/ECS/Public/Systems/LightingSystem.h"
+#include "HoneyBadgerCore/ECS/Public/Systems/PhysicsSystem.h"
 #include "HoneyBadgerCore/ResourceHandling/Public/AssetsRegistry.h"
 #include "HoneyBadgerCore/Scene/Public/Scene.h"
 #include <HoneyBadgerCore/Rendering/Public/Skybox.h>
@@ -51,6 +52,7 @@ namespace HoneyBadgerGame
 		HoneyBadger::ModelRenderingSystem _modelRenderingSystem;
 		HoneyBadger::LightRenderingSystem _lightRenderingSystem;
 		HoneyBadger::TransformSystem _transformSystem;
+		HoneyBadger::PhysicsSystem _physicsSystem;
 		HoneyBadger::Skybox _skybox;
 
 		std::unordered_map<std::string, HoneyBadger::Entity> NameEntityMap;
