@@ -146,12 +146,87 @@ namespace HoneyBadger
 		c2r2 = scale.z;
 	}
 
+	Vec3 Mat4::TransformVector(const Mat4& m, const Vec3& v)
+	{
+		return Vec3(
+			M4V4D(0, v.x, v.y, v.z, 0.0f),
+			M4V4D(1, v.x, v.y, v.z, 0.0f),
+			M4V4D(2, v.x, v.y, v.z, 0.0f)
+		);
+	}
+
+	Mat4 Mat4::Transposed()
+	{
+		return Mat4(
+			xx, yx, zx, tx,
+			xy, yy, zy, ty,
+			xz, yz, zz, tz,
+			xw, yw, zw, tw
+		);
+	}
+
 	Mat4 Mat4::Perspective(float fov, float aspect, float znear, float zfar)
 	{
 		float ymax = znear * tanf(fov * MathCore::PI / 360.0f);
 		float xmax = ymax * aspect;
 
 		return Frustum(-xmax, xmax, -ymax, ymax, znear, zfar);
+	}
+
+	#define M4_3X3MINOR(c0, c1, c2, r0, r1, r2) \
+    (v[c0 * 4 + r0] * (v[c1 * 4 + r1] * v[c2 * 4 + r2] - v[c1 * 4 + r2] * v[c2 * 4 + r1]) - \
+     v[c1 * 4 + r0] * (v[c0 * 4 + r1] * v[c2 * 4 + r2] - v[c0 * 4 + r2] * v[c2 * 4 + r1]) + \
+     v[c2 * 4 + r0] * (v[c0 * 4 + r1] * v[c1 * 4 + r2] - v[c0 * 4 + r2] * v[c1 * 4 + r1]))
+
+	float Mat4::Determinant()
+	{
+		return v[0] * M4_3X3MINOR(1, 2, 3, 1, 2, 3)
+			- v[4] * M4_3X3MINOR(0, 2, 3, 1, 2, 3)
+			+ v[8] * M4_3X3MINOR(0, 1, 3, 1, 2, 3)
+			- v[12] * M4_3X3MINOR(0, 1, 2, 1, 2, 3);
+	}
+
+	Mat4 Mat4::Adjugate()
+	{
+		// Cofactor(M[i, j]) = Minor(M[i, j]] * pow(-1, i + j)
+		Mat4 cofactor;
+
+		cofactor.v[0] = M4_3X3MINOR(1, 2, 3, 1, 2, 3);
+		cofactor.v[1] = -M4_3X3MINOR(1, 2, 3, 0, 2, 3);
+		cofactor.v[2] = M4_3X3MINOR(1, 2, 3, 0, 1, 3);
+		cofactor.v[3] = -M4_3X3MINOR(1, 2, 3, 0, 1, 2);
+
+		cofactor.v[4] = -M4_3X3MINOR(0, 2, 3, 1, 2, 3);
+		cofactor.v[5] = M4_3X3MINOR(0, 2, 3, 0, 2, 3);
+		cofactor.v[6] = -M4_3X3MINOR(0, 2, 3, 0, 1, 3);
+		cofactor.v[7] = M4_3X3MINOR(0, 2, 3, 0, 1, 2);
+
+		cofactor.v[8] = M4_3X3MINOR(0, 1, 3, 1, 2, 3);
+		cofactor.v[9] = -M4_3X3MINOR(0, 1, 3, 0, 2, 3);
+		cofactor.v[10] = M4_3X3MINOR(0, 1, 3, 0, 1, 3);
+		cofactor.v[11] = -M4_3X3MINOR(0, 1, 3, 0, 1, 2);
+
+		cofactor.v[12] = -M4_3X3MINOR(0, 1, 2, 1, 2, 3);
+		cofactor.v[13] = M4_3X3MINOR(0, 1, 2, 0, 2, 3);
+		cofactor.v[14] = -M4_3X3MINOR(0, 1, 2, 0, 1, 3);
+		cofactor.v[15] = M4_3X3MINOR(0, 1, 2, 0, 1, 2);
+
+		return cofactor.Transposed();
+	}
+
+	Mat4 Mat4::Inverse()
+	{
+		float det = Determinant();
+
+		if (det == 0.0f)
+		{
+			// Epsilon check would need to be REALLY small
+			std::cout << "WARNING: Trying to invert a matrix with a zero determinant\n";
+			return Mat4();
+		}
+		Mat4 adj = Adjugate();
+
+		return adj * (1.0f / det);
 	}
 }
 

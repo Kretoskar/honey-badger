@@ -1,6 +1,7 @@
 #pragma once
 
 #include "HoneyBadgerCore/Math/Public/Vec4.h"
+#include "HoneyBadgerCore/Math/Public/Vec3.h"
 
 namespace HoneyBadger
 {
@@ -111,7 +112,12 @@ namespace HoneyBadger
 		static Mat4 LookAt(const Vec3& position, const Vec3& target, const Vec3& up);
 		static Mat4 Frustum(float left, float right, float bottom, float top, float near, float far);
 		static Mat4 Scaled(const Mat4& mat, const Vec3& scale);
+		static Vec3 TransformVector(const Mat4& m, const Vec3& v);
 		void SetScale (const Vec3& scale);
+		float Determinant();
+		Mat4 Transposed();
+		Mat4 Adjugate();
+		Mat4 Inverse();
 	};
 
 	bool operator==(const Mat4& a, const Mat4& b);

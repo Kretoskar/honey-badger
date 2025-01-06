@@ -1,8 +1,9 @@
 #include "hbpch.h"
 #include "HoneyBadgerCore/ECS/Public/Systems/PhysicsSystem.h"
 
-#include "HoneyBadgerCore/ECS/Public/Components/TransformComponent.h"
 #include "HoneyBadgerCore/ECS/Public/Components/RigidbodyComponent.h"
+#include "HoneyBadgerCore/Math/Public/Mat4.h"
+#include "HoneyBadgerCore/Math/Public/Vec3.h"
 
 void HoneyBadger::PhysicsSystem::Register(ECS& ecs)
 {
@@ -27,4 +28,16 @@ void HoneyBadger::PhysicsSystem::Update(float deltaTime)
 
 		rbComp.Force = Vec3(0.0f, 0.0f, 0.0f);
 	}
+}
+
+HoneyBadger::CollisionResult HoneyBadger::PhysicsSystem::SphereBoxCollision(const TransformComponent& boxTransform, const TransformComponent& sphereTransform, float sphereRadius)
+{
+	CollisionResult res;
+
+	HoneyBadger::Mat4 boxInWorld = boxTransform.WorldMatrix;
+	HoneyBadger::Mat4 boxInWorldInverse = boxInWorld.Inverse();
+	HoneyBadger::Vec3 sphereCenterInBoxSpace = HoneyBadger::Mat4::TransformVector(boxInWorldInverse, sphereTransform.Position);
+	//... AABB here
+	res.wasCollision = true;
+	return res;
 }
