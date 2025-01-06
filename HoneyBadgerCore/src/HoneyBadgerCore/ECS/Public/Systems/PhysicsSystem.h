@@ -2,7 +2,6 @@
 
 #include "HoneyBadgerCore/ECS/Public/System.h"
 #include "HoneyBadgerCore/ECS/Public/ECS.h"
-
 #include "HoneyBadgerCore/ECS/Public/Components/TransformComponent.h"
 
 namespace HoneyBadger
@@ -19,5 +18,7 @@ namespace HoneyBadger
 		void Update(float deltaTime);
 
 		CollisionResult SphereBoxCollision(const TransformComponent& boxTransform, const TransformComponent& sphereTransform, float sphereRadius);
+
+		std::vector<TransformComponent*> boxes;
 	};
 }

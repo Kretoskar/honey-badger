@@ -114,6 +114,7 @@ namespace HoneyBadger
 		static Mat4 Scaled(const Mat4& mat, const Vec3& scale);
 		static Vec3 TransformVector(const Mat4& m, const Vec3& v);
 		void SetScale (const Vec3& scale);
+		Vec3 GetScale() const;
 		float Determinant();
 		Mat4 Transposed();
 		Mat4 Adjugate();

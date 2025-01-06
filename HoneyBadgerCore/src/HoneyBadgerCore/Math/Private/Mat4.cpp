@@ -146,6 +146,11 @@ namespace HoneyBadger
 		c2r2 = scale.z;
 	}
 
+	Vec3 Mat4::GetScale() const
+	{
+		return Vec3(c0r0, c1r1, c2r2);
+	}
+
 	Vec3 Mat4::TransformVector(const Mat4& m, const Vec3& v)
 	{
 		return Vec3(
