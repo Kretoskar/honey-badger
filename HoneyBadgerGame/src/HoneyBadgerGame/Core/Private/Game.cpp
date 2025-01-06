@@ -74,6 +74,14 @@ void HoneyBadgerGame::Game::Start()
 		Tick(deltaTime);
 
 		_transformSystem.UpdateWorldTransforms();
+		
+		HoneyBadger::Entity ground = GetEntityByName("Ground");
+		HoneyBadger::Entity sphere = GetEntityByName("sphere");
+
+		HoneyBadger::TransformComponent& groundTc = _ecs->GetComponent<HoneyBadger::TransformComponent>(ground);
+		HoneyBadger::TransformComponent& sphereTc = _ecs->GetComponent<HoneyBadger::TransformComponent>(sphere);
+
+		_physicsSystem.SphereBoxCollision(groundTc, sphereTc, 0.0f);
 		_physicsSystem.Update(deltaTime);
 
 		_camera->Update();

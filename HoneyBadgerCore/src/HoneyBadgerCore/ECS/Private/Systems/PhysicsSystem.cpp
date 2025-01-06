@@ -4,6 +4,7 @@
 #include "HoneyBadgerCore/ECS/Public/Components/RigidbodyComponent.h"
 #include "HoneyBadgerCore/Math/Public/Mat4.h"
 #include "HoneyBadgerCore/Math/Public/Vec3.h"
+#include "HoneyBadgerCore/Core/Public/Logger.h"
 
 void HoneyBadger::PhysicsSystem::Register(ECS& ecs)
 {
@@ -27,6 +28,8 @@ void HoneyBadger::PhysicsSystem::Update(float deltaTime)
 		transformComp.Position += rbComp.Velocity * deltaTime;
 
 		rbComp.Force = Vec3(0.0f, 0.0f, 0.0f);
+
+
 	}
 }
 
@@ -36,8 +39,11 @@ HoneyBadger::CollisionResult HoneyBadger::PhysicsSystem::SphereBoxCollision(cons
 
 	HoneyBadger::Mat4 boxInWorld = boxTransform.WorldMatrix;
 	HoneyBadger::Mat4 boxInWorldInverse = boxInWorld.Inverse();
-	HoneyBadger::Vec3 sphereCenterInBoxSpace = HoneyBadger::Mat4::TransformVector(boxInWorldInverse, sphereTransform.Position);
-	//... AABB here
+	HoneyBadger::Mat4 sphereInBoxSpace = boxInWorldInverse * sphereTransform.WorldMatrix;
+	HoneyBadger::Vec3 sphereCenterInBoxSpace = sphereInBoxSpace.position.ToVec3();
+	
+	HB_LOG_ERROR("Vec is x: %f y: %f z: %f", sphereCenterInBoxSpace.x, sphereCenterInBoxSpace.y, sphereCenterInBoxSpace.z)
+
 	res.wasCollision = true;
 	return res;
 }
