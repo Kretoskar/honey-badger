@@ -79,9 +79,8 @@ namespace HoneyBadger
 	{
 		Instance = this;
 
-		//LoadGltfModel("sphere.glb", "sphere");
+		//LoadGltfModel("cube.glb", "cube");
 		LoadEngineAssets();
-	
 	}
 
 	void AssetsRegistry::Cleanup()

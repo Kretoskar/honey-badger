@@ -139,6 +139,13 @@ namespace HoneyBadger
 		return m;
 	}
 
+	void Mat4::SetScale(const Vec3& scale)
+	{
+		c0r0 = scale.x;
+		c1r1 = scale.y;
+		c2r2 = scale.z;
+	}
+
 	Mat4 Mat4::Perspective(float fov, float aspect, float znear, float zfar)
 	{
 		float ymax = znear * tanf(fov * MathCore::PI / 360.0f);

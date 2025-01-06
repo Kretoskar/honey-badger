@@ -9,6 +9,7 @@
 #include "HoneyBadgerCore/ECS/Public/Components/DirectionalLightComponent.h"
 #include "HoneyBadgerCore/ECS/Public/Components/RigidbodyComponent.h"
 #include "HoneyBadgerCore/ECS/Public/Components/SphereColliderComponent.h"
+#include "HoneyBadgerCore/ECS/Public/Components/BoxCollisionComponent.h"
 
 #include "HoneyBadgerCore/vendor/json.hpp"
 
@@ -30,9 +31,10 @@ namespace HoneyBadger
 		std::map<unsigned, DirectionalLightComponent> DirectionalLightComponentMap;
 		std::map<unsigned, RigidbodyComponent> RigidbodyComponentMap;
 		std::map<unsigned, SphereColliderComponent> SphereColliderComponentMap;
+		std::map<unsigned, BoxCollisionComponent> BoxCollisionComponentMap;
 		std::vector<Entity> Entities;
 
-		NLOHMANN_DEFINE_TYPE_INTRUSIVE(SceneData, Guid, TransformComponentMap, MeshComponentMap, NameComponentMap, ModelComponentMap, DirectionalLightComponentMap, RigidbodyComponentMap, SphereColliderComponentMap, Entities)
+		NLOHMANN_DEFINE_TYPE_INTRUSIVE(SceneData, Guid, TransformComponentMap, MeshComponentMap, NameComponentMap, ModelComponentMap, DirectionalLightComponentMap, RigidbodyComponentMap, SphereColliderComponentMap, BoxCollisionComponentMap, Entities)
 	};
 
 	class Scene

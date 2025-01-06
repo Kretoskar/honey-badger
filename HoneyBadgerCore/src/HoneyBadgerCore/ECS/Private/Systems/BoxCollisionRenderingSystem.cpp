@@ -1,7 +1,8 @@
 #include "hbpch.h"
-#include "HoneyBadgerCore/ECS/Public/Systems/ColliderRenderingSystem.h"
+
+#include "HoneyBadgerCore/ECS/Public/Systems/BoxCollisionRenderingSystem.h"
 #include "HoneyBadgerCore/ECS/Public/Components/TransformComponent.h"
-#include "HoneyBadgerCore/ECS/Public/Components/SphereColliderComponent.h"
+#include "HoneyBadgerCore/ECS/Public/Components/BoxCollisionComponent.h"
 #include "HoneyBadgerCore/Rendering/Public/Mesh/Mesh.h"
 #include "HoneyBadgerCore/Rendering/Public/Material.h"
 #include "HoneyBadgerCore/Rendering/Public/Shader.h"
@@ -10,22 +11,22 @@
 #include "HoneyBadgerCore/Core/Public/Engine.h"
 #include "glad/glad.h"
 
-void HoneyBadger::ColliderRenderingSystem::Register(ECS& ecs, Camera* camera)
+void HoneyBadger::BoxCollisionRenderingSystem::Register(ECS& ecs, Camera* camera)
 {
 	_camera = camera;
 
 	REGISTER_SYSTEM()
 	REGISTER_COMPONENT_IN_SYSTEM(TransformComponent)
-	REGISTER_COMPONENT_IN_SYSTEM(SphereColliderComponent)
+	REGISTER_COMPONENT_IN_SYSTEM(BoxCollisionComponent)
 }
 
-void HoneyBadger::ColliderRenderingSystem::Render()
+void HoneyBadger::BoxCollisionRenderingSystem::Render()
 {
 	for (Entity entity : _entities)
 	{
 		TransformComponent& transformComp = _ecs->GetComponent<TransformComponent>(entity);
-		SphereColliderComponent& sphereColliderComp = _ecs->GetComponent<SphereColliderComponent>(entity);
-		std::shared_ptr<Mesh> mesh = AssetsRegistry::Instance->GetMeshByName("sphere0");
+		BoxCollisionComponent& boxColliderComp = _ecs->GetComponent<BoxCollisionComponent>(entity);
+		std::shared_ptr<Mesh> mesh = AssetsRegistry::Instance->GetMeshByName("cube0");
 
 		Material* mat = Engine::Instance->GetAssetsRegistry()->GetMaterialByName("unlit_color").get();
 		if (std::shared_ptr<Shader> shader = mat->GetShader())
@@ -33,7 +34,6 @@ void HoneyBadger::ColliderRenderingSystem::Render()
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 			Mat4 model = transformComp.WorldMatrix;
-			model.SetScale(Vec3(sphereColliderComp.Radius, sphereColliderComp.Radius, sphereColliderComp.Radius));
 			shader->SetModelMatrix(model);
 			shader->SetRotModelMatrix(transformComp.WorldRotMatrix);
 			shader->SetVPMatrix(_camera->GetVPMatrix());

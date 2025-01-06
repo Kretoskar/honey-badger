@@ -111,6 +111,7 @@ namespace HoneyBadger
 		static Mat4 LookAt(const Vec3& position, const Vec3& target, const Vec3& up);
 		static Mat4 Frustum(float left, float right, float bottom, float top, float near, float far);
 		static Mat4 Scaled(const Mat4& mat, const Vec3& scale);
+		void SetScale (const Vec3& scale);
 	};
 
 	bool operator==(const Mat4& a, const Mat4& b);

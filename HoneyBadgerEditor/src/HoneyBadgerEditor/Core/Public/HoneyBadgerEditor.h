@@ -14,6 +14,7 @@
 #include "HoneyBadgerCore/ECS/Public/Systems/LightingSystem.h"
 #include "HoneyBadgerCore/ECS/Public/Systems/TransformSystem.h"
 #include "HoneyBadgerCore/ECS/Public/Systems/ColliderRenderingSystem.h"
+#include "HoneyBadgerCore/ECS/Public/Systems/BoxCollisionRenderingSystem.h"
 #include "HoneyBadgerCore/ResourceHandling/Public/AssetsRegistry.h"
 #include "HoneyBadgerEditor/Systems/Public/EditorUISystem.h"
 
@@ -53,6 +54,7 @@ namespace HoneyBadgerEditor
 		HoneyBadger::LightRenderingSystem _lightRenderingSystem;
 		HoneyBadger::TransformSystem _transformSystem;
 		HoneyBadger::ColliderRenderingSystem _colliderRenderingSystem;
+		HoneyBadger::BoxCollisionRenderingSystem _boxCollisionRenderingSystem;
 		HoneyBadger::Skybox _skybox;
 		HoneyBadgerEditor::EditorUISystem _uiSystem;
 	};
