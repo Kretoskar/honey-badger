@@ -48,7 +48,7 @@ void HoneyBadger::PhysicsSystem::Update(float deltaTime)
 
 		static Vec3 gravity = Vec3(0, -9.81f, 0);
 
-		rbComp.Force += gravity * rbComp.Mass;
+		rbComp.Force += gravity * rbComp.Mass * rbComp.Mass;
 		rbComp.Velocity += rbComp.Force * (1.0f / rbComp.Mass) * deltaTime * 10000.0f;
 
 		transformComp.Position += rbComp.Velocity * deltaTime;
