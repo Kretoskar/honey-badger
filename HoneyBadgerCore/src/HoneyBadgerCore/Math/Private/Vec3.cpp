@@ -71,6 +71,45 @@ namespace HoneyBadger
 		return x * x + y * y + z * z;
 	}
 
+	float Vec3::Len() const
+	{
+		float lenSq = LenSq();
+		if (lenSq < VEC3_EPSILON)
+		{
+			return 0.0f;
+		}
+		return sqrtf(lenSq);
+	}
+
+	Vec3 Vec3::Project(const Vec3& a, const Vec3& b)
+	{
+		float magBSq = b.Len();
+		if (magBSq < VEC3_EPSILON)
+		{
+			return Vec3();
+		}
+		float scale = Dot(a, b) / magBSq;
+		return b * scale;
+	}
+
+	Vec3 Vec3::Reject(const Vec3& a, const Vec3& b)
+	{
+		Vec3 projection = Project(a, b);
+		return a - projection;
+	}
+
+	Vec3 Vec3::Reflect(const Vec3& a, const Vec3& b)
+	{
+		float magBSq = b.Len();
+		if (magBSq < VEC3_EPSILON)
+		{
+			return Vec3();
+		}
+		float scale = Dot(a, b) / magBSq;
+		Vec3 proj2 = b * (scale * 2);
+		return a - proj2;
+	}
+
 	Vec3& operator+=(Vec3& lhs, Vec3 rhs)
 	{
 		lhs.x = lhs.x + rhs.x;

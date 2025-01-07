@@ -5,6 +5,7 @@
 #include "HoneyBadgerCore/ECS/Public/Components/SphereColliderComponent.h"
 #include "HoneyBadgerCore/Math/Public/Mat4.h"
 #include "HoneyBadgerCore/Math/Public/Vec3.h"
+#include "HoneyBadgerCore/Math/Public/MathCore.h"
 #include "HoneyBadgerCore/Core/Public/Logger.h"
 
 void HoneyBadger::PhysicsSystem::Register(ECS& ecs)
@@ -43,7 +44,11 @@ void HoneyBadger::PhysicsSystem::Update(float deltaTime)
 			if (res.wasCollision)
 			{
 				static float baseBounceRate = 50.0f;
-				rbComp.Velocity = res.hitSurfaceNormal * std::sqrt(rbComp.Velocity.LenSq()) * rbComp.Bounciness * res.penetrationDepth * baseBounceRate;
+
+				float dot = HoneyBadger::Vec3::Dot(rbComp.Velocity.Normalized(), res.hitSurfaceNormal);
+
+				rbComp.Velocity -= 
+					res.hitSurfaceNormal * dot * (1 + rbComp.Bounciness) * rbComp.Velocity.Len();
 			}
 		}
 
@@ -51,6 +56,7 @@ void HoneyBadger::PhysicsSystem::Update(float deltaTime)
 
 		rbComp.Force += gravity * rbComp.Mass * rbComp.Mass;
 		rbComp.Velocity += rbComp.Force * (1.0f / rbComp.Mass) * deltaTime * 10000.0f;
+		rbComp.Velocity += Vec3(0.0f, 0.0f, -1.0f) * deltaTime * 50000.0f;
 
 		transformComp.Position += rbComp.Velocity * deltaTime;
 
@@ -93,23 +99,24 @@ HoneyBadger::CollisionResult HoneyBadger::PhysicsSystem::SphereBoxCollision(cons
 
 	float dist = distances[0];
 	res.hitSurfaceNormal = (distances[0] > 0) - (distances[0] < 0) > 0 ? 
-		HoneyBadger::Vec3(1.0f, 0.0f, 0.0f) : 
-		HoneyBadger::Vec3(-1.0f, 0.0f, 0.0f);
+		boxInWorld.forward.ToVec3().Normalized() :
+		boxInWorld.forward.ToVec3().Normalized() * -1.0f;
 
 	if (distances[1] < dist)
 	{
 		dist = distances[1];
 		res.hitSurfaceNormal = (distances[1] > 0) - (distances[1] < 0) > 0 ?
-			HoneyBadger::Vec3(0.0f, 1.0f, 0.0f) :
-			HoneyBadger::Vec3(0.0f, -1.0f, 0.0f);
+			boxInWorld.up.ToVec3().Normalized() :
+			boxInWorld.up.ToVec3().Normalized() * -1.0f;
 	}
 	if (distances[2] < dist)
 	{
 		res.hitSurfaceNormal = (distances[2] > 0) - (distances[2] < 0) > 0 ?
-			HoneyBadger::Vec3(0.0f, 0.0f, 1.0f) :
-			HoneyBadger::Vec3(0.0f, 0.0f, -1.0f);
+			boxInWorld.right.ToVec3().Normalized() :
+			boxInWorld.right.ToVec3().Normalized() * -1.0f;
 	}
 
+	res.hitSurfaceNormal.Normalize();
 	res.penetrationDepth = dist;
 
 	return res;

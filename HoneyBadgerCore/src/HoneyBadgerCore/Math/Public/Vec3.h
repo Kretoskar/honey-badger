@@ -33,7 +33,12 @@ namespace HoneyBadger
 		static Vec3 Cross(const Vec3& lhs, const Vec3& rhs);
 		static float Angle(const Vec3& lhs, const Vec3& rhs);
 	
+		static Vec3 Project(const Vec3& a, const Vec3& b);
+		static Vec3 Reject(const Vec3& a, const Vec3& b);
+		static Vec3 Reflect(const Vec3& a, const Vec3& b);
+
 		float LenSq() const;
+		float Len() const;
 		void Normalize();
 		Vec3 Normalized() const;
 
