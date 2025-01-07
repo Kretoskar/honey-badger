@@ -13,8 +13,6 @@ void HoneyBadger::PhysicsSystem::Register(ECS& ecs)
 	REGISTER_COMPONENT_IN_SYSTEM(TransformComponent)
 	REGISTER_COMPONENT_IN_SYSTEM(RigidbodyComponent)
 	REGISTER_COMPONENT_IN_SYSTEM(SphereColliderComponent)
-
-	
 }
 
 void HoneyBadger::PhysicsSystem::Update(float deltaTime)
@@ -74,44 +72,16 @@ HoneyBadger::CollisionResult HoneyBadger::PhysicsSystem::SphereBoxCollision(cons
 	// now it's just AABB sphere intersection
 	HoneyBadger::Vec3 boxPosition = boxInWorld.position.ToVec3();
 	HoneyBadger::Vec3 boxScale = boxInWorld.GetScale();
-	HoneyBadger::Vec3 c1 = Vec3(
-		boxPosition.x + boxScale.x / 2, 
-		boxPosition.y + boxScale.y / 2,
-		boxPosition.z + boxScale.z / 2);
-
-	HoneyBadger::Vec3 c2 = Vec3(
-		boxPosition.x - boxScale.x / 2,
-		boxPosition.y - boxScale.y / 2,
-		boxPosition.z - boxScale.z / 2);
 	
-	float distSquared = sphereRadius * sphereRadius;
 	
-	if (sphereCenterInBoxSpace.x < c1.x) 
+	// check if inside
+	if (std::fabsf(sphereCenterInBoxSpace.x) - sphereRadius <= boxScale.x / 2 &&
+		std::fabsf(sphereCenterInBoxSpace.y) - sphereRadius <= boxScale.y / 2 &&
+		std::fabsf(sphereCenterInBoxSpace.z) - sphereRadius <= boxScale.z / 2)
 	{
-		distSquared -= (sphereCenterInBoxSpace.x - c1.x) * (sphereCenterInBoxSpace.x - c1.x);
+		// TODO: return normal
+		res.wasCollision = true;
 	}
-	else if (sphereCenterInBoxSpace.x > c2.x) 
-	{
-		distSquared -= (sphereCenterInBoxSpace.x - c2.x) * (sphereCenterInBoxSpace.x - c2.x);
-	}
-	if (sphereCenterInBoxSpace.x < c1.x)
-	{
-		distSquared -= (sphereCenterInBoxSpace.y - c1.y) * (sphereCenterInBoxSpace.y - c1.y);
-	}
-	else if (sphereCenterInBoxSpace.y > c2.y) 
-	{
-		distSquared -= (sphereCenterInBoxSpace.y - c2.y) * (sphereCenterInBoxSpace.y - c2.y);
-	}
-	if (sphereCenterInBoxSpace.z < c1.z) 
-	{
-		distSquared -= (sphereCenterInBoxSpace.z - c1.z) * (sphereCenterInBoxSpace.z - c1.z);
-	}
-	else if (sphereCenterInBoxSpace.z > c2.z) 
-	{
-		distSquared -= (sphereCenterInBoxSpace.z - c2.z) * (sphereCenterInBoxSpace.z - c2.z);
-	}
-
-	res.wasCollision = distSquared > 0;
 
 	return res;
 }
