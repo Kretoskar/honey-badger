@@ -9,6 +9,8 @@ namespace HoneyBadger
 	struct CollisionResult
 	{
 		bool wasCollision = false;
+		float penetrationDepth = 0.0f;
+		HoneyBadger::Vec3 hitSurfaceNormal {};
 	};
 
 	class PhysicsSystem : public System

@@ -13,7 +13,7 @@ bool HoneyBadgerGame::Game::Init(HoneyBadger::HBString name, HoneyBadger::HBStri
 	HoneyBadger::WindowInitSettings WindowInitSettings
 	{
 		name,
-		HoneyBadger::WindowState::Maximized,
+		HoneyBadger::WindowState::Fullscreen,
 		2560,
 		1440,
 		0,0,0,0	

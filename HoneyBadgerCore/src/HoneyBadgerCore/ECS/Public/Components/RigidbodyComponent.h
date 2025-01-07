@@ -12,8 +12,9 @@ namespace HoneyBadger
 		Vec3 Velocity;
 		Vec3 Force;
 		float Mass;
+		float Bounciness;
 
-		NLOHMANN_DEFINE_TYPE_INTRUSIVE(RigidbodyComponent, Velocity, Force, Mass)
+		NLOHMANN_DEFINE_TYPE_INTRUSIVE(RigidbodyComponent, Velocity, Force, Mass, Bounciness)
 		RTTI_DECLARE(RigidbodyComponent)
 	};
 }

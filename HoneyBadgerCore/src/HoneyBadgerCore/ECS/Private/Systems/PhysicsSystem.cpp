@@ -42,7 +42,8 @@ void HoneyBadger::PhysicsSystem::Update(float deltaTime)
 			CollisionResult res = SphereBoxCollision(*box, transformComp, sphereCollComp.Radius);
 			if (res.wasCollision)
 			{
-				return;
+				static float baseBounceRate = 50.0f;
+				rbComp.Velocity = res.hitSurfaceNormal * std::sqrt(rbComp.Velocity.LenSq()) * rbComp.Bounciness * res.penetrationDepth * baseBounceRate;
 			}
 		}
 
@@ -54,8 +55,6 @@ void HoneyBadger::PhysicsSystem::Update(float deltaTime)
 		transformComp.Position += rbComp.Velocity * deltaTime;
 
 		rbComp.Force = Vec3(0.0f, 0.0f, 0.0f);
-
-
 	}
 }
 
@@ -73,15 +72,45 @@ HoneyBadger::CollisionResult HoneyBadger::PhysicsSystem::SphereBoxCollision(cons
 	HoneyBadger::Vec3 boxPosition = boxInWorld.position.ToVec3();
 	HoneyBadger::Vec3 boxScale = boxInWorld.GetScale();
 	
-	
+	// TODO: inside and normal check in one pass
+
 	// check if inside
 	if (std::fabsf(sphereCenterInBoxSpace.x) - sphereRadius <= boxScale.x / 2 &&
 		std::fabsf(sphereCenterInBoxSpace.y) - sphereRadius <= boxScale.y / 2 &&
 		std::fabsf(sphereCenterInBoxSpace.z) - sphereRadius <= boxScale.z / 2)
 	{
-		// TODO: return normal
 		res.wasCollision = true;
 	}
+	else
+	{
+		return res;
+	}
+
+	float distances[3];
+	distances[0] = std::fabsf(sphereCenterInBoxSpace.x - boxScale.x / 2);
+	distances[1] = std::fabsf(sphereCenterInBoxSpace.y - boxScale.y / 2);
+	distances[2] = std::fabsf(sphereCenterInBoxSpace.z - boxScale.z / 2);
+
+	float dist = distances[0];
+	res.hitSurfaceNormal = (distances[0] > 0) - (distances[0] < 0) > 0 ? 
+		HoneyBadger::Vec3(1.0f, 0.0f, 0.0f) : 
+		HoneyBadger::Vec3(-1.0f, 0.0f, 0.0f);
+
+	if (distances[1] < dist)
+	{
+		dist = distances[1];
+		res.hitSurfaceNormal = (distances[1] > 0) - (distances[1] < 0) > 0 ?
+			HoneyBadger::Vec3(0.0f, 1.0f, 0.0f) :
+			HoneyBadger::Vec3(0.0f, -1.0f, 0.0f);
+	}
+	if (distances[2] < dist)
+	{
+		res.hitSurfaceNormal = (distances[2] > 0) - (distances[2] < 0) > 0 ?
+			HoneyBadger::Vec3(0.0f, 0.0f, 1.0f) :
+			HoneyBadger::Vec3(0.0f, 0.0f, -1.0f);
+	}
+
+	res.penetrationDepth = dist;
 
 	return res;
 }
