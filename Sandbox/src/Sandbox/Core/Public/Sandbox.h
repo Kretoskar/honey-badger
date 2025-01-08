@@ -19,5 +19,7 @@ namespace Sand
 		HoneyBadger::Entity frontLeftTireEntity;
 		HoneyBadger::Entity backLeftTireEntity;
 		HoneyBadger::Vec3 tireToCar;
+
+		float tireToTireLen = 0.0f;
 	};
 }

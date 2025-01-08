@@ -71,6 +71,7 @@ void HoneyBadgerGame::Game::Start()
 	while (!_shouldClose && !_window.GetShouldClose())
 	{
 		auto start = std::chrono::system_clock::now();
+
 		Tick(deltaTime);
 
 		_transformSystem.UpdateWorldTransforms();
@@ -90,6 +91,7 @@ void HoneyBadgerGame::Game::Start()
 
 		auto end = std::chrono::system_clock::now();
 		std::chrono::duration<float> elapsed_seconds = end - start;
+
 		deltaTime = elapsed_seconds.count() / 1000.0f;
 	}
 	EndPlay();
