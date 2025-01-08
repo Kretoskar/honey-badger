@@ -131,6 +131,8 @@ HoneyBadger::CollisionResult HoneyBadger::PhysicsSystem::SphereBoxCollision(cons
 CollisionResult HoneyBadger::PhysicsSystem::Raycast(const HoneyBadger::Vec3& start, const HoneyBadger::Vec3& end)
 {
 	CollisionResult res;
+	float closestHit = std::numeric_limits<float>::infinity();
+
 	// TODO: cover cases where raycast goes through the whole collider
 	for (TransformComponent* box : boxes)
 	{
@@ -145,7 +147,17 @@ CollisionResult HoneyBadger::PhysicsSystem::Raycast(const HoneyBadger::Vec3& sta
 		Mat4 endBoxSpace = boxInWorldInverse * endMat;
 		Vec3 endPosInBoxSpace = endBoxSpace.position.ToVec3();
 
+		HB_LOG_ERROR("hit %f %f %f", endPosInBoxSpace.x, endPosInBoxSpace.y, endPosInBoxSpace.z)
+
 		Vec3 boxScale = boxInWorld.GetScale();
+
+		// check if end is inside
+		if (!(std::fabsf(endPosInBoxSpace.x) <= 0.5f &&
+			std::fabsf(endPosInBoxSpace.y) <= 0.5f &&
+			std::fabsf(endPosInBoxSpace.z) <= 0.5f))
+		{
+			continue;
+		}
 
 		Vec3 boxMin = boxScale * (1.0f / 2.0f);
 		Vec3 boxMax = boxScale * (1.0f / 2.0f);
@@ -189,14 +201,20 @@ CollisionResult HoneyBadger::PhysicsSystem::Raycast(const HoneyBadger::Vec3& sta
 
 		if (tMin < 0) 
 		{
-			return res; // Intersection is behind the ray origin
+			continue;
 		}
 
-		// Compute intersection point
-		res.hitLocation = startPosInBoxSpace + (rayDirInBoxSpace * tMin);
-		res.wasCollision = true;
 
-		return res;
+		Vec3 rayInWorldSpace = end - start;
+		Vec3 hitLoc = start + (rayInWorldSpace * tMin);
+		// Compute intersection point
+		float newDist = Vec3::Distance(start, hitLoc);
+		if (newDist < closestHit)
+		{
+			closestHit = newDist;
+			res.hitLocation = hitLoc;
+			res.wasCollision = true;
+		}
 	}
 
 	return res;

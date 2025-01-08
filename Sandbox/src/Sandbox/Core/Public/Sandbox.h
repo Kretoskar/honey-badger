@@ -24,7 +24,7 @@ namespace Sand
 		HoneyBadger::Entity frontRightTireEntity;
 		HoneyBadger::Entity backRightTireEntity;
 
-		void HandleInput();
+		void HandleInput(float deltaTime);
 
 		bool forwardPressed = false;
 		bool backwardPressed = false;
@@ -42,5 +42,9 @@ namespace Sand
 
 		void OnLeftPressed(void* payload);
 		void OnLeftReleased(void* payload);
+
+		HoneyBadger::Vec3 carVelocity;
+
+		float TireYaw = 0.0f;
 	};
 }

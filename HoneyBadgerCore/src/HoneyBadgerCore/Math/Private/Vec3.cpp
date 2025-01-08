@@ -110,6 +110,11 @@ namespace HoneyBadger
 		return a - proj2;
 	}
 
+	float Vec3::Distance(const Vec3& a, const Vec3& b)
+	{
+		return std::sqrt(std::pow(b.x - a.x, 2) + std::pow(b.y - a.y, 2) + std::pow(b.z - a.z, 2));
+	}
+
 	Vec3& operator+=(Vec3& lhs, Vec3 rhs)
 	{
 		lhs.x = lhs.x + rhs.x;

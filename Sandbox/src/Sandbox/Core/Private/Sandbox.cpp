@@ -8,6 +8,7 @@ using namespace HoneyBadger;
 
 float carFwdSpeed = 450.0f;
 float carBwdSpeed = 450.0f;
+float steeringSpeed = 100.0f;
 
 bool Sand::CarGame::Init_Internal()
 {
@@ -45,32 +46,49 @@ void Sand::CarGame::BeginPlay_Internal()
 
 void Sand::CarGame::TickPrePhysics_Internal(float deltaTime)
 {
-	HandleInput();
+	HandleInput(deltaTime);
 }
 
 void Sand::CarGame::TickPostPhysics_Internal(float deltaTime)
 {
 	TransformComponent& carTc = _ecs->GetComponent<TransformComponent>(carEntity);
-	CollisionResult res = _physicsSystem.Raycast(carTc.WorldMatrix.position.ToVec3(), carTc.WorldMatrix.position.ToVec3() + Vec3(0.0f, -11.0f, 0.0f));
+	
+
+	carVelocity += Vec3(0.0f, -1.0f * deltaTime, 0.0f);
+
+	CollisionResult res = _physicsSystem.Raycast(
+		carTc.WorldMatrix.position.ToVec3(), 
+		carTc.WorldMatrix.position.ToVec3() + carTc.WorldMatrix.up.ToVec3() * -0.35f);
+
+	if (res.wasCollision)
+	{
+		//if (Vec3::Distance(res.hitLocation, carTc.WorldMatrix.position.ToVec3()) < 0.015f)
+		{
+			//HB_LOG_ERROR("hit %f %f %f", res.hitLocation.x, res.hitLocation.y, res.hitLocation.z)
+			//HB_LOG_ERROR("car %f %f %f", carTc.WorldMatrix.position.ToVec3().x, carTc.WorldMatrix.position.ToVec3().y, carTc.WorldMatrix.position.ToVec3().z)
+			carVelocity.y = 1000.0f * deltaTime;
+		}
+	}
+
+	carTc.Position += carVelocity;
+	
 }
 
 void Sand::CarGame::EndPlay_Internal()
 {
 }
 
-void Sand::CarGame::HandleInput()
+void Sand::CarGame::HandleInput(float deltaTime)
 {
-	//TODO:
-	// static Vec3 velocity;
-	// rotate this velocity with tire's quat
+	TransformComponent& carTc = _ecs->GetComponent<TransformComponent>(carEntity);
 
 	if (forwardPressed)
 	{
-		//rbComp.Forces.push_back(frontTireTc.WorldMatrix.forward.ToVec3() * carFwdSpeed);
+		carVelocity -= carTc.WorldMatrix.forward.ToVec3() * carFwdSpeed * deltaTime;
 	}
 	else if (backwardPressed)
 	{
-		//rbComp.Forces.push_back(frontTireTc.WorldMatrix.forward.ToVec3() * -carFwdSpeed);
+		carVelocity += carTc.WorldMatrix.forward.ToVec3() * carBwdSpeed * deltaTime;
 	}
 
 	if (rightPressed)

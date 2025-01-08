@@ -36,6 +36,7 @@ namespace HoneyBadger
 		static Vec3 Project(const Vec3& a, const Vec3& b);
 		static Vec3 Reject(const Vec3& a, const Vec3& b);
 		static Vec3 Reflect(const Vec3& a, const Vec3& b);
+		static float Distance(const Vec3& a, const Vec3& b);
 
 		float LenSq() const;
 		float Len() const;
