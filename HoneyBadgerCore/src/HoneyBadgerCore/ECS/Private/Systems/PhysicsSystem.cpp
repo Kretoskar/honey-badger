@@ -147,48 +147,54 @@ CollisionResult HoneyBadger::PhysicsSystem::Raycast(const HoneyBadger::Vec3& sta
 
 		Vec3 boxScale = boxInWorld.GetScale();
 
-		if (std::fabsf(endPosInBoxSpace.x) <= boxScale.x / 2 &&
-			std::fabsf(endPosInBoxSpace.y) <= boxScale.y / 2 &&
-			std::fabsf(endPosInBoxSpace.z) <= boxScale.z / 2)
+		Vec3 boxMin = boxScale * (1.0f / 2.0f);
+		Vec3 boxMax = boxScale * (1.0f / 2.0f);
+
+		Vec3 rayDirInBoxSpace = endPosInBoxSpace - startPosInBoxSpace;
+
+		float tMin = -std::numeric_limits<float>::infinity();
+		float tMax = std::numeric_limits<float>::infinity();
+
+		for (int i = 0; i < 3; ++i) 
 		{
-			res.wasCollision = true;
+			// Access coordinates via pointer arithmetic
+			float rayOriginComp = (&startPosInBoxSpace.x)[i];
+			float rayDirectionComp = (&rayDirInBoxSpace.x)[i];
+			float boxMinComp = (&boxMin.x)[i];
+			float boxMaxComp = (&boxMax.x)[i];
 
-			float distances[3];
-			distances[0] = std::fabsf(endPosInBoxSpace.x - boxScale.x / 2);
-			distances[1] = std::fabsf(endPosInBoxSpace.y - boxScale.y / 2);
-			distances[2] = std::fabsf(endPosInBoxSpace.z - boxScale.z / 2);
-
-			float dist = distances[0];
-			res.hitSurfaceNormal = (distances[0] > 0) - (distances[0] < 0) > 0 ?
-				boxInWorld.forward.ToVec3().Normalized() :
-				boxInWorld.forward.ToVec3().Normalized() * -1.0f;
-
-			res.hitLocation = (distances[0] > 0) - (distances[0] < 0) > 0 ? 
-				Vec3(boxScale.x / 2, endPosInBoxSpace.y, endPosInBoxSpace.z) : 
-				Vec3(-boxScale.x / 2, endPosInBoxSpace.y, endPosInBoxSpace.z);
-
-			if (distances[1] < dist)
-			{
-				dist = distances[1];
-				res.hitSurfaceNormal = (distances[1] > 0) - (distances[1] < 0) > 0 ?
-					boxInWorld.up.ToVec3().Normalized() :
-					boxInWorld.up.ToVec3().Normalized() * -1.0f;
-
-				res.hitLocation = (distances[0] > 0) - (distances[0] < 0) > 0 ?
-					Vec3(endPosInBoxSpace.x, boxScale.y / 2, endPosInBoxSpace.z) :
-					Vec3(endPosInBoxSpace.x, -boxScale.y / 2, endPosInBoxSpace.z);
+			if (std::abs(rayDirectionComp) < 1e-8) 
+			{ // Ray is parallel to this slab
+				if (rayOriginComp < boxMinComp || rayOriginComp > boxMaxComp) 
+				{
+					continue;
+				}
 			}
-			if (distances[2] < dist)
+			else 
 			{
-				res.hitSurfaceNormal = (distances[2] > 0) - (distances[2] < 0) > 0 ?
-					boxInWorld.right.ToVec3().Normalized() :
-					boxInWorld.right.ToVec3().Normalized() * -1.0f;
+				// Compute intersection points with the slabs
+				float t1 = (boxMinComp - rayOriginComp) / rayDirectionComp;
+				float t2 = (boxMaxComp - rayOriginComp) / rayDirectionComp;
 
-				res.hitLocation = (distances[0] > 0) - (distances[0] < 0) > 0 ?
-					Vec3(endPosInBoxSpace.x, endPosInBoxSpace.y, boxScale.z / 2) :
-					Vec3(endPosInBoxSpace.x, endPosInBoxSpace.y, -boxScale.z / 2);
+				if (t1 > t2) std::swap(t1, t2);
+
+				tMin = std::max(tMin, t1);
+				tMax = std::min(tMax, t2);
+
+				if (tMin > tMax) {
+					continue;
+				}
 			}
 		}
+
+		if (tMin < 0) 
+		{
+			return res; // Intersection is behind the ray origin
+		}
+
+		// Compute intersection point
+		res.hitLocation = startPosInBoxSpace + (rayDirInBoxSpace * tMin);
+		res.wasCollision = true;
 
 		return res;
 	}

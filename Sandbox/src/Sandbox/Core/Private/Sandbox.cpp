@@ -51,8 +51,7 @@ void Sand::CarGame::TickPrePhysics_Internal(float deltaTime)
 void Sand::CarGame::TickPostPhysics_Internal(float deltaTime)
 {
 	TransformComponent& carTc = _ecs->GetComponent<TransformComponent>(carEntity);
-	CollisionResult res = _physicsSystem.Raycast(carTc.WorldMatrix.position.ToVec3() + Vec3(0.0f, -16.0f, 0.0f), Vec3());
-	HB_LOG_ERROR("%f %f %f", res.hitLocation.x, res.hitLocation.y, res.hitLocation.z)
+	CollisionResult res = _physicsSystem.Raycast(carTc.WorldMatrix.position.ToVec3(), carTc.WorldMatrix.position.ToVec3() + Vec3(0.0f, -11.0f, 0.0f));
 }
 
 void Sand::CarGame::EndPlay_Internal()
