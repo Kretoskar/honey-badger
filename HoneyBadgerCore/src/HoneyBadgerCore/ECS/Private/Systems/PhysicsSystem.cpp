@@ -8,6 +8,8 @@
 #include "HoneyBadgerCore/Math/Public/MathCore.h"
 #include "HoneyBadgerCore/Core/Public/Logger.h"
 
+using namespace HoneyBadger;
+
 void HoneyBadger::PhysicsSystem::Register(ECS& ecs)
 {
 	REGISTER_SYSTEM()
@@ -122,6 +124,74 @@ HoneyBadger::CollisionResult HoneyBadger::PhysicsSystem::SphereBoxCollision(cons
 
 	res.hitSurfaceNormal.Normalize();
 	res.penetrationDepth = dist;
+
+	return res;
+}
+
+CollisionResult HoneyBadger::PhysicsSystem::Raycast(const HoneyBadger::Vec3& start, const HoneyBadger::Vec3& end)
+{
+	CollisionResult res;
+	// TODO: cover cases where raycast goes through the whole collider
+	for (TransformComponent* box : boxes)
+	{
+		Mat4 boxInWorld = box->WorldMatrix;
+		Mat4 boxInWorldInverse = boxInWorld.Inverse();
+
+		Mat4 startMat = Mat4::FromPosition(start);
+		Mat4 startBoxSpace = boxInWorldInverse * startMat;
+		Vec3 startPosInBoxSpace = startBoxSpace.position.ToVec3();
+
+		Mat4 endMat = Mat4::FromPosition(end);
+		Mat4 endBoxSpace = boxInWorldInverse * endMat;
+		Vec3 endPosInBoxSpace = endBoxSpace.position.ToVec3();
+
+		Vec3 boxScale = boxInWorld.GetScale();
+
+		if (std::fabsf(endPosInBoxSpace.x) <= boxScale.x / 2 &&
+			std::fabsf(endPosInBoxSpace.y) <= boxScale.y / 2 &&
+			std::fabsf(endPosInBoxSpace.z) <= boxScale.z / 2)
+		{
+			res.wasCollision = true;
+
+			float distances[3];
+			distances[0] = std::fabsf(endPosInBoxSpace.x - boxScale.x / 2);
+			distances[1] = std::fabsf(endPosInBoxSpace.y - boxScale.y / 2);
+			distances[2] = std::fabsf(endPosInBoxSpace.z - boxScale.z / 2);
+
+			float dist = distances[0];
+			res.hitSurfaceNormal = (distances[0] > 0) - (distances[0] < 0) > 0 ?
+				boxInWorld.forward.ToVec3().Normalized() :
+				boxInWorld.forward.ToVec3().Normalized() * -1.0f;
+
+			res.hitLocation = (distances[0] > 0) - (distances[0] < 0) > 0 ? 
+				Vec3(boxScale.x / 2, endPosInBoxSpace.y, endPosInBoxSpace.z) : 
+				Vec3(-boxScale.x / 2, endPosInBoxSpace.y, endPosInBoxSpace.z);
+
+			if (distances[1] < dist)
+			{
+				dist = distances[1];
+				res.hitSurfaceNormal = (distances[1] > 0) - (distances[1] < 0) > 0 ?
+					boxInWorld.up.ToVec3().Normalized() :
+					boxInWorld.up.ToVec3().Normalized() * -1.0f;
+
+				res.hitLocation = (distances[0] > 0) - (distances[0] < 0) > 0 ?
+					Vec3(endPosInBoxSpace.x, boxScale.y / 2, endPosInBoxSpace.z) :
+					Vec3(endPosInBoxSpace.x, -boxScale.y / 2, endPosInBoxSpace.z);
+			}
+			if (distances[2] < dist)
+			{
+				res.hitSurfaceNormal = (distances[2] > 0) - (distances[2] < 0) > 0 ?
+					boxInWorld.right.ToVec3().Normalized() :
+					boxInWorld.right.ToVec3().Normalized() * -1.0f;
+
+				res.hitLocation = (distances[0] > 0) - (distances[0] < 0) > 0 ?
+					Vec3(endPosInBoxSpace.x, endPosInBoxSpace.y, boxScale.z / 2) :
+					Vec3(endPosInBoxSpace.x, endPosInBoxSpace.y, -boxScale.z / 2);
+			}
+		}
+
+		return res;
+	}
 
 	return res;
 }

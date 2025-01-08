@@ -160,6 +160,15 @@ namespace HoneyBadger
 		);
 	}
 
+	Mat4 Mat4::FromPosition(const Vec3& pos)
+	{
+		Mat4 res;
+		res.v[12] = pos.x;
+		res.v[13] = pos.y;
+		res.v[14] = pos.z;
+		return res;
+	}
+
 	Mat4 Mat4::Transposed()
 	{
 		return Mat4(

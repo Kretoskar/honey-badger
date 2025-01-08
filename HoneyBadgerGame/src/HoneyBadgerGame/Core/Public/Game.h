@@ -48,6 +48,7 @@ namespace HoneyBadgerGame
 
 		bool _shouldClose = false;
 
+	public:
 		HoneyBadger::Engine _engine;
 
 		HoneyBadger::RenderingSystem _renderingSystem;

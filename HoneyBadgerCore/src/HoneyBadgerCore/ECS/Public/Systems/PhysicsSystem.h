@@ -11,6 +11,7 @@ namespace HoneyBadger
 		bool wasCollision = false;
 		float penetrationDepth = 0.0f;
 		HoneyBadger::Vec3 hitSurfaceNormal {};
+		HoneyBadger::Vec3 hitLocation {};
 	};
 
 	class PhysicsSystem : public System
@@ -20,6 +21,7 @@ namespace HoneyBadger
 		void Update(float deltaTime);
 
 		CollisionResult SphereBoxCollision(const TransformComponent& boxTransform, const TransformComponent& sphereTransform, float sphereRadius);
+		CollisionResult Raycast(const HoneyBadger::Vec3& start, const HoneyBadger::Vec3& end);
 
 		std::vector<TransformComponent*> boxes;
 	};

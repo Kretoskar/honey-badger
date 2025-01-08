@@ -41,48 +41,18 @@ void Sand::CarGame::BeginPlay_Internal()
 	backLeftTireEntity = GetEntityByName("carTireBackLeft");
 	frontRightTireEntity = GetEntityByName("carTireFrontRight");
 	backRightTireEntity = GetEntityByName("carTireBackRight");
-
-	TransformComponent& carTc = _ecs->GetComponent<TransformComponent>(carEntity);
-	TransformComponent& tireTc = _ecs->GetComponent<TransformComponent>(frontLeftTireEntity);
-	TransformComponent& backTireTc = _ecs->GetComponent<TransformComponent>(backLeftTireEntity);
-	
-	tireToCar = carTc.Position - tireTc.Position;
-	tireToTireLen = (tireTc.Position - backTireTc.Position).Len();
-
-	TransformComponent& frontRightTireTc = _ecs->GetComponent<TransformComponent>(frontRightTireEntity);
-	TransformComponent& backRightTireTc = _ecs->GetComponent<TransformComponent>(backRightTireEntity);
-
-	blTireToBRTire = backRightTireTc.Position - backTireTc.Position;
-	flTireToFRTire = frontRightTireTc.Position - tireTc.Position;
 }
 
 void Sand::CarGame::TickPrePhysics_Internal(float deltaTime)
 {
-	HB_LOG_ERROR("chuuuuj")
 	HandleInput();
 }
 
 void Sand::CarGame::TickPostPhysics_Internal(float deltaTime)
 {
 	TransformComponent& carTc = _ecs->GetComponent<TransformComponent>(carEntity);
-	TransformComponent& frontTireTc = _ecs->GetComponent<TransformComponent>(frontLeftTireEntity);
-	TransformComponent& backTireTc = _ecs->GetComponent<TransformComponent>(backLeftTireEntity);
-
-	carTc.Position = frontTireTc.Position + tireToCar;
-	carTc.Rotation = backTireTc.Rotation * Quat(3.1415f, Vec3(0.0f, 1.0f, 0.0f));
-	
-	Vec3 frontToBackTire = backTireTc.Position - frontTireTc.Position;
-	backTireTc.Position = frontTireTc.Position + frontToBackTire.Normalized() * tireToTireLen;
-
-	TransformComponent& frontRightTireTc = _ecs->GetComponent<TransformComponent>(frontRightTireEntity);
-	TransformComponent& backRightTireTc = _ecs->GetComponent<TransformComponent>(backRightTireEntity);
-
-	frontRightTireTc.Position = frontTireTc.Position + flTireToFRTire;
-	backRightTireTc.Position = backTireTc.Position + blTireToBRTire;
-
-	float angle = std::asin((backTireTc.Position.y - frontTireTc.Position.y) / tireToTireLen);
-	carTc.Rotation = carTc.Rotation * Quat(angle, backTireTc.WorldMatrix.right.ToVec3());
-	carTc.Position = carTc.Position + carTc.WorldMatrix.up.ToVec3() * angle * 10.0f;
+	CollisionResult res = _physicsSystem.Raycast(carTc.WorldMatrix.position.ToVec3() + Vec3(0.0f, -16.0f, 0.0f), Vec3());
+	HB_LOG_ERROR("%f %f %f", res.hitLocation.x, res.hitLocation.y, res.hitLocation.z)
 }
 
 void Sand::CarGame::EndPlay_Internal()
@@ -91,29 +61,26 @@ void Sand::CarGame::EndPlay_Internal()
 
 void Sand::CarGame::HandleInput()
 {
-	RigidbodyComponent& rbComp = _ecs->GetComponent<RigidbodyComponent>(frontLeftTireEntity);
-	TransformComponent& frontTireTc = _ecs->GetComponent<TransformComponent>(frontLeftTireEntity);
-
 	//TODO:
 	// static Vec3 velocity;
 	// rotate this velocity with tire's quat
 
 	if (forwardPressed)
 	{
-		rbComp.Forces.push_back(frontTireTc.WorldMatrix.forward.ToVec3() * carFwdSpeed);
+		//rbComp.Forces.push_back(frontTireTc.WorldMatrix.forward.ToVec3() * carFwdSpeed);
 	}
 	else if (backwardPressed)
 	{
-		rbComp.Forces.push_back(frontTireTc.WorldMatrix.forward.ToVec3() * -carFwdSpeed);
+		//rbComp.Forces.push_back(frontTireTc.WorldMatrix.forward.ToVec3() * -carFwdSpeed);
 	}
 
 	if (rightPressed)
 	{
-		frontTireTc.Rotation = frontTireTc.Rotation * Quat(-0.001f, Vec3(0.0f, 1.0f, 0.0f));
+		//frontTireTc.Rotation = frontTireTc.Rotation * Quat(-0.001f, Vec3(0.0f, 1.0f, 0.0f));
 	}
 	else if (leftPressed)
 	{
-		frontTireTc.Rotation = frontTireTc.Rotation * Quat(0.001f, Vec3(0.0f, 1.0f, 0.0f));
+		//frontTireTc.Rotation = frontTireTc.Rotation * Quat(0.001f, Vec3(0.0f, 1.0f, 0.0f));
 	}
 }
 

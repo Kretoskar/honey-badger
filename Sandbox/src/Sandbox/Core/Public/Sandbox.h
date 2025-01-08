@@ -18,18 +18,11 @@ namespace Sand
 		HoneyBadger::Entity camEntity;
 		HoneyBadger::Entity camArmEntity;
 		HoneyBadger::Entity carEntity;
+
 		HoneyBadger::Entity frontLeftTireEntity;
 		HoneyBadger::Entity backLeftTireEntity;
-
 		HoneyBadger::Entity frontRightTireEntity;
 		HoneyBadger::Entity backRightTireEntity;
-
-		HoneyBadger::Vec3 tireToCar;
-
-		HoneyBadger::Vec3 flTireToFRTire;
-		HoneyBadger::Vec3 blTireToBRTire;
-
-		float tireToTireLen = 0.0f;
 
 		void HandleInput();
 

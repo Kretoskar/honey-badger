@@ -113,6 +113,7 @@ namespace HoneyBadger
 		static Mat4 Frustum(float left, float right, float bottom, float top, float near, float far);
 		static Mat4 Scaled(const Mat4& mat, const Vec3& scale);
 		static Vec3 TransformVector(const Mat4& m, const Vec3& v);
+		static Mat4 FromPosition(const Vec3& pos);
 		void SetScale (const Vec3& scale);
 		Vec3 GetScale() const;
 		float Determinant();
