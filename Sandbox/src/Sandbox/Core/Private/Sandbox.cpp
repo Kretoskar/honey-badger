@@ -6,8 +6,8 @@
 
 using namespace HoneyBadger;
 
-float carFwdSpeed = 100.0f;
-float carBwdSpeed = 100.0f;
+float carFwdSpeed = 450.0f;
+float carBwdSpeed = 450.0f;
 
 bool Sand::CarGame::Init_Internal()
 {
@@ -75,6 +75,7 @@ void Sand::CarGame::Tick_Internal(float deltaTime)
 
 	float angle = std::asin((backTireTc.Position.y - frontTireTc.Position.y) / tireToTireLen);
 	carTc.Rotation = carTc.Rotation * Quat(angle, backTireTc.WorldMatrix.right.ToVec3());
+	carTc.Position = carTc.Position + carTc.WorldMatrix.up.ToVec3() * angle * 10.0f;
 
 	HandleInput();
 }
