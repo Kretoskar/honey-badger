@@ -11,7 +11,8 @@ namespace Sand
 	public:
 		virtual bool Init_Internal() override;
 		virtual void BeginPlay_Internal() override;
-		virtual void Tick_Internal(float deltaTime) override;
+		virtual void TickPrePhysics_Internal(float deltaTime) override;
+		virtual void TickPostPhysics_Internal(float deltaTime) override;
 		virtual void EndPlay_Internal() override;
 
 		HoneyBadger::Entity camEntity;

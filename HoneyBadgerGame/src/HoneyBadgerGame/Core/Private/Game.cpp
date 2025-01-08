@@ -1,5 +1,6 @@
 #include "HoneyBadgerGame/Core/Public/Game.h"
 #include "HoneyBadgerCore/ECS/Public/Components/Components.h"
+#include "HoneyBadgerCore/Core/Public/Logger.h"
 #include <chrono>
 #include <ctime>   
 
@@ -72,14 +73,13 @@ void HoneyBadgerGame::Game::Start()
 	{
 		auto start = std::chrono::system_clock::now();
 
-		Tick(deltaTime);
-
 		_transformSystem.UpdateWorldTransforms();
-		
-		HoneyBadger::Entity ground = GetEntityByName("Ground");
-		HoneyBadger::Entity sphere = GetEntityByName("sphere");
+
+		TickPrePhysics(deltaTime);
 
 		_physicsSystem.Update(deltaTime);
+
+		TickPostPhysics(deltaTime);
 
 		_camera->Update();
 
@@ -87,6 +87,7 @@ void HoneyBadgerGame::Game::Start()
 		_renderingSystem.Render();
 		_modelRenderingSystem.Render();
 		_skybox.Render();
+
 		_window.Update();
 
 		auto end = std::chrono::system_clock::now();
@@ -112,9 +113,14 @@ void HoneyBadgerGame::Game::BeginPlay()
 	BeginPlay_Internal();
 }
 
-void HoneyBadgerGame::Game::Tick(float deltaTime)
+void HoneyBadgerGame::Game::TickPrePhysics(float deltaTime)
 {
-	Tick_Internal(deltaTime);
+	TickPrePhysics_Internal(deltaTime);
+}
+
+void HoneyBadgerGame::Game::TickPostPhysics(float deltaTime)
+{
+	TickPostPhysics_Internal(deltaTime);
 }
 
 void HoneyBadgerGame::Game::EndPlay()

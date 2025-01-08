@@ -32,7 +32,8 @@ namespace HoneyBadgerGame
 	protected:
 		virtual bool Init_Internal() = 0;
 		virtual void BeginPlay_Internal() = 0;
-		virtual void Tick_Internal(float deltaTime) = 0;
+		virtual void TickPrePhysics_Internal(float deltaTime) = 0;
+		virtual void TickPostPhysics_Internal(float deltaTime) = 0;
 		virtual void EndPlay_Internal() = 0;
 
 		std::shared_ptr<HoneyBadger::ECS> _ecs;
@@ -41,7 +42,8 @@ namespace HoneyBadgerGame
 
 	private:
 		void BeginPlay();
-		void Tick(float deltaTime);
+		void TickPrePhysics(float deltaTime);
+		void TickPostPhysics(float deltaTime);
 		void EndPlay();
 
 		bool _shouldClose = false;
