@@ -147,7 +147,7 @@ CollisionResult HoneyBadger::PhysicsSystem::Raycast(const HoneyBadger::Vec3& sta
 		Mat4 endBoxSpace = boxInWorldInverse * endMat;
 		Vec3 endPosInBoxSpace = endBoxSpace.position.ToVec3();
 
-		HB_LOG_ERROR("hit %f %f %f", endPosInBoxSpace.x, endPosInBoxSpace.y, endPosInBoxSpace.z)
+		//HB_LOG_ERROR("hit %f %f %f", endPosInBoxSpace.x, endPosInBoxSpace.y, endPosInBoxSpace.z)
 
 		Vec3 boxScale = boxInWorld.GetScale();
 
@@ -166,6 +166,8 @@ CollisionResult HoneyBadger::PhysicsSystem::Raycast(const HoneyBadger::Vec3& sta
 
 		float tMin = -std::numeric_limits<float>::infinity();
 		float tMax = std::numeric_limits<float>::infinity();
+
+		int hitAxis = -1;
 
 		for (int i = 0; i < 3; ++i) 
 		{
@@ -188,14 +190,23 @@ CollisionResult HoneyBadger::PhysicsSystem::Raycast(const HoneyBadger::Vec3& sta
 				float t1 = (boxMinComp - rayOriginComp) / rayDirectionComp;
 				float t2 = (boxMaxComp - rayOriginComp) / rayDirectionComp;
 
-				if (t1 > t2) std::swap(t1, t2);
+				if (t1 > t2)
+				{ 
+					std::swap(t1, t2);
+				}
 
 				tMin = std::max(tMin, t1);
 				tMax = std::min(tMax, t2);
 
-				if (tMin > tMax) {
+				if (tMin > tMax) 
+				{
 					continue;
 				}
+				else
+				{
+					hitAxis = i;
+				}
+
 			}
 		}
 
@@ -203,7 +214,6 @@ CollisionResult HoneyBadger::PhysicsSystem::Raycast(const HoneyBadger::Vec3& sta
 		{
 			continue;
 		}
-
 
 		Vec3 rayInWorldSpace = end - start;
 		Vec3 hitLoc = start + (rayInWorldSpace * tMin);
@@ -214,7 +224,17 @@ CollisionResult HoneyBadger::PhysicsSystem::Raycast(const HoneyBadger::Vec3& sta
 			closestHit = newDist;
 			res.hitLocation = hitLoc;
 			res.wasCollision = true;
+
+			res.hitSurfaceNormal = { 0.0f, 0.0f, 0.0f };
+			if (hitAxis >= 0) 
+			{
+				(&res.hitSurfaceNormal.x)[hitAxis] = rayDirInBoxSpace.v[hitAxis] > 0 ? -1.0f : 1.0f;
+			}
 		}
+
+		Mat4 normalMat = Mat4::FromPosition(res.hitSurfaceNormal);
+		Mat4 normalWorldSpace = box->WorldRotMatrix * normalMat;
+		res.hitSurfaceNormal = normalWorldSpace.position.ToVec3();
 	}
 
 	return res;
