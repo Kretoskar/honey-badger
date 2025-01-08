@@ -3,6 +3,7 @@
 #include "HoneyBadgerCore/Math/Public/MathCore.h"
 #include "HoneyBadgerCore/Core/Public/Logger.h"
 
+
 #include "HoneyBadgerCore/Window/Public/Window.h"
 
 using namespace HoneyBadger;
@@ -77,7 +78,7 @@ void Sand::CarGame::TickPostPhysics_Internal(float deltaTime)
 	}
 
 	carTc.Position += carVelocity;
-	
+	carTc.Rotation = carTc.Rotation * Quat(TireYaw * 10.0f, Vec3(0.0f, 1.0f, 0.0f));
 }
 
 void Sand::CarGame::EndPlay_Internal()
@@ -99,11 +100,11 @@ void Sand::CarGame::HandleInput(float deltaTime)
 
 	if (rightPressed)
 	{
-		//frontTireTc.Rotation = frontTireTc.Rotation * Quat(-0.001f, Vec3(0.0f, 1.0f, 0.0f));
+		TireYaw = MathCore::Clamp(- steeringSpeed * deltaTime, -0.01f, 0.01f);
 	}
 	else if (leftPressed)
 	{
-		//frontTireTc.Rotation = frontTireTc.Rotation * Quat(0.001f, Vec3(0.0f, 1.0f, 0.0f));
+		TireYaw = MathCore::Clamp(steeringSpeed * deltaTime, -0.01f, 0.01f);
 	}
 }
 

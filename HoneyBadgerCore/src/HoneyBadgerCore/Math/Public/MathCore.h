@@ -11,6 +11,19 @@ namespace HoneyBadger
 		static inline float Min(float lhs, float rhs) { return lhs < rhs ? lhs : rhs; }
 		static inline float NearlyEqual(float lhs, float rhs) { return std::abs(lhs - rhs) <= FloatEpsilon; }
 		static inline float Lerp(float lhs, float rhs, float a) { return (lhs * (1.0 - a)) + (rhs * a); }
+		static inline float Clamp(float value, float minValue, float maxValue) 
+		{
+			if (value < minValue) {
+				return minValue;
+			}
+			else if (value > maxValue) {
+				return maxValue;
+			}
+			else {
+				return value;
+			}
+		}
+
 
 		 static float PI;
 		 static float FloatEpsilon;
