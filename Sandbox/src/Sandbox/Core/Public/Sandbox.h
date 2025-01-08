@@ -15,5 +15,9 @@ namespace Sand
 
 		HoneyBadger::Entity camEntity;
 		HoneyBadger::Entity camArmEntity;
+		HoneyBadger::Entity carEntity;
+		HoneyBadger::Entity frontLeftTireEntity;
+		HoneyBadger::Entity backLeftTireEntity;
+		HoneyBadger::Vec3 tireToCar;
 	};
 }

@@ -119,6 +119,7 @@ namespace HoneyBadger
 		Mat4 Transposed();
 		Mat4 Adjugate();
 		Mat4 Inverse();
+
 	};
 
 	bool operator==(const Mat4& a, const Mat4& b);

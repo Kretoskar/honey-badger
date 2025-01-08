@@ -37,28 +37,25 @@ void HoneyBadger::PhysicsSystem::Update(float deltaTime)
 		RigidbodyComponent& rbComp = _ecs->GetComponent<RigidbodyComponent>(entity);
 		SphereColliderComponent& sphereCollComp = _ecs->GetComponent<SphereColliderComponent>(entity);
 
+		static Vec3 gravity = Vec3(0, -0.981f, 0);
+		rbComp.Force += gravity * rbComp.Mass * rbComp.Mass * deltaTime;
+		rbComp.Velocity += rbComp.Force * (1.0f / rbComp.Mass);
+		rbComp.Velocity.z += -0.5f * deltaTime;// * 0.0f;
+
 		// TODO: hold coll in octree
 		for (TransformComponent* box : boxes)
 		{
 			CollisionResult res = SphereBoxCollision(*box, transformComp, sphereCollComp.Radius);
 			if (res.wasCollision)
 			{
-				static float baseBounceRate = 50.0f;
+				float dot = HoneyBadger::Vec3::Dot(rbComp.Velocity, res.hitSurfaceNormal);
 
-				float dot = HoneyBadger::Vec3::Dot(rbComp.Velocity.Normalized(), res.hitSurfaceNormal);
-
-				rbComp.Velocity -= 
-					res.hitSurfaceNormal * dot * (1 + rbComp.Bounciness) * rbComp.Velocity.Len();
+				rbComp.Velocity +=
+					res.hitSurfaceNormal * std::fabsf(dot);// * (1.0f + rbComp.Bounciness);// /** (1.0f  + rbComp.Bounciness)*/ * rbComp.Velocity.Len();
 			}
 		}
 
-		static Vec3 gravity = Vec3(0, -9.81f, 0);
-
-		rbComp.Force += gravity * rbComp.Mass * rbComp.Mass;
-		rbComp.Velocity += rbComp.Force * (1.0f / rbComp.Mass) * deltaTime * 10000.0f;
-		rbComp.Velocity += Vec3(0.0f, 0.0f, -1.0f) * deltaTime * 50000.0f;
-
-		transformComp.Position += rbComp.Velocity * deltaTime;
+		transformComp.Position += rbComp.Velocity;
 
 		rbComp.Force = Vec3(0.0f, 0.0f, 0.0f);
 	}
