@@ -66,11 +66,13 @@ void Sand::CarGame::TickPostPhysics_Internal(float deltaTime)
 		//if (Vec3::Distance(res.hitLocation, carTc.WorldMatrix.position.ToVec3()) < 0.015f)
 		{
 			float dot = Vec3::Dot(carVelocity, res.hitSurfaceNormal);
+			Vec3 HitVec = Vec3::Project(carVelocity, res.hitSurfaceNormal);
+			carVelocity -= HitVec;
 
 			//HB_LOG_ERROR("car %f %f %f", carTc.WorldMatrix.position.ToVec3().x, carTc.WorldMatrix.position.ToVec3().y, carTc.WorldMatrix.position.ToVec3().z)
-			carVelocity = 
-				Vec3::Reflect(carVelocity, res.hitSurfaceNormal) * 
-				MathCore::Lerp(0.5f, 1.0f, std::fabsf(dot));
+			//carVelocity = 
+			//	Vec3::Reflect(carVelocity, res.hitSurfaceNormal) * 
+			//	MathCore::Lerp(0.5f, 1.0f, std::fabsf(dot));
 		}
 	}
 
