@@ -62,7 +62,8 @@ void HoneyBadger::PhysicsSystem::Update(float deltaTime)
 		}
 
 		transformComp.Position += rbComp.Velocity;
-
+		// friction hack
+		rbComp.Velocity = Vec3(rbComp.Velocity.x * 0.999f, rbComp.Velocity.y, rbComp.Velocity.z * 0.999f);
 		rbComp.Force = Vec3(0.0f, 0.0f, 0.0f);
 	}
 }
