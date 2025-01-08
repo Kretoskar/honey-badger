@@ -1,5 +1,6 @@
 #include "Sandbox/Core/Public/Sandbox.h"
 #include "HoneyBadgerCore/Math/Public/Vec3.h"
+#include "HoneyBadgerCore/Math/Public/MathCore.h"
 #include "HoneyBadgerCore/Core/Public/Logger.h"
 
 #include "HoneyBadgerCore/Window/Public/Window.h"
@@ -64,9 +65,12 @@ void Sand::CarGame::TickPostPhysics_Internal(float deltaTime)
 	{
 		//if (Vec3::Distance(res.hitLocation, carTc.WorldMatrix.position.ToVec3()) < 0.015f)
 		{
-			HB_LOG_ERROR("hit %f %f %f", res.hitSurfaceNormal.x, res.hitSurfaceNormal.y, res.hitSurfaceNormal.z)
+			float dot = Vec3::Dot(carVelocity, res.hitSurfaceNormal);
+
 			//HB_LOG_ERROR("car %f %f %f", carTc.WorldMatrix.position.ToVec3().x, carTc.WorldMatrix.position.ToVec3().y, carTc.WorldMatrix.position.ToVec3().z)
-			carVelocity.y = 1000.0f * deltaTime;
+			carVelocity = 
+				Vec3::Reflect(carVelocity, res.hitSurfaceNormal) * 
+				MathCore::Lerp(0.5f, 1.0f, std::fabsf(dot));
 		}
 	}
 
