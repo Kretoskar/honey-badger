@@ -6,10 +6,10 @@
 
 using namespace HoneyBadger;
 
-float carFwdSpeed = 200.0f;
-float carBwdSpeed = 200.0f;
+float carFwdSpeed = 250.0f;
+float carBwdSpeed = 250.0f;
 float steeringSpeed = 100.0f;
-float maxCarSpeed = 0.0025f;
+float maxCarSpeed = 0.005f;
 
 bool Sand::CarGame::Init_Internal()
 {
@@ -54,11 +54,10 @@ void Sand::CarGame::TickPostPhysics_Internal(float deltaTime)
 {
 	TransformComponent& carTc = _ecs->GetComponent<TransformComponent>(carEntity);
 	
-
 	carVelocity += Vec3(0.0f, -1.0f * deltaTime, 0.0f);
 
 	CollisionResult res = _physicsSystem.Raycast(
-		carTc.WorldMatrix.position.ToVec3(), 
+		carTc.WorldMatrix.position.ToVec3() + carTc.WorldMatrix.up.ToVec3() * 0.35f,
 		carTc.WorldMatrix.position.ToVec3() + carTc.WorldMatrix.up.ToVec3() * -0.35f);
 
 	if (res.wasCollision)

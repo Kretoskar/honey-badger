@@ -67,6 +67,18 @@ namespace HoneyBadger
 		);
 	}
 
+	std::string Vec3::ToString() const
+	{
+		std::string ret = "{x: ";
+		ret += x;
+		ret += " y: ";
+		ret += y;
+		ret += " z: ";
+		ret += z;
+		ret += "}";
+		return ret;
+	}
+
 	float Vec3::LenSq() const
 	{
 		return x * x + y * y + z * z;

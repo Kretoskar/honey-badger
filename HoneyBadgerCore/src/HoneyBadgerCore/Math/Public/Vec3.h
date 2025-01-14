@@ -43,6 +43,7 @@ namespace HoneyBadger
 		float Len() const;
 		void Normalize();
 		Vec3 Normalized() const;
+		std::string ToString() const;
 
 		NLOHMANN_DEFINE_TYPE_INTRUSIVE(Vec3, x, y, z)
 	};
