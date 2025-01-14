@@ -8,7 +8,8 @@ using namespace HoneyBadger;
 
 float carFwdSpeed = 250.0f;
 float carBwdSpeed = 250.0f;
-float steeringSpeed = 100.0f;
+float steeringSpeed = 0.6f;
+float maxSteeringYaw = 0.0006f;
 float maxCarSpeed = 0.005f;
 
 bool Sand::CarGame::Init_Internal()
@@ -54,7 +55,7 @@ void Sand::CarGame::TickPostPhysics_Internal(float deltaTime)
 {
 	TransformComponent& carTc = _ecs->GetComponent<TransformComponent>(carEntity);
 	
-	carVelocity += Vec3(0.0f, -1.0f * deltaTime, 0.0f);
+	carVelocity += Vec3(0.0f, -4.0f * deltaTime, 0.0f);
 
 	CollisionResult res = _physicsSystem.Raycast(
 		carTc.WorldMatrix.position.ToVec3() + carTc.WorldMatrix.up.ToVec3() * 0.35f,
@@ -112,19 +113,31 @@ void Sand::CarGame::HandleInput(float deltaTime)
 
 	float a = 1 - (Speed / maxCarSpeed);
 
-	float speedAdjustedSteeringSpeed = MathCore::Lerp(steeringSpeed * 2.0f, steeringSpeed, a);
+	float speedAdjustedMaxSteeringYaw = MathCore::Lerp(maxSteeringYaw * 2.0f, maxSteeringYaw, a);
 
 	if (rightPressed)
 	{
-		TireYaw = -speedAdjustedSteeringSpeed * deltaTime;
+		if (TireYaw > 0.0f)
+		{
+			TireYaw = 0.0f;
+		}
+
+		TireYaw = 
+			MathCore::Clamp(TireYaw - steeringSpeed * deltaTime, -speedAdjustedMaxSteeringYaw, speedAdjustedMaxSteeringYaw);
 	}
 	else if (leftPressed)
 	{
-		TireYaw = speedAdjustedSteeringSpeed * deltaTime;
+		if (TireYaw < 0.0f)
+		{
+			TireYaw = 0.0f;
+		}
+
+		TireYaw = 
+			MathCore::Clamp(TireYaw + steeringSpeed * deltaTime, -speedAdjustedMaxSteeringYaw, speedAdjustedMaxSteeringYaw);;
 	}
-	else
+	else 
 	{
-		TireYaw = 0.0f;
+		TireYaw = MathCore::Lerp(TireYaw, 0.0f, 0.01f);
 	}
 }
 
