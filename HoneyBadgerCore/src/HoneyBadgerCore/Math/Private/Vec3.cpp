@@ -1,5 +1,6 @@
 #include "hbpch.h"
 #include "HoneyBadgerCore/Math/Public/Vec3.h"
+#include "HoneyBadgerCore/Math/Public/MathCore.h"
 
 #define VEC3_EPSILON 0.000001f
 
@@ -113,6 +114,16 @@ namespace HoneyBadger
 	float Vec3::Distance(const Vec3& a, const Vec3& b)
 	{
 		return std::sqrt(std::pow(b.x - a.x, 2) + std::pow(b.y - a.y, 2) + std::pow(b.z - a.z, 2));
+	}
+
+	Vec3 Vec3::Lerp(const Vec3& a, const Vec3& b, float alpha)
+	{
+		return 
+		{
+			MathCore::Lerp(a.x, b.x, alpha),
+			MathCore::Lerp(a.y, b.y, alpha),
+			MathCore::Lerp(a.z, b.z, alpha)
+		};
 	}
 
 	Vec3& operator+=(Vec3& lhs, Vec3 rhs)

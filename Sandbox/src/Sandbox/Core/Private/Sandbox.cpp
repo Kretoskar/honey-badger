@@ -2,15 +2,14 @@
 #include "HoneyBadgerCore/Math/Public/Vec3.h"
 #include "HoneyBadgerCore/Math/Public/MathCore.h"
 #include "HoneyBadgerCore/Core/Public/Logger.h"
-
-
 #include "HoneyBadgerCore/Window/Public/Window.h"
 
 using namespace HoneyBadger;
 
-float carFwdSpeed = 450.0f;
-float carBwdSpeed = 450.0f;
+float carFwdSpeed = 200.0f;
+float carBwdSpeed = 200.0f;
 float steeringSpeed = 100.0f;
+float maxCarSpeed = 0.0025f;
 
 bool Sand::CarGame::Init_Internal()
 {
@@ -76,9 +75,16 @@ void Sand::CarGame::TickPostPhysics_Internal(float deltaTime)
 			//	MathCore::Lerp(0.5f, 1.0f, std::fabsf(dot));
 		}
 	}
+	float cachedCarYVelocity = carVelocity.y;
+	Vec3 carVelocity2D = Vec3(carVelocity.x, 0.0f, carVelocity.z);
+	carVelocity2D = Vec3::Lerp(Vec3(), carVelocity2D, 0.999f);
+	carVelocity2D.y = cachedCarYVelocity;
+	carVelocity = carVelocity2D;
 
+	Quat rotThisFrame = Quat(TireYaw * 10.0f, Vec3(0.0f, 1.0f, 0.0f));
+	carVelocity = rotThisFrame * carVelocity;
+	carTc.Rotation = carTc.Rotation * rotThisFrame;
 	carTc.Position += carVelocity;
-	carTc.Rotation = carTc.Rotation * Quat(TireYaw * 10.0f, Vec3(0.0f, 1.0f, 0.0f));
 }
 
 void Sand::CarGame::EndPlay_Internal()
@@ -88,23 +94,38 @@ void Sand::CarGame::EndPlay_Internal()
 void Sand::CarGame::HandleInput(float deltaTime)
 {
 	TransformComponent& carTc = _ecs->GetComponent<TransformComponent>(carEntity);
+	float Speed = carVelocity.Len();
 
 	if (forwardPressed)
 	{
-		carVelocity -= carTc.WorldMatrix.forward.ToVec3() * carFwdSpeed * deltaTime;
+		if (Speed < maxCarSpeed * 1.0f)
+		{
+			carVelocity -= carTc.WorldMatrix.forward.ToVec3() * carFwdSpeed * deltaTime;
+		}
 	}
 	else if (backwardPressed)
 	{
-		carVelocity += carTc.WorldMatrix.forward.ToVec3() * carBwdSpeed * deltaTime;
+		if (Speed < maxCarSpeed * 1.0f)
+		{
+			carVelocity += carTc.WorldMatrix.forward.ToVec3() * carBwdSpeed * deltaTime;
+		}
 	}
+
+	float a = 1 - (Speed / maxCarSpeed);
+
+	float speedAdjustedSteeringSpeed = MathCore::Lerp(steeringSpeed * 2.0f, steeringSpeed, a);
 
 	if (rightPressed)
 	{
-		TireYaw = MathCore::Clamp(- steeringSpeed * deltaTime, -0.01f, 0.01f);
+		TireYaw = -speedAdjustedSteeringSpeed * deltaTime;
 	}
 	else if (leftPressed)
 	{
-		TireYaw = MathCore::Clamp(steeringSpeed * deltaTime, -0.01f, 0.01f);
+		TireYaw = speedAdjustedSteeringSpeed * deltaTime;
+	}
+	else
+	{
+		TireYaw = 0.0f;
 	}
 }
 
