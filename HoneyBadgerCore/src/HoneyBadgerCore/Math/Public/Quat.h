@@ -35,7 +35,12 @@ namespace HoneyBadger
 			x(x), y(y), z(z), w(w) {}
 
 		static Quat FromRPY(float roll, float pitch, float yaw);
-		 
+		static Quat LookAt(const Vec3& direction, const Vec3& up);
+		static Quat FromTo(const Vec3& from, const Vec3& to);
+		static Quat Nlerp(const Quat& from, const Quat& to, float t);
+		static Quat Slerp(const Quat& start, const Quat& end, float t);
+		static float Dot(const Quat& a, const Quat& b);
+
 		Quat(float angle, const Vec3& axis);
 
 		Vec3 GetAxis() const;

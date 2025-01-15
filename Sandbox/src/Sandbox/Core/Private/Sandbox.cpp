@@ -39,6 +39,7 @@ void Sand::CarGame::BeginPlay_Internal()
 	camEntity = GetEntityByName("cam");
 	camArmEntity = GetEntityByName("camArm");
 	carEntity = GetEntityByName("car");
+	carFrontEntity = GetEntityByName("carFront");
 
 	frontLeftTireEntity = GetEntityByName("carTireFrontLeft");
 	backLeftTireEntity = GetEntityByName("carTireBackLeft");
@@ -62,12 +63,17 @@ void Sand::CarGame::TickPostPhysics_Internal(float deltaTime)
 	camArmTc.Rotation = carTc.Rotation;
 
 	//car
-	
+	TransformComponent& carFrontTc = _ecs->GetComponent<TransformComponent>(carFrontEntity);
+
+	CollisionResult frontRes = _physicsSystem.Raycast(
+		carFrontTc.WorldMatrix.position.ToVec3() + Vec3(0.0f, 1.0f, 0.0f) * 0.0035f,
+		carFrontTc.WorldMatrix.position.ToVec3() + Vec3(0.0f, 1.0f, 0.0f) * -0.0035f);
+
 	carVelocity += Vec3(0.0f, -4.0f * deltaTime, 0.0f);
 
 	CollisionResult res = _physicsSystem.Raycast(
-		carTc.WorldMatrix.position.ToVec3() + carTc.WorldMatrix.up.ToVec3() * 0.35f,
-		carTc.WorldMatrix.position.ToVec3() + carTc.WorldMatrix.up.ToVec3() * -0.35f);
+		carTc.WorldMatrix.position.ToVec3() + Vec3(0.0f, 1.0f, 0.0f) * 0.0035f,
+		carTc.WorldMatrix.position.ToVec3() + Vec3(0.0f, 1.0f, 0.0f) * -0.0035f);
 
 	if (res.wasCollision)
 	{
@@ -83,6 +89,28 @@ void Sand::CarGame::TickPostPhysics_Internal(float deltaTime)
 			//	MathCore::Lerp(0.5f, 1.0f, std::fabsf(dot));
 		}
 	}
+
+	if (frontRes.wasCollision)
+	{
+		float dist = Vec3::Distance(frontRes.hitLocation, carTc.Position);
+		float yDiff = std::fabsf(frontRes.hitLocation.y - carTc.Position.y);
+		float rot = std::asin(yDiff / dist);
+
+		if (frontRes.hitLocation.y > carTc.Position.y)
+		{
+			carTc.Rotation = carTc.Rotation * Quat(rot / 100.0f, carTc.WorldMatrix.right.ToVec3());
+		}
+		else 
+		{
+			carTc.Rotation = carTc.Rotation * Quat(deltaTime * 5000.0f, carTc.WorldMatrix.right.ToVec3());
+		}
+		//frontRes.hitLocation.y
+	}
+	else if (!res.wasCollision)
+	{
+		carTc.Rotation = carTc.Rotation * Quat(deltaTime * -1000.0f, carTc.WorldMatrix.right.ToVec3());
+	}
+
 	float cachedCarYVelocity = carVelocity.y;
 	Vec3 carVelocity2D = Vec3(carVelocity.x, 0.0f, carVelocity.z);
 	carVelocity2D = Vec3::Lerp(Vec3(), carVelocity2D, 0.999f);

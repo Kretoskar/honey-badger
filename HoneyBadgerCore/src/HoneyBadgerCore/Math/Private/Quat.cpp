@@ -30,6 +30,84 @@ namespace HoneyBadger
 		return qRoll * qPitch * qYaw;
 	}
 
+	Quat Quat::LookAt(const Vec3& direction, const Vec3& up)
+	{
+		// Find orthonormal basis vectors
+		Vec3 f = (direction).Normalized();
+		Vec3 u = (up).Normalized();
+		Vec3 r = Vec3::Cross(u, f);
+		u = Vec3::Cross(f, r);
+
+		// From world forward to object forward
+		Quat f2d = FromTo(Vec3(0, 0, 1), f);
+
+		// what direction is the new object up?
+		Vec3 objectUp = f2d * Vec3(0, 1, 0);
+		// From object up to desired up
+		Quat u2u = FromTo(objectUp, u);
+
+		// Rotate to forward direction first, then twist to correct up
+		Quat result = f2d * u2u;
+		// Don’t forget to normalize the result
+		return result.Normalized();
+	}
+
+	Quat Quat::FromTo(const Vec3& from, const Vec3& to)
+	{
+		Vec3 f = from.Normalized();
+		Vec3 t = to.Normalized();
+
+		if (f == t)
+		{
+			return Quat();
+		}
+		if (f == t * -1.0f)
+		{
+			auto ortho = Vec3(1, 0, 0);
+			if (fabsf(f.y) < fabsf(f.x))
+			{
+				ortho = Vec3(0, 1, 0);
+			}
+			if (fabsf(f.z) < fabs(f.y) && fabs(f.z) < fabsf(f.x))
+			{
+				ortho = Vec3(0, 0, 1);
+			}
+
+			Vec3 axis = Vec3::Cross(f, ortho).Normalized();
+			return Quat(axis.x, axis.y, axis.z, 0);
+		}
+
+		Vec3 half = (f + t).Normalized();
+		Vec3 axis = Vec3::Cross(f, half);
+
+		return Quat(
+			axis.x,
+			axis.y,
+			axis.z,
+			Vec3::Dot(f, half)
+		);
+	}
+
+	Quat Quat::Nlerp(const Quat& from, const Quat& to, float t)
+	{
+		return (from + (to - from) * t).Normalized();
+	}
+
+	Quat Quat::Slerp(const Quat& start, const Quat& end, float t)
+	{
+		if (fabsf(Dot(start, end)) > 1.0f - QUAT_EPSILON)
+		{
+			return Nlerp(start, end, t);
+		}
+
+		return (((start.Inverse() * end) ^ t) * start).Normalized();
+	}
+
+	float Quat::Dot(const Quat& a, const Quat& b)
+	{
+		return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
+	}
+
 	Vec3 Quat::GetAxis() const
 	{
 		return Vec3(x, y, z).Normalized();
