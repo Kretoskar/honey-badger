@@ -5,24 +5,29 @@
 #include "HoneyBadgerCore/ResourceHandling/Public/AssetsRegistry.h"
 #include "HoneyBadgerCore/Rendering/Public/Shader.h"
 
+//#define zoomhack
+
 float rectangleVertices[] =
 {
-	//// Coords    // texCoords
-	// 1.55f, -1.8f,  1.0f, 0.0f,
-	//-1.55f, -1.8f,  0.0f, 0.0f,
-	//-1.55f,  1.5f,  0.0f, 1.0f,
-	//	
-	// 1.55f,  1.5f,  1.0f, 1.0f,
-	// 1.55f, -1.8f,  1.0f, 0.0f,
-	//-1.55f,  1.5f,  0.0f, 1.0f
+	#ifdef zoomhack
 	// Coords    // texCoords
+	 1.55f, -1.8f,  1.0f, 0.0f,
+	-1.55f, -1.8f,  0.0f, 0.0f,
+	-1.55f,  1.5f,  0.0f, 1.0f,
+
+	 1.55f,  1.5f,  1.0f, 1.0f,
+	 1.55f, -1.8f,  1.0f, 0.0f,
+	-1.55f,  1.5f,  0.0f, 1.0f
+	#else
+		// Coords    // texCoords
 	 1.0f, -1.0f,  1.0f, 0.0f,
 	-1.0f, -1.0f,  0.0f, 0.0f,
 	-1.0f,  1.0f,  0.0f, 1.0f,
-	   
+	
 	 1.0f,  1.0f,  1.0f, 1.0f,
 	 1.0f, -1.0f,  1.0f, 0.0f,
 	-1.0f,  1.0f,  0.0f, 1.0f
+	#endif
 };
 
 bool HoneyBadger::Window::Init(WindowInitSettings InitSettings)
