@@ -93,7 +93,7 @@ void HoneyBadgerGame::Game::Start()
 		auto end = std::chrono::system_clock::now();
 		std::chrono::duration<float> elapsed_seconds = end - start;
 
-		deltaTime = elapsed_seconds.count() / 1000.0f;
+		deltaTime = elapsed_seconds.count();
 	}
 	EndPlay();
 }

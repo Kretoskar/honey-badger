@@ -6,9 +6,9 @@
 
 using namespace HoneyBadger;
 
-float carFwdSpeed = 250.0f;
-float carBwdSpeed = 250.0f;
-float steeringSpeed = 0.6f;
+float carFwdSpeed = 0.250f;
+float carBwdSpeed = 0.250f;
+float steeringSpeed = 0.0006f;
 float maxSteeringYaw = 0.0006f;
 float maxCarSpeed = 0.005f;
 
@@ -69,7 +69,7 @@ void Sand::CarGame::TickPostPhysics_Internal(float deltaTime)
 		carFrontTc.WorldMatrix.position.ToVec3() + Vec3(0.0f, 1.0f, 0.0f) * 0.0035f,
 		carFrontTc.WorldMatrix.position.ToVec3() + Vec3(0.0f, 1.0f, 0.0f) * -0.0035f);
 
-	carVelocity += Vec3(0.0f, -4.0f * deltaTime, 0.0f);
+	carVelocity += Vec3(0.0f, -0.004f * deltaTime, 0.0f);
 
 	CollisionResult res = _physicsSystem.Raycast(
 		carTc.WorldMatrix.position.ToVec3() + Vec3(0.0f, 1.0f, 0.0f) * 0.0035f,
@@ -98,17 +98,17 @@ void Sand::CarGame::TickPostPhysics_Internal(float deltaTime)
 
 		if (frontRes.hitLocation.y > carTc.Position.y)
 		{
-			carTc.Rotation = carTc.Rotation * Quat(rot / 100.0f, carTc.WorldMatrix.right.ToVec3());
+			carTc.Rotation = carTc.Rotation * Quat(deltaTime * rot, carTc.WorldMatrix.right.ToVec3());
 		}
 		else 
 		{
-			carTc.Rotation = carTc.Rotation * Quat(deltaTime * 5000.0f, carTc.WorldMatrix.right.ToVec3());
+			carTc.Rotation = carTc.Rotation * Quat(deltaTime * 5.0f, carTc.WorldMatrix.right.ToVec3());
 		}
 		//frontRes.hitLocation.y
 	}
 	else if (!res.wasCollision)
 	{
-		carTc.Rotation = carTc.Rotation * Quat(deltaTime * -1000.0f, carTc.WorldMatrix.right.ToVec3());
+		carTc.Rotation = carTc.Rotation * Quat(deltaTime * -1.0f, carTc.WorldMatrix.right.ToVec3());
 	}
 
 	float cachedCarYVelocity = carVelocity.y;
