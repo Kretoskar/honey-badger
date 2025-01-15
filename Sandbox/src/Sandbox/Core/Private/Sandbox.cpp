@@ -58,7 +58,7 @@ void Sand::CarGame::TickPostPhysics_Internal(float deltaTime)
 
 	//camera
 	TransformComponent& camArmTc = _ecs->GetComponent<TransformComponent>(camArmEntity);
-	camArmTc.Position = Vec3::Lerp(camArmTc.Position, carTc.Position, 0.01f);
+	camArmTc.Position = Vec3::Lerp(camArmTc.Position, carTc.Position, deltaTime * 5.0f);
 	camArmTc.Position.y += 0.0005f;
 	camArmTc.Rotation = carTc.Rotation;
 
