@@ -6,8 +6,18 @@
 #include "HoneyBadgerCore/Rendering/Public/UserInterface.h"
 #include "HoneyBadgerCore/Core/Public/EventSystem.h"
 
+struct ImVec2;
+
 namespace HoneyBadgerEditor
 {
+	struct EntityRelationshipMap
+	{
+		std::map<HoneyBadger::Entity, HoneyBadger::HBString> _entityNamesMap;
+		std::map< HoneyBadger::HBString, HoneyBadger::Entity> _namesEntityMap;
+		std::map<HoneyBadger::Entity, HoneyBadger::Entity> _entityParentsMap;
+		std::map<HoneyBadger::Entity, HoneyBadger::HBString> _rootEntites;
+	};
+
 	class Editor;
 
 	class EditorUI : public HoneyBadger::UserInterface
@@ -21,8 +31,8 @@ namespace HoneyBadgerEditor
 			_editor = editor;
 		}
 
-
-		void SetEntityMap(std::map<HoneyBadger::Entity, HoneyBadger::HBString> map);
+		void DrawEntityButton(HoneyBadger::Entity e, HoneyBadger::HBString name, ImVec2 sceneWindowSize, uint32_t depth);
+		void SetEntityMap(HoneyBadger::ECS& ecs);
 
 	protected:
 		virtual void CreateWidgets() override;
@@ -34,9 +44,9 @@ namespace HoneyBadgerEditor
 		void CreateToolbarWidget();
 		void RemoveComponent(void* payload);
 
+		EntityRelationshipMap _entityMap;
 		Editor* _editor;
 
-		std::map<HoneyBadger::Entity, HoneyBadger::HBString> _entityMap;
 		HoneyBadger::Entity _selectedEntity;
 		bool _anyEntitySelected = false;
 	};

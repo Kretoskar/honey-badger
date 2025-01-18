@@ -15,18 +15,6 @@ namespace HoneyBadgerEditor
 
 	void EditorUISystem::Update()
 	{
-		// TODO: Only trigger when ECS dirty
-
-		std::map<Entity, HBString> entityMap;
-
-
-		for (Entity entity : _entities)
-		{
-			NameComponent& name = _ecs->GetComponent<NameComponent>(entity);
-
-			entityMap.insert({ entity, name.Name });
-		}
-
-		_editorUI->SetEntityMap(std::move(entityMap));
+		_editorUI->SetEntityMap(*_ecs);
 	}
 }

@@ -5,10 +5,14 @@
 #include "HoneyBadgerCore/Core/Public/Logger.h"
 #include "HoneyBadgerCore/Math/Public/MathCore.h"
 #include "HoneyBadgerCore/ECS/Public/Components/Components.h"
+#include "HoneyBadgerCore/ECS/Public/Components/TransformComponent.h"
+#include "HoneyBadgerCore/ECS/Public/Components/NameComponent.h"
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_glfw.h"
 #include "imgui/imgui_impl_opengl3.h"
 #include <string>
+
+using namespace HoneyBadger;
 
 char HoneyBadgerEditor::EditorUI::SceneName[512] = "";
 
@@ -79,15 +83,10 @@ void HoneyBadgerEditor::EditorUI::CreateSceneWidget()
 		_editor->NewEntity();
 	}
 
-	for (auto& entity : _entityMap)
+	for (auto& entity : _entityMap._rootEntites)
 	{
-		if (ImGui::Button(entity.second.Get(), ImVec2(SceneWindowSize.x - 15.0f, 50.0f)))
-		{
-			_anyEntitySelected = true;
-			_selectedEntity = entity.first;
-		}
+		DrawEntityButton(entity.first, _entityMap._entityNamesMap[entity.first], SceneWindowSize, 0);
 	}
-
 
 	ImGui::End();
 }
@@ -184,7 +183,50 @@ void HoneyBadgerEditor::EditorUI::RemoveComponent(void* payload)
 	_editor->GetECS()->RemoveComponent(_selectedEntity, *name);
 }
 
-void HoneyBadgerEditor::EditorUI::SetEntityMap(std::map<HoneyBadger::Entity, HoneyBadger::HBString> map)
+void HoneyBadgerEditor::EditorUI::DrawEntityButton(Entity e, HBString name, ImVec2 sceneWindowSize, uint32_t depth)
 {
-	_entityMap = std::move(map);
+	ImGui::SetCursorPos(ImVec2(ImGui::GetCursorPos().x + (depth * 25.0f), ImGui::GetCursorPos().y));
+	if (ImGui::Button(name.Get(), ImVec2(sceneWindowSize.x - 15.0f - (depth * 25.0f), 25.0f)))
+	{
+		_anyEntitySelected = true;
+		_selectedEntity = e;
+	}
+
+	for (auto& pair : _entityMap._entityParentsMap)
+	{
+		Entity entity = pair.first;
+		Entity parent = pair.second;
+
+		if (parent == e)
+		{
+			DrawEntityButton(entity, _entityMap._entityNamesMap[entity], sceneWindowSize, depth + 1);
+		}
+	}
+}
+
+void HoneyBadgerEditor::EditorUI::SetEntityMap(HoneyBadger::ECS& ecs)
+{
+	
+
+	for (Entity entity : ecs.LivingEntities)
+	{
+		NameComponent& name = ecs.GetComponent<NameComponent>(entity);
+
+		_entityMap._entityNamesMap.insert({ entity, name.Name });
+		_entityMap._namesEntityMap.insert({name.Name, entity});
+	}
+
+	for (Entity entity : ecs.LivingEntities)
+	{
+		TransformComponent& tc = ecs.GetComponent<TransformComponent>(entity);
+		
+		if (!tc.Parent.empty() && _entityMap._namesEntityMap.find(tc.Parent) != _entityMap._namesEntityMap.end())
+		{
+			_entityMap._entityParentsMap.insert({ entity, _entityMap._namesEntityMap[tc.Parent] });
+		}
+		else 
+		{
+			_entityMap._rootEntites.insert( {entity, _entityMap._entityNamesMap[entity] } );
+		}
+	}
 }
