@@ -6,8 +6,8 @@
 
 using namespace HoneyBadger;
 
-float carFwdSpeed = 0.250f;
-float carBwdSpeed = 0.250f;
+float carFwdSpeed = 0.4f;
+float carBwdSpeed = 0.450f;
 float steeringSpeed = 0.0006f;
 float maxSteeringYaw = 0.0006f;
 float maxCarSpeed = 0.005f;
