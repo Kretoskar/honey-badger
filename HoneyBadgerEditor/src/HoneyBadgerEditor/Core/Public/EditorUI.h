@@ -16,6 +16,14 @@ namespace HoneyBadgerEditor
 		std::map< HoneyBadger::HBString, HoneyBadger::Entity> _namesEntityMap;
 		std::map<HoneyBadger::Entity, HoneyBadger::Entity> _entityParentsMap;
 		std::map<HoneyBadger::Entity, HoneyBadger::HBString> _rootEntites;
+
+		void Clear()
+		{
+			_entityNamesMap.clear();
+			_namesEntityMap.clear();
+			_entityParentsMap.clear();
+			_rootEntites.clear();
+		}
 	};
 
 	class Editor;

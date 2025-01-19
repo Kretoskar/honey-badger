@@ -206,7 +206,7 @@ void HoneyBadgerEditor::EditorUI::DrawEntityButton(Entity e, HBString name, ImVe
 
 void HoneyBadgerEditor::EditorUI::SetEntityMap(HoneyBadger::ECS& ecs)
 {
-	
+	_entityMap.Clear();
 
 	for (Entity entity : ecs.LivingEntities)
 	{
