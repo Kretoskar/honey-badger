@@ -4,6 +4,8 @@
 #include "HoneyBadgerCore/Math/Public/Quat.h"
 #include "HoneyBadgerCore/Math/Public/Mat4.h"
 
+#include "HoneyBadgerCore/Core/Public/HBString.h"
+
 #include "HoneyBadgerCore/Core/Public/RTTI.h"
 #include "HoneyBadgerCore/vendor/json.hpp"
 
@@ -61,5 +63,7 @@ namespace HoneyBadger
 				0, 0, 0, 1 // Position
 			);
 		}
+
+		static std::vector<HBString> EntityNames;
 	};
 }

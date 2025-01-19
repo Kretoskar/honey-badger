@@ -15,12 +15,16 @@ void TransformSystem::Register(ECS& ecs)
 void TransformSystem::UpdateWorldTransforms()
 {
 	std::unordered_map<HBString, TransformComponent*, HBString::HBStringHasher> EntityTransformMap;
+	std::vector<HBString> EntityNames;
 	for (Entity entity : _entities)
 	{
 		TransformComponent& transformComp = _ecs->GetComponent<TransformComponent>(entity);
 		NameComponent& nameComp = _ecs->GetComponent<NameComponent>(entity);
 		EntityTransformMap.emplace(nameComp.Name, &transformComp);
+		EntityNames.push_back(nameComp.Name);
 	}
+
+	TransformComponent::EntityNames = EntityNames;
 
 	for (auto& entityPair : EntityTransformMap)
 	{
