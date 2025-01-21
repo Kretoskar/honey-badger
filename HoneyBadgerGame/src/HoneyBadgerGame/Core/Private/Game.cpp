@@ -3,6 +3,7 @@
 #include "HoneyBadgerCore/Core/Public/Logger.h"
 #include <chrono>
 #include <ctime>   
+#include <thread>   
 
 bool HoneyBadgerGame::Game::Init(HoneyBadger::HBString name, HoneyBadger::HBString startSceneName)
 {
@@ -73,16 +74,16 @@ void HoneyBadgerGame::Game::Start()
 	{
 		auto start = std::chrono::system_clock::now();
 
-		_transformSystem.UpdateWorldTransforms();
-
 		TickPrePhysics(deltaTime);
 
 		_physicsSystem.Update(deltaTime);
 
-		TickPostPhysics(deltaTime);
+		std::thread gameThread(&HoneyBadgerGame::Game::TickPostPhysics, this, deltaTime);
+		
+		//TickPostPhysics(deltaTime);
 
+		_transformSystem.UpdateWorldTransforms();
 		_camera->Update();
-
 		_lightRenderingSystem.UpdateShaders();
 		_renderingSystem.Render();
 		_modelRenderingSystem.Render();
@@ -90,10 +91,13 @@ void HoneyBadgerGame::Game::Start()
 
 		_window.Update();
 
+		gameThread.join();
+
 		auto end = std::chrono::system_clock::now();
 		std::chrono::duration<float> elapsed_seconds = end - start;
 
 		deltaTime = elapsed_seconds.count();
+		HB_LOG_ERROR("dt: %f", deltaTime)
 	}
 	EndPlay();
 }
