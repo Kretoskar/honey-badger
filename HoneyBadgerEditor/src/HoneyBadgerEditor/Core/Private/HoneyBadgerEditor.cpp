@@ -88,12 +88,13 @@ void HoneyBadgerEditor::Editor::Start()
 		_transformSystem.UpdateWorldTransforms();
 		_lightRenderingSystem.UpdateShaders();
 		
-		_renderingSystem.Render();
+
 		_colliderRenderingSystem.Render();
 		_boxCollisionRenderingSystem.Render();
 		_modelRenderingSystem.Render();
 		_debugRenderer->Render();
 		_skybox.Render();
+		_renderingSystem.Render();
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 

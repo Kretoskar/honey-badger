@@ -28,6 +28,9 @@ void HoneyBadger::RenderingSystem::Register(ECS& ecs, Camera* camera)
 
 void HoneyBadger::RenderingSystem::Render()
 {
+	// TODO: properly implement this
+	std::vector<Entity> transparentMaterialEntities;
+
 	for (Entity entity : _entities)
 	{
 		TransformComponent& transformComp = _ecs->GetComponent<TransformComponent>(entity);
@@ -43,6 +46,40 @@ void HoneyBadger::RenderingSystem::Render()
 				mat = Engine::Instance->GetAssetsRegistry()->GetMaterialByName("unlit_color").get();
 			}
 
+			std::string matName = Engine::Instance->GetAssetsRegistry()->GetMaterialName(meshComp.MaterialGuid.c_str()).Get();
+			if (matName.substr(matName.size() - 2) != "_t")
+			{
+				if (std::shared_ptr<Shader> shader = mat->GetShader())
+				{
+					shader->SetModelMatrix(transformComp.WorldMatrix);
+					shader->SetRotModelMatrix(transformComp.WorldRotMatrix);
+					shader->SetVPMatrix(_camera->GetVPMatrix());
+
+					if (Texture* tex = Engine::Instance->GetAssetsRegistry()->GetTextureByName(mat->GetDiffuseMapName()).get())
+					{
+						shader->AssignDiffuseMap(*tex);
+					}
+
+					mesh->Draw(mat);
+				}
+			}
+			else
+			{
+				transparentMaterialEntities.push_back(entity);
+			}
+		}
+	}
+
+	for (Entity entity : transparentMaterialEntities)
+	{
+		TransformComponent& transformComp = _ecs->GetComponent<TransformComponent>(entity);
+		MeshComponent& meshComp = _ecs->GetComponent<MeshComponent>(entity);
+		std::shared_ptr<Mesh> mesh = AssetsRegistry::Instance->GetMeshByGuid(meshComp.MeshGuid);
+
+		if (mesh)
+		{
+			Material* mat = Engine::Instance->GetAssetsRegistry()->GetMaterialByGuid(meshComp.MaterialGuid.c_str()).get();
+			
 			if (std::shared_ptr<Shader> shader = mat->GetShader())
 			{
 				shader->SetModelMatrix(transformComp.WorldMatrix);

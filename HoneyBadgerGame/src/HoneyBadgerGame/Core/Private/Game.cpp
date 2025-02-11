@@ -85,9 +85,9 @@ void HoneyBadgerGame::Game::Start()
 		_transformSystem.UpdateWorldTransforms();
 		_camera->Update();
 		_lightRenderingSystem.UpdateShaders();
-		_renderingSystem.Render();
 		_modelRenderingSystem.Render();
 		_skybox.Render();
+		_renderingSystem.Render();
 
 		_window.Update();
 
