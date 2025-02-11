@@ -121,6 +121,15 @@ void Sand::CarGame::TickPostPhysics_Internal(float deltaTime)
 	carVelocity = rotThisFrame * carVelocity;
 	carTc.Rotation = carTc.Rotation * rotThisFrame;
 	carTc.Position += carVelocity;
+
+	TransformComponent& flTireTc = _ecs->GetComponent<TransformComponent>(frontLeftTireEntity);
+	TransformComponent& frTireTc = _ecs->GetComponent<TransformComponent>(frontRightTireEntity);
+
+	float LocalTireYaw = MathCore::Clamp(TireYaw * 1200.0f, -MathCore::PI / 6, MathCore::PI / 6);
+	
+	Quat TireRotThisFrame = Quat(LocalTireYaw, Vec3(0.0f, 1.0f, 0.0f));
+	flTireTc.Rotation = Quat(MathCore::PI, Vec3(0.0f, 1.0f, 0.0f)) * TireRotThisFrame;
+	frTireTc.Rotation = TireRotThisFrame;
 }
 
 void Sand::CarGame::EndPlay_Internal()
