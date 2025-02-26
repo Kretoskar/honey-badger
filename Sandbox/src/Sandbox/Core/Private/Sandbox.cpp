@@ -10,7 +10,7 @@ float carFwdSpeed = 0.4f;
 float carBwdSpeed = 0.450f;
 float steeringSpeed = 0.0006f;
 float maxSteeringYaw = 0.0006f;
-float maxCarSpeed = 0.005f;
+float maxCarSpeed = 0.006f;
 
 bool Sand::CarGame::Init_Internal()
 {
