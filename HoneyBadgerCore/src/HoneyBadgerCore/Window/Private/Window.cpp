@@ -5,7 +5,7 @@
 #include "HoneyBadgerCore/ResourceHandling/Public/AssetsRegistry.h"
 #include "HoneyBadgerCore/Rendering/Public/Shader.h"
 
-//#define zoomhack
+#define zoomhack
 
 float rectangleVertices[] =
 {
