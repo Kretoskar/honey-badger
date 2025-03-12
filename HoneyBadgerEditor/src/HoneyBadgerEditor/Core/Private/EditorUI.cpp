@@ -218,11 +218,11 @@ void HoneyBadgerEditor::EditorUI::SetEntityMap(HoneyBadger::ECS& ecs)
 
 	for (Entity entity : ecs.LivingEntities)
 	{
-		TransformComponent& tc = ecs.GetComponent<TransformComponent>(entity);
-		
-		if (!tc.Parent.empty() && _entityMap._namesEntityMap.find(tc.Parent) != _entityMap._namesEntityMap.end())
+		TransformComponent* tc = ecs.GetComponentPtr<TransformComponent>(entity);
+
+		if (tc && !tc->Parent.empty() && _entityMap._namesEntityMap.find(tc->Parent) != _entityMap._namesEntityMap.end())
 		{
-			_entityMap._entityParentsMap.insert({ entity, _entityMap._namesEntityMap[tc.Parent] });
+			_entityMap._entityParentsMap.insert({ entity, _entityMap._namesEntityMap[tc->Parent] });
 		}
 		else 
 		{
