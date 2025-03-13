@@ -50,6 +50,7 @@ void HoneyBadger::PhysicsSystem::Update(float deltaTime)
 
 		rbComp.Velocity += rbComp.Force * (1.0f / rbComp.Mass);
 
+		
 		// TODO: hold coll in octree
 		for (TransformComponent* box : boxes)
 		{
@@ -59,7 +60,7 @@ void HoneyBadger::PhysicsSystem::Update(float deltaTime)
 				float dot = HoneyBadger::Vec3::Dot(rbComp.Velocity, res.hitSurfaceNormal);
 
 				rbComp.Velocity +=
-					res.hitSurfaceNormal * std::fabsf(dot);// * (1.0f + rbComp.Bounciness);// /** (1.0f  + rbComp.Bounciness)*/ * rbComp.Velocity.Len();
+					res.hitSurfaceNormal * std::fabsf(dot) * (1.0f + rbComp.Bounciness);// /** (1.0f  + rbComp.Bounciness)*/ * rbComp.Velocity.Len();
 			}
 		}
 
@@ -72,14 +73,17 @@ void HoneyBadger::PhysicsSystem::Update(float deltaTime)
 
 			TransformComponent& otherTransComp = _ecs->GetComponent<TransformComponent>(otherEntity);
 			SphereColliderComponent& otherSphereCollComp = _ecs->GetComponent<SphereColliderComponent>(entity);
+			RigidbodyComponent& otherRbComp = _ecs->GetComponent<RigidbodyComponent>(entity);
 
 			if (Vec3::DistanceSq(otherTransComp.Position, transformComp.Position) <
 				(sphereCollComp.Radius + otherSphereCollComp.Radius) * (sphereCollComp.Radius + otherSphereCollComp.Radius))
 			{
-				rbComp.Velocity = (transformComp.Position - otherTransComp.Position).Normalized() * rbComp.Velocity.Len();
+				rbComp.Velocity = (transformComp.Position - otherTransComp.Position).Normalized() * rbComp.Velocity.Len() * -1.0f;
+				otherRbComp.Velocity = (transformComp.Position - otherTransComp.Position).Normalized() * otherRbComp.Velocity.Len() * 1.0f;
+				break;
 			}
 		}
-
+			
 		transformComp.Position += rbComp.Velocity;
 		// friction hack
 		rbComp.Velocity = Vec3(rbComp.Velocity.x * 0.999f, rbComp.Velocity.y, rbComp.Velocity.z * 0.999f);

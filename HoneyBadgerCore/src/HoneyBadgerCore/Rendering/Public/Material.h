@@ -25,8 +25,7 @@ namespace HoneyBadger
 
 		std::shared_ptr<Shader> GetShader();
 		const std::string& GetDiffuseMapName() { return _materialData.DiffuseMapName; }
-
-	private:
+		
 		MaterialData _materialData;
 		std::shared_ptr<Shader> _shader;
 	};

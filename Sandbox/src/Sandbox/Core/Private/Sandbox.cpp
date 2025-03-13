@@ -2,6 +2,8 @@
 #include "HoneyBadgerCore/Math/Public/Vec3.h"
 #include "HoneyBadgerCore/Math/Public/MathCore.h"
 #include "HoneyBadgerCore/Core/Public/Logger.h"
+#include "HoneyBadgerCore/Rendering/Public/Material.h"
+#include "HoneyBadgerCore/Rendering/Public/Mesh/Mesh.h"
 #include "HoneyBadgerCore/Window/Public/Window.h"
 
 using namespace HoneyBadger;
@@ -19,6 +21,8 @@ bool Sand::CarGame::Init_Internal()
 
 	_camera = sandboxCam;
 
+
+	
 	HB_BIND_EVENT(KeyboardEvent::Type(GLFW_KEY_W, GLFW_PRESS, 0), OnForwardPressed)
 	HB_BIND_EVENT(KeyboardEvent::Type(GLFW_KEY_W, GLFW_RELEASE, 0), OnForwardReleased)
 

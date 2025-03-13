@@ -84,7 +84,7 @@
         23,
         24
     ],
-    "Guid": "ba5a-43-451-849-0047da",
+    "Guid": "7811-c0-4dd-8df-234ab2",
     "MeshComponentMap": [
         [
             0,
@@ -161,20 +161,6 @@
             {
                 "MaterialGuid": "4974-9b-454-88d-b54213",
                 "MeshGuid": "aaa-e6-4e2-85a-bc093a"
-            }
-        ],
-        [
-            23,
-            {
-                "MaterialGuid": "3234-1a-123-12a-a12345",
-                "MeshGuid": "7a08-82-42f-8f8-62cd72"
-            }
-        ],
-        [
-            24,
-            {
-                "MaterialGuid": "3234-1a-123-12a-a12345",
-                "MeshGuid": "7a08-82-42f-8f8-62cd72"
             }
         ]
     ],
@@ -361,56 +347,9 @@
                     "z": 0.0
                 }
             }
-        ],
-        [
-            23,
-            {
-                "Bounciness": 1.0,
-                "Force": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "Mass": 0.10000000149011612,
-                "Velocity": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            }
-        ],
-        [
-            24,
-            {
-                "Bounciness": 1.0,
-                "Force": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "Mass": 0.10000000149011612,
-                "Velocity": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            }
         ]
     ],
-    "SphereColliderComponentMap": [
-        [
-            23,
-            {
-                "Radius": 0.10000000149011612
-            }
-        ],
-        [
-            24,
-            {
-                "Radius": 0.10000000149011612
-            }
-        ]
-    ],
+    "SphereColliderComponentMap": [],
     "TransformComponentMap": [
         [
             0,
