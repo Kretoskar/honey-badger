@@ -151,7 +151,7 @@ void Sand::CarGame::HandleInput(float deltaTime)
 {
 	TransformComponent& carTc = _ecs->GetComponent<TransformComponent>(carEntity);
 	float Speed = carVelocity.Len();
-
+	
 	if (forwardPressed)
 	{
 		if (Speed < maxCarSpeed * 1.0f)

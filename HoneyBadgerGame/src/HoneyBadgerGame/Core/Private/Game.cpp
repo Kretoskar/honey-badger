@@ -79,7 +79,7 @@ bool HoneyBadgerGame::Game::Init(HoneyBadger::HBString name, HoneyBadger::HBStri
 		tc.Scale = {0.1f, 0.1f, 0.1f};
 	
 		rb.Mass = 0.1f;
-		rb.Bounciness = 1.2f;
+		rb.Bounciness = 0.1f;
 	
 		sphere.Radius = 0.1f;
 	

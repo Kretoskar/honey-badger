@@ -1,5 +1,7 @@
 #include "hbpch.h"
 #include "HoneyBadgerCore/ECS/Public/Systems/PhysicsSystem.h"
+
+#include "../../../../../../HoneyBadgerGame/src/HoneyBadgerGame/Core/Public/Game.h"
 #include "HoneyBadgerCore/ECS/Public/Components/BoxCollisionComponent.h"
 #include "HoneyBadgerCore/ECS/Public/Components/RigidbodyComponent.h"
 #include "HoneyBadgerCore/ECS/Public/Components/SphereColliderComponent.h"
@@ -20,10 +22,18 @@ void HoneyBadger::PhysicsSystem::Register(ECS& ecs)
 
 void HoneyBadger::PhysicsSystem::Update(float deltaTime)
 {
+	static Entity carEntity;
+	
 	boxes.clear();
 	// shitty hack to cache all box collisions on register, as they're static
 	for (Entity e : _ecs->LivingEntities)
 	{
+		NameComponent& nameComp = _ecs->GetComponent<NameComponent>(e);
+		if (nameComp.Name == "car")
+		{
+			carEntity = e;
+		}
+		
 		if (BoxCollisionComponent* boxColl = _ecs->GetComponentPtr<BoxCollisionComponent>(e))
 		{
 			if (TransformComponent* boxTransf = _ecs->GetComponentPtr<TransformComponent>(e))
@@ -64,6 +74,13 @@ void HoneyBadger::PhysicsSystem::Update(float deltaTime)
 			}
 		}
 
+		static Vec3 lastCarPos;
+		static Vec3 carPos;
+
+		TransformComponent& transCompCar = _ecs->GetComponent<TransformComponent>(carEntity);
+		lastCarPos = carPos;
+		carPos = transCompCar.Position;
+		
 		for (Entity otherEntity : _entities)
 		{
 			if (entity == otherEntity)
@@ -71,23 +88,32 @@ void HoneyBadger::PhysicsSystem::Update(float deltaTime)
 				continue;
 			}
 
+			NameComponent& nameComp = _ecs->GetComponent<NameComponent>(otherEntity);
 			TransformComponent& otherTransComp = _ecs->GetComponent<TransformComponent>(otherEntity);
+			
 			SphereColliderComponent& otherSphereCollComp = _ecs->GetComponent<SphereColliderComponent>(entity);
 			RigidbodyComponent& otherRbComp = _ecs->GetComponent<RigidbodyComponent>(entity);
 
 			if (Vec3::DistanceSq(otherTransComp.Position, transformComp.Position) <
 				(sphereCollComp.Radius + otherSphereCollComp.Radius) * (sphereCollComp.Radius + otherSphereCollComp.Radius))
 			{
-				rbComp.Velocity = (transformComp.Position - otherTransComp.Position).Normalized() * rbComp.Velocity.Len() * -1.0f;
-				otherRbComp.Velocity = (transformComp.Position - otherTransComp.Position).Normalized() * otherRbComp.Velocity.Len() * 1.0f;
+				rbComp.Velocity = (transformComp.Position - otherTransComp.Position).Normalized() * rbComp.Velocity.Len() * -0.8f;
+				otherRbComp.Velocity = (transformComp.Position - otherTransComp.Position).Normalized() * otherRbComp.Velocity.Len() * 0.8f;
 				break;
 			}
 		}
 			
+		// hack collide with car
+		if (Vec3::Distance(transformComp.Position, carPos) < .3f)
+		{
+			rbComp.Velocity = (transformComp.Position - (carPos + Vec3(0.0f, 0.05f, 0.0f)) ).Normalized() * 0.01f;
+		}
+		
 		transformComp.Position += rbComp.Velocity;
 		// friction hack
 		rbComp.Velocity = Vec3(rbComp.Velocity.x * 0.999f, rbComp.Velocity.y, rbComp.Velocity.z * 0.999f);
 		rbComp.Force = Vec3(0.0f, 0.0f, 0.0f);
+		
 	}
 }
 
