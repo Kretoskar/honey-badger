@@ -128,6 +128,11 @@ namespace HoneyBadger
 		return std::sqrt(std::pow(b.x - a.x, 2) + std::pow(b.y - a.y, 2) + std::pow(b.z - a.z, 2));
 	}
 
+	float Vec3::DistanceSq(const Vec3& a, const Vec3& b)
+	{
+		return std::pow(b.x - a.x, 2) + std::pow(b.y - a.y, 2) + std::pow(b.z - a.z, 2);
+	}
+
 	Vec3 Vec3::Lerp(const Vec3& a, const Vec3& b, float alpha)
 	{
 		return 

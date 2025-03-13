@@ -39,7 +39,7 @@ void HoneyBadger::PhysicsSystem::Update(float deltaTime)
 		RigidbodyComponent& rbComp = _ecs->GetComponent<RigidbodyComponent>(entity);
 		SphereColliderComponent& sphereCollComp = _ecs->GetComponent<SphereColliderComponent>(entity);
 
-		static Vec3 gravity = Vec3(0, -0.981f, 0);
+		static Vec3 gravity = Vec3(0, -0.00981f, 0);
 		rbComp.Force += gravity * rbComp.Mass * rbComp.Mass * deltaTime;
 
 		for (const Vec3& force : rbComp.Forces)
@@ -60,6 +60,23 @@ void HoneyBadger::PhysicsSystem::Update(float deltaTime)
 
 				rbComp.Velocity +=
 					res.hitSurfaceNormal * std::fabsf(dot);// * (1.0f + rbComp.Bounciness);// /** (1.0f  + rbComp.Bounciness)*/ * rbComp.Velocity.Len();
+			}
+		}
+
+		for (Entity otherEntity : _entities)
+		{
+			if (entity == otherEntity)
+			{
+				continue;
+			}
+
+			TransformComponent& otherTransComp = _ecs->GetComponent<TransformComponent>(otherEntity);
+			SphereColliderComponent& otherSphereCollComp = _ecs->GetComponent<SphereColliderComponent>(entity);
+
+			if (Vec3::DistanceSq(otherTransComp.Position, transformComp.Position) <
+				(sphereCollComp.Radius + otherSphereCollComp.Radius) * (sphereCollComp.Radius + otherSphereCollComp.Radius))
+			{
+				rbComp.Velocity = (transformComp.Position - otherTransComp.Position).Normalized() * rbComp.Velocity.Len();
 			}
 		}
 
